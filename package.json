@@ -1,0 +1,13 @@
+{
+  "name": "product-2",
+  "version": "1.0.0",
+  "description": "Product_2 Project for Cloudflare Pages",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'No build step required for static assets'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
