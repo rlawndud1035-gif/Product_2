@@ -159,12 +159,12 @@ class FlowButton extends HTMLElement {
           gap: 4px;
           overflow: hidden;
           border-radius: 100px;
-          border: 1.5px solid rgba(51, 51, 51, 0.4);
+          border: 1.5px solid rgba(255, 255, 255, 0.4);
           background: transparent;
           padding: 12px 32px;
           font-size: 14px;
           font-weight: 600;
-          color: #111111;
+          color: white;
           cursor: pointer;
           transition: all 600ms cubic-bezier(0.23, 1, 0.32, 1);
           outline: none;
@@ -186,7 +186,7 @@ class FlowButton extends HTMLElement {
           width: 16px;
           height: 16px;
           fill: none;
-          stroke: #111111;
+          stroke: white;
           stroke-width: 2;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -230,7 +230,7 @@ class FlowButton extends HTMLElement {
           transform: translate(-50%, -50%);
           width: 16px;
           height: 16px;
-          background: #111111;
+          background: white;
           border-radius: 50%;
           opacity: 0;
           transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
@@ -240,6 +240,7 @@ class FlowButton extends HTMLElement {
           width: 220px;
           height: 220px;
           opacity: 1;
+          background: #111111;
         }
       </style>
       <button>
