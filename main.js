@@ -441,15 +441,6 @@ class ScrollExpandMedia extends HTMLElement {
           background: #000;
           min-height: 100vh;
         }
-        .info {
-          position: absolute;
-          bottom: 2rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: rgba(255,255,255,0.7);
-          font-size: 1.25rem;
-        }
       </style>
       <div class="container">
         <img src="${bgImage}" class="bg-image" />
@@ -461,10 +452,6 @@ class ScrollExpandMedia extends HTMLElement {
           <div class="title-container">
             <h2 class="first-word">${firstWord}</h2>
             <h2 class="rest-title">${restTitle}</h2>
-          </div>
-          <div class="info">
-            <span>${date}</span>
-            <span>Scroll to expand</span>
           </div>
         </div>
         <div class="content-section">
