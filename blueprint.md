@@ -9,17 +9,16 @@ A visually stunning, framework-less web application showcasing artistic emotions
 - **Web Components:** Encapsulated UI logic using native Custom Elements.
 - **Background Paths:** Dynamic, animated SVG paths creating a sense of depth and motion.
 
-## Current Plan: Hero Section Upgrade
-Implementing a high-fidelity hero section inspired by Framer Motion designs, adapted for vanilla JS/CSS.
+## Current Plan: Brand Transformation
+Renaming the application and updating core UI elements for the new brand "PixelBank".
 
 ### Steps:
-1. **Implement `background-paths` Component:**
-   - Create a Web Component that generates and animates 36 complex SVG paths.
-   - Use CSS animations for path offset and opacity transitions.
-2. **Implement `animated-text` Component:**
-   - Create a component that splits text into letters and animates them with staggered delays.
-   - Apply gradient text effects using background-clip.
-3. **Styling the "Discover Excellence" Button:**
-   - Create a glassmorphism button with hover effects and internal glow.
-4. **Update Layout:**
-   - Center the content and ensure full-viewport coverage with overflow hidden.
+1. **Change Application Title:**
+   - Update the `<title>` tag in `index.html` from "영인아 사랑해" to "PixelBank".
+2. **Update Hero Text:**
+   - Modify the `animated-text` component's `text` attribute to "PixelBank".
+3. **Update CTA Button:**
+   - Rename the button from "Discover Excellence" to "Get Start".
+4. **Deploy and Push:**
+   - Commit all changes and push to GitHub.
+   - Deploy to the cloud web server (Cloudflare Pages or Firebase).
