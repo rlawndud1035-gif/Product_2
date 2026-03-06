@@ -156,13 +156,13 @@ class FlowButton extends HTMLElement {
           position: relative;
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 6px;
           overflow: hidden;
           border-radius: 100px;
           border: 1.5px solid rgba(255, 255, 255, 0.4);
           background: transparent;
-          padding: 12px 32px;
-          font-size: 14px;
+          padding: 14px 40px;
+          font-size: 16px;
           font-weight: 600;
           color: white;
           cursor: pointer;
@@ -183,8 +183,8 @@ class FlowButton extends HTMLElement {
 
         .icon {
           position: absolute;
-          width: 16px;
-          height: 16px;
+          width: 18px;
+          height: 18px;
           fill: none;
           stroke: white;
           stroke-width: 2;
@@ -199,12 +199,12 @@ class FlowButton extends HTMLElement {
         }
 
         button:hover .icon-left {
-          left: 16px;
+          left: 20px;
           stroke: white;
         }
 
         .icon-right {
-          right: 16px;
+          right: 20px;
         }
 
         button:hover .icon-right {
@@ -215,12 +215,12 @@ class FlowButton extends HTMLElement {
         .text {
           position: relative;
           z-index: 1;
-          transform: translateX(-12px);
+          transform: translateX(-14px);
           transition: all 800ms ease-out;
         }
 
         button:hover .text {
-          transform: translateX(12px);
+          transform: translateX(14px);
         }
 
         .bg-circle {
@@ -228,8 +228,8 @@ class FlowButton extends HTMLElement {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 16px;
-          height: 16px;
+          width: 18px;
+          height: 18px;
           background: white;
           border-radius: 50%;
           opacity: 0;
@@ -237,8 +237,8 @@ class FlowButton extends HTMLElement {
         }
 
         button:hover .bg-circle {
-          width: 220px;
-          height: 220px;
+          width: 280px;
+          height: 280px;
           opacity: 1;
           background: #111111;
         }
