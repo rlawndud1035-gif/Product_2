@@ -1,4 +1,4 @@
-# Project Overview: World of Art - Product_2
+# Project Overview: Pixel Bank - World of Art
 
 A visually stunning, framework-less web application showcasing artistic emotions through modern web technologies.
 
@@ -7,18 +7,24 @@ A visually stunning, framework-less web application showcasing artistic emotions
 - **Responsive Layout:** Adapts seamlessly to various screen sizes.
 - **Interactive Elements:** Smooth animations and glassmorphism effects.
 - **Web Components:** Encapsulated UI logic using native Custom Elements.
-- **Background Paths:** Dynamic, animated SVG paths creating a sense of depth and motion.
+  - `background-paths`: Dynamic, animated SVG paths.
+  - `animated-text`: Staggered letter animation for hero titles.
+  - `flow-button`: A modern, interactive button with smooth hover effects, background expansion, and icon transitions.
+- **Brand:** Pixel Bank.
 
-## Current Plan: Brand Transformation
-Renaming the application and updating core UI elements for the new brand "Pixel Bank".
+## Current Plan: UI Component Upgrade
+Enhancing the user interaction with a high-fidelity "Flow" button component.
 
 ### Steps:
-1. **Change Application Title:**
-   - Update the `<title>` tag in `index.html` from "영인아 사랑해" to "Pixel Bank".
-2. **Update Hero Text:**
-   - Modify the `animated-text` component's `text` attribute to "Pixel Bank".
-3. **Update CTA Button:**
-   - Rename the button from "Discover Excellence" to "Get Start".
+1. **Implement `flow-button` Web Component:**
+   - Create a Web Component that mirrors the design of the React `FlowButton`.
+   - Use CSS transitions for the circular expansion effect and icon positioning.
+   - Support custom text via the `text` attribute.
+2. **Update index.html:**
+   - Replace the static CTA button with the `<flow-button>` component.
+   - Set the button text to "Get Started".
+3. **Refine Styles:**
+   - Clean up `style.css` to remove redundant button styles.
+   - Adjust the layout container for the new button.
 4. **Deploy and Push:**
-   - Commit all changes and push to GitHub.
-   - Deploy to the cloud web server (Cloudflare Pages or Firebase).
+   - Commit all changes and push to GitHub for automatic deployment.

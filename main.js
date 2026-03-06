@@ -135,5 +135,123 @@ class AnimatedText extends HTMLElement {
   }
 }
 
+class FlowButton extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    const text = this.getAttribute('text') || 'Modern Button';
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: inline-block;
+        }
+        button {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          overflow: hidden;
+          border-radius: 100px;
+          border: 1.5px solid rgba(51, 51, 51, 0.4);
+          background: transparent;
+          padding: 12px 32px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #111111;
+          cursor: pointer;
+          transition: all 600ms cubic-bezier(0.23, 1, 0.32, 1);
+          outline: none;
+          user-select: none;
+        }
+
+        button:hover {
+          border-color: transparent;
+          color: white;
+          border-radius: 12px;
+        }
+
+        button:active {
+          transform: scale(0.95);
+        }
+
+        .icon {
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          fill: none;
+          stroke: #111111;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          z-index: 9;
+          transition: all 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .icon-left {
+          left: -25%;
+        }
+
+        button:hover .icon-left {
+          left: 16px;
+          stroke: white;
+        }
+
+        .icon-right {
+          right: 16px;
+        }
+
+        button:hover .icon-right {
+          right: -25%;
+          stroke: white;
+        }
+
+        .text {
+          position: relative;
+          z-index: 1;
+          transform: translateX(-12px);
+          transition: all 800ms ease-out;
+        }
+
+        button:hover .text {
+          transform: translateX(12px);
+        }
+
+        .bg-circle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 16px;
+          height: 16px;
+          background: #111111;
+          border-radius: 50%;
+          opacity: 0;
+          transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        button:hover .bg-circle {
+          width: 220px;
+          height: 220px;
+          opacity: 1;
+        }
+      </style>
+      <button>
+        <svg class="icon icon-left" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span class="text">${text}</span>
+        <span class="bg-circle"></span>
+        <svg class="icon icon-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    `;
+  }
+}
+
 customElements.define('background-paths', BackgroundPaths);
 customElements.define('animated-text', AnimatedText);
+customElements.define('flow-button', FlowButton);
