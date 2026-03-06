@@ -9,22 +9,23 @@ A visually stunning, framework-less web application showcasing artistic emotions
 - **Web Components:** Encapsulated UI logic using native Custom Elements.
   - `background-paths`: Dynamic, animated SVG paths.
   - `animated-text`: Staggered letter animation for hero titles.
-  - `flow-button`: A modern, interactive button with smooth hover effects, background expansion, and icon transitions.
+  - `flow-button`: A modern, interactive button with smooth hover effects.
+  - `scroll-expand-media`: A high-fidelity scroll-driven media expansion component.
 - **Brand:** Pixel Bank.
 
-## Current Plan: UI Component Upgrade
-Enhancing the user interaction with a high-fidelity "Flow" button component.
+## Current Plan: Dynamic Page Transition & Scroll Expansion
+Implementing a seamless transition to a new interactive section upon button click.
 
 ### Steps:
-1. **Implement `flow-button` Web Component:**
-   - Create a Web Component that mirrors the design of the React `FlowButton`.
-   - Use CSS transitions for the circular expansion effect and icon positioning.
-   - Support custom text via the `text` attribute.
-2. **Update index.html:**
-   - Replace the static CTA button with the `<flow-button>` component.
-   - Set the button text to "Get Started".
-3. **Refine Styles:**
-   - Clean up `style.css` to remove redundant button styles.
-   - Adjust the layout container for the new button.
+1. **Implement `scroll-expand-media` Web Component:**
+   - Translate React/Framer-Motion logic to Vanilla JS/CSS.
+   - Handle scroll/wheel/touch events to control media expansion progress (0 to 1).
+   - Animate media dimensions, text translation, and background opacity based on progress.
+2. **Setup Transition Logic:**
+   - Add a click event listener to the `flow-button`.
+   - Implement a "View Transition" effect: fade out the hero section and fade in the media section.
+3. **Refine UI/UX:**
+   - Use high-quality placeholders for background and media content.
+   - Ensure the scroll expansion feels "natural and smooth" as requested.
 4. **Deploy and Push:**
    - Commit all changes and push to GitHub for automatic deployment.
