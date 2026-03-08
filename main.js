@@ -49,7 +49,7 @@ class NavigationMenu extends HTMLElement {
         .dropdown {
           position: absolute;
           top: calc(100% + 1rem);
-          right: 0;
+          left: 0;
           background: #0a0a0a;
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 1rem;
@@ -109,7 +109,7 @@ class NavigationMenu extends HTMLElement {
         <div class="menu-item">
           Getting started
           <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          <div class="dropdown" style="right: auto; left: 0;">
+          <div class="dropdown">
             <div style="width: 300px; display: flex; flex-direction: column; gap: 0.5rem;">
               <a href="#docs" class="list-item">
                 <span class="title">Introduction</span>
