@@ -22,23 +22,31 @@ class AppSidebar extends HTMLElement {
           backdrop-filter: blur(12px);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 1.5rem;
-          height: calc(100vh - 120px);
+          height: calc(100vh - 140px);
           position: sticky;
           top: 104px;
           display: flex;
           flex-direction: column;
-          padding: 1.5rem;
+          padding: 1rem;
           box-sizing: border-box;
           transition: all 0.3s ease;
+          overflow-y: auto;
+        }
+        :host::-webkit-scrollbar {
+          width: 4px;
+        }
+        :host::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
         }
         .nav-group {
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          gap: 0.15rem;
         }
         .nav-item {
-          padding: 0.75rem 1rem;
-          border-radius: 12px;
+          padding: 0.6rem 1rem;
+          border-radius: 10px;
           color: rgba(255, 255, 255, 0.5);
           text-decoration: none;
           font-size: 14px;
@@ -54,8 +62,11 @@ class AppSidebar extends HTMLElement {
           text-transform: uppercase;
           letter-spacing: 0.05em;
           color: rgba(255,255,255,0.2);
-          padding: 1.25rem 1rem 0.5rem;
+          padding: 1.5rem 1rem 0.5rem;
           font-weight: 700;
+        }
+        .section-label:first-child {
+          padding-top: 0.5rem;
         }
         @media (max-width: 1024px) {
           :host {
@@ -64,6 +75,7 @@ class AppSidebar extends HTMLElement {
             left: 1rem;
             top: 80px;
             height: auto;
+            max-height: 80vh;
             transform: translateX(-120%);
             margin-left: 0;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
@@ -80,9 +92,24 @@ class AppSidebar extends HTMLElement {
         <a href="#" class="nav-item">Modals</a>
         <a href="#" class="nav-item">Navigation</a>
         <a href="#" class="nav-item">Inputs</a>
+        <a href="#" class="nav-item">Badges</a>
+        <a href="#" class="nav-item">Alerts</a>
+        <a href="#" class="nav-item">Tooltips</a>
+        <a href="#" class="nav-item">Tabs</a>
+        <a href="#" class="nav-item">Accordions</a>
+        <a href="#" class="nav-item">Dropdowns</a>
+        <a href="#" class="nav-item">Switches</a>
+        <a href="#" class="nav-item">Sliders</a>
+        <a href="#" class="nav-item">Progress</a>
+        <a href="#" class="nav-item">Skeletons</a>
+        <a href="#" class="nav-item">Spinners</a>
+        <a href="#" class="nav-item">Tables</a>
+        <a href="#" class="nav-item">Pagination</a>
         <div class="section-label">Assets</div>
         <a href="#" class="nav-item">Icons</a>
         <a href="#" class="nav-item">Images</a>
+        <a href="#" class="nav-item">Videos</a>
+        <a href="#" class="nav-item">Fonts</a>
       </div>
     `;
   }
