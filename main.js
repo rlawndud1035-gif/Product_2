@@ -16,7 +16,7 @@ class NavigationMenu extends HTMLElement {
         :host {
           position: fixed;
           top: 2rem;
-          right: 2rem;
+          left: 2rem;
           z-index: 1000;
           font-family: var(--font-sans, system-ui, sans-serif);
         }
