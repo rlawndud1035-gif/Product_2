@@ -1,4 +1,4 @@
-// Pixel Bank - Main Logic v1.2.0
+// Pixel Bank - Main Logic v1.2.1
 
 class NavigationMenu extends HTMLElement {
   constructor() {
@@ -146,10 +146,7 @@ class NavigationMenu extends HTMLElement {
   }
 }
 
-customElements.define('navigation-menu', NavigationMenu);
-
 class BackgroundPaths extends HTMLElement {
-...
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -286,124 +283,6 @@ class AnimatedText extends HTMLElement {
   }
 }
 
-class FlowButton extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
-
-  connectedCallback() {
-    this.render();
-  }
-
-  render() {
-    const text = this.getAttribute('text') || 'Modern Button';
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: inline-block;
-        }
-        button {
-          position: relative;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          overflow: hidden;
-          border-radius: 100px;
-          border: 1.5px solid rgba(255, 255, 255, 0.4);
-          background: transparent;
-          padding: 14px 40px;
-          font-size: 16px;
-          font-weight: 600;
-          color: white;
-          cursor: pointer;
-          transition: all 600ms cubic-bezier(0.23, 1, 0.32, 1);
-          outline: none;
-          user-select: none;
-        }
-
-        button:hover {
-          border-color: transparent;
-          color: white;
-          border-radius: 12px;
-        }
-
-        button:active {
-          transform: scale(0.95);
-        }
-
-        .icon {
-          position: absolute;
-          width: 18px;
-          height: 18px;
-          fill: none;
-          stroke: white;
-          stroke-width: 2;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          z-index: 9;
-          transition: all 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .icon-left {
-          left: -25%;
-        }
-
-        button:hover .icon-left {
-          left: 20px;
-          stroke: white;
-        }
-
-        .icon-right {
-          right: 20px;
-        }
-
-        button:hover .icon-right {
-          right: -25%;
-          stroke: white;
-        }
-
-        .text {
-          position: relative;
-          z-index: 1;
-          transform: translateX(-14px);
-          transition: all 800ms ease-out;
-        }
-
-        button:hover .text {
-          transform: translateX(14px);
-        }
-
-        .bg-circle {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 18px;
-          height: 18px;
-          background: white;
-          border-radius: 50%;
-          opacity: 0;
-          transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        button:hover .bg-circle {
-          width: 280px;
-          height: 280px;
-          opacity: 1;
-          background: #111111;
-        }
-      </style>
-      <button>
-        <svg class="icon icon-left" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        <span class="text">${text}</span>
-        <span class="bg-circle"></span>
-        <svg class="icon icon-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    `;
-  }
-}
-
+customElements.define('navigation-menu', NavigationMenu);
 customElements.define('background-paths', BackgroundPaths);
 customElements.define('animated-text', AnimatedText);
-customElements.define('flow-button', FlowButton);
