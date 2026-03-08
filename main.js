@@ -175,7 +175,7 @@ class AuthStatus extends HTMLElement {
           transition: opacity 0.3s ease;
         }
         .container {
-          height: 44px; /* Unify height with NavigationMenu */
+          height: 46px; /* Unified height */
           display: flex;
           align-items: center;
         }
