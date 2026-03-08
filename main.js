@@ -352,6 +352,10 @@ class ScrollExpandMedia extends HTMLElement {
     // Zoom Phase (Over-scaling for "sucking into" effect)
     const zoomFactor = progress > 0.8 ? 1 + (progress - 0.8) * 4 : 1;
     const innerImageScale = 1 + progress * 1.5;
+    
+    // Fade image to reveal white background
+    // Fades out completely as progress reaches 1
+    const imageOpacity = Math.max(0, 1 - (progress * 1.2));
 
     const mediaContainer = this.shadowRoot.querySelector('.media-container');
     const innerImage = this.shadowRoot.querySelector('.main-image');
@@ -364,10 +368,13 @@ class ScrollExpandMedia extends HTMLElement {
       mediaContainer.style.height = `${mediaHeight}px`;
       mediaContainer.style.borderRadius = `${1.5 - clampedProgress * 1.5}rem`;
       mediaContainer.style.transform = `translate(-50%, -50%) scale(${zoomFactor})`;
+      // Ensure the container has a white background
+      mediaContainer.style.backgroundColor = '#fff';
     }
     
     if (innerImage) {
       innerImage.style.transform = `scale(${innerImageScale})`;
+      innerImage.style.opacity = imageOpacity;
     }
 
     if (firstWord) firstWord.style.transform = `translateX(-${textTranslateX}vw)`;
@@ -430,7 +437,7 @@ class ScrollExpandMedia extends HTMLElement {
           box-shadow: 0 0 50px rgba(0,0,0,0.8);
           border-radius: 1.5rem;
           overflow: hidden;
-          background: #000;
+          background: #fff; /* Solid white background behind image */
           transition: none;
         }
         .main-image {
@@ -438,11 +445,12 @@ class ScrollExpandMedia extends HTMLElement {
           height: 100%;
           object-fit: cover;
           transform-origin: center center;
+          will-change: opacity, transform;
         }
         .overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+          background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.2) 100%);
           pointer-events: none;
         }
         .title-container {
