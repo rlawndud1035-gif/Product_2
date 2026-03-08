@@ -488,17 +488,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const hero = document.querySelector('.hero-container');
   const startBtn = document.getElementById('start-btn');
 
+  // Create transition overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'transition-overlay';
+  document.body.appendChild(overlay);
+
   if (startBtn && hero) {
     startBtn.addEventListener('click', () => {
-      // Smooth Fade Out Hero
-      hero.style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out';
-      hero.style.opacity = '0';
-      hero.style.transform = 'scale(1.05)';
+      // Get button center position
+      const rect = startBtn.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
 
-      setTimeout(() => {
-        // Navigate to the new page
-        window.location.href = 'media.html';
-      }, 600);
+      // Update overlay clip-path center
+      overlay.style.clipPath = `circle(0% at ${x}px ${y}px)`;
+      
+      // Request frame to ensure the initial position is set
+      requestAnimationFrame(() => {
+        overlay.classList.add('active');
+        overlay.style.clipPath = `circle(150% at ${x}px ${y}px)`;
+        
+        // Scale down hero content slightly for depth
+        hero.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+        hero.style.opacity = '0';
+        hero.style.transform = 'scale(0.95)';
+
+        setTimeout(() => {
+          window.location.href = 'media.html';
+        }, 800);
+      });
     });
   }
 });
