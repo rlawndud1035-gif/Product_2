@@ -471,26 +471,19 @@ customElements.define('scroll-expand-media', ScrollExpandMedia);
 // Transition Logic
 document.addEventListener('DOMContentLoaded', () => {
   const hero = document.querySelector('.hero-container');
-  const mediaView = document.getElementById('media-view');
-  const startBtn = document.querySelector('flow-button');
+  const startBtn = document.getElementById('start-btn');
 
-  if (startBtn && hero && mediaView) {
+  if (startBtn && hero) {
     startBtn.addEventListener('click', () => {
       // Smooth Fade Out Hero
-      hero.style.transition = 'opacity 0.8s ease-in-out, transform 0.8s ease-in-out';
+      hero.style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out';
       hero.style.opacity = '0';
-      hero.style.transform = 'scale(1.1)';
+      hero.style.transform = 'scale(1.05)';
 
       setTimeout(() => {
-        hero.style.display = 'none';
-        mediaView.style.display = 'block';
-        // Fade In Media View
-        mediaView.style.opacity = '0';
-        requestAnimationFrame(() => {
-          mediaView.style.transition = 'opacity 1s ease-in-out';
-          mediaView.style.opacity = '1';
-        });
-      }, 800);
+        // Navigate to the new page
+        window.location.href = 'media.html';
+      }, 600);
     });
   }
 });
