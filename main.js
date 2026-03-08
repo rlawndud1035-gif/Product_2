@@ -24,7 +24,7 @@ class AppSidebar extends HTMLElement {
           border-radius: 1.5rem;
           height: calc(100vh - 120px);
           position: sticky;
-          top: 100px;
+          top: 104px;
           display: flex;
           flex-direction: column;
           padding: 1.5rem;
