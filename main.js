@@ -30,7 +30,6 @@ class AppSidebar extends HTMLElement {
           padding: 1.5rem;
           box-sizing: border-box;
           transition: all 0.3s ease;
-          margin-left: 2rem;
         }
         .nav-group {
           display: flex;
