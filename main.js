@@ -385,10 +385,10 @@ class ScrollExpandMedia extends HTMLElement {
   render() {
     const bgImage = this.getAttribute('bg-image') || 'https://images.unsplash.com/photo-1546676577-586809b11a2f?q=100&w=2560&auto=format&fit=crop';
     const mainImage = this.getAttribute('media-src') || 'https://images.unsplash.com/photo-1709065396771-72494e569cb0?q=100&w=2000&auto=format&fit=crop';
-    const title = this.getAttribute('title') || 'Pixel Bank';
+    const title = this.getAttribute('title') || '';
     
     const words = title.split(' ');
-    const firstWord = words[0];
+    const firstWord = words[0] || '';
     const restTitle = words.slice(1).join(' ');
 
     this.shadowRoot.innerHTML = `
@@ -456,7 +456,7 @@ class ScrollExpandMedia extends HTMLElement {
         .title-container {
           position: relative;
           z-index: 20;
-          display: flex;
+          display: ${title ? 'flex' : 'none'};
           flex-direction: column;
           align-items: center;
           gap: 1rem;
