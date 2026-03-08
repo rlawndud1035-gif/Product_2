@@ -366,7 +366,8 @@ class NavigationMenu extends HTMLElement {
         }
         nav {
           display: flex;
-          gap: 0.25rem;
+          align-items: center;
+          gap: 0.5rem;
           background: rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(12px);
           padding: 4px;
@@ -375,12 +376,34 @@ class NavigationMenu extends HTMLElement {
           height: 44px;
           box-sizing: border-box;
         }
-        .menu-item {
-          color: white;
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 0 1rem 0 0.5rem;
           text-decoration: none;
-          font-size: 0.9rem;
+          color: white;
+          font-weight: 700;
+          font-size: 0.95rem;
+          letter-spacing: -0.02em;
+          border-right: 1px solid rgba(255, 255, 255, 0.1);
+          height: 24px;
+        }
+        .logo svg {
+          width: 18px;
+          height: 18px;
+        }
+        .menu-items {
+          display: flex;
+          gap: 0.25rem;
+          height: 100%;
+        }
+        .menu-item {
+          color: rgba(255, 255, 255, 0.6);
+          text-decoration: none;
+          font-size: 0.85rem;
           font-weight: 600;
-          padding: 0 1.25rem;
+          padding: 0 1rem;
           border-radius: 100px;
           transition: all 0.3s ease;
           cursor: pointer;
@@ -395,8 +418,14 @@ class NavigationMenu extends HTMLElement {
         }
       </style>
       <nav>
-        <a href="components.html" class="menu-item">Components</a>
-        <a href="#reference" class="menu-item">Reference</a>
+        <a href="index.html" class="logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Pixel Bank
+        </a>
+        <div class="menu-items">
+          <a href="components.html" class="menu-item">Components</a>
+          <a href="#reference" class="menu-item">Reference</a>
+        </div>
       </nav>
     `;
   }
