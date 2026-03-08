@@ -1,10 +1,9 @@
-// Pixel Bank - Main Logic v1.2.2
+// Pixel Bank - Main Logic v1.2.3
 
 class AuthStatus extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    // Dummy login state using localStorage
     this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   }
 
@@ -51,7 +50,7 @@ class AuthStatus extends HTMLElement {
           transform: translateY(0);
         }
         .logout-btn {
-          color: oklch(0.7 0.15 20); /* Soft red for logout */
+          color: oklch(0.7 0.15 20);
         }
       </style>
       <button class="${this.isLoggedIn ? 'logout-btn' : ''}">
@@ -63,10 +62,7 @@ class AuthStatus extends HTMLElement {
   }
 }
 
-customElements.define('auth-status', AuthStatus);
-
 class NavigationMenu extends HTMLElement {
-...
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -86,8 +82,7 @@ class NavigationMenu extends HTMLElement {
           z-index: 1000;
           font-family: var(--font-sans, system-ui, sans-serif);
         }
-...
-
+        nav {
           display: flex;
           gap: 1rem;
           background: rgba(255, 255, 255, 0.05);
@@ -350,6 +345,7 @@ class AnimatedText extends HTMLElement {
   }
 }
 
+customElements.define('auth-status', AuthStatus);
 customElements.define('navigation-menu', NavigationMenu);
 customElements.define('background-paths', BackgroundPaths);
 customElements.define('animated-text', AnimatedText);
