@@ -42,7 +42,7 @@ class AppSidebar extends HTMLElement {
           border-radius: 12px;
           color: rgba(255, 255, 255, 0.5);
           text-decoration: none;
-          font-size: 0.85rem;
+          font-size: 14px;
           font-weight: 500;
           transition: all 0.2s;
         }
@@ -51,7 +51,7 @@ class AppSidebar extends HTMLElement {
           color: white;
         }
         .section-label {
-          font-size: 0.7rem;
+          font-size: 12px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           color: rgba(255,255,255,0.2);
