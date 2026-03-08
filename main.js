@@ -1,5 +1,155 @@
-// Pixel Bank - Main Logic v1.1.0
+// Pixel Bank - Main Logic v1.2.0
+
+class NavigationMenu extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          position: fixed;
+          top: 2rem;
+          right: 2rem;
+          z-index: 1000;
+          font-family: var(--font-sans, system-ui, sans-serif);
+        }
+        nav {
+          display: flex;
+          gap: 1rem;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(12px);
+          padding: 0.5rem;
+          border-radius: 100px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .menu-item {
+          position: relative;
+          color: white;
+          text-decoration: none;
+          font-size: 0.9rem;
+          font-weight: 500;
+          padding: 0.6rem 1.2rem;
+          border-radius: 100px;
+          transition: all 0.3s ease;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        .menu-item:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .dropdown {
+          position: absolute;
+          top: calc(100% + 1rem);
+          right: 0;
+          background: #0a0a0a;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 1rem;
+          padding: 1rem;
+          width: max-content;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(10px);
+          transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .menu-item:hover .dropdown {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+        .grid-content {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.5rem;
+          width: 500px;
+        }
+        .list-item {
+          padding: 0.75rem;
+          border-radius: 0.5rem;
+          text-decoration: none;
+          color: white;
+          transition: background 0.2s;
+        }
+        .list-item:hover {
+          background: rgba(255, 255, 255, 0.05);
+        }
+        .list-item .title {
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+          display: block;
+        }
+        .list-item .desc {
+          font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.5);
+          line-height: 1.4;
+        }
+        .arrow {
+          width: 12px;
+          height: 12px;
+          transition: transform 0.3s;
+        }
+        .menu-item:hover .arrow {
+          transform: rotate(180deg);
+        }
+        @media (max-width: 768px) {
+          .grid-content { width: 300px; grid-template-columns: 1fr; }
+          .hidden-mobile { display: none; }
+        }
+      </style>
+      <nav>
+        <div class="menu-item">
+          Getting started
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          <div class="dropdown" style="right: auto; left: 0;">
+            <div style="width: 300px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <a href="#docs" class="list-item">
+                <span class="title">Introduction</span>
+                <span class="desc">Re-usable components built with modern web standards.</span>
+              </a>
+              <a href="#install" class="list-item">
+                <span class="title">Installation</span>
+                <span class="desc">How to integrate and structure your art collection.</span>
+              </a>
+              <a href="#typography" class="list-item">
+                <span class="title">Typography</span>
+                <span class="desc">Styles for headings, paragraphs, lists...etc</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item hidden-mobile">
+          Components
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          <div class="dropdown">
+            <div class="grid-content">
+              <a href="#" class="list-item"><span class="title">Alert Dialog</span><span class="desc">A modal dialog that interrupts the user with important content.</span></a>
+              <a href="#" class="list-item"><span class="title">Hover Card</span><span class="desc">For sighted users to preview content available behind a link.</span></a>
+              <a href="#" class="list-item"><span class="title">Progress</span><span class="desc">Displays an indicator showing completion progress.</span></a>
+              <a href="#" class="list-item"><span class="title">Scroll-area</span><span class="desc">Visually or semantically separates content.</span></a>
+              <a href="#" class="list-item"><span class="title">Tabs</span><span class="desc">A set of layered sections of content.</span></a>
+              <a href="#" class="list-item"><span class="title">Tooltip</span><span class="desc">A popup that displays information on hover.</span></a>
+            </div>
+          </div>
+        </div>
+        <a href="#docs" class="menu-item">Docs</a>
+      </nav>
+    `;
+  }
+}
+
+customElements.define('navigation-menu', NavigationMenu);
+
 class BackgroundPaths extends HTMLElement {
+...
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
