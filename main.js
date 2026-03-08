@@ -32,15 +32,6 @@ class AppSidebar extends HTMLElement {
           transition: all 0.3s ease;
           margin-left: 2rem;
         }
-        .logo {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-weight: 700;
-          font-size: 1.1rem;
-          margin-bottom: 2rem;
-          color: white;
-        }
         .nav-group {
           display: flex;
           flex-direction: column;
@@ -83,10 +74,6 @@ class AppSidebar extends HTMLElement {
           }
         }
       </style>
-      <div class="logo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        Navigation
-      </div>
       <div class="nav-group">
         <div class="section-label">Platform</div>
         <a href="#" class="nav-item active">Dashboard</a>
