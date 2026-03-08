@@ -238,76 +238,37 @@ class NavigationMenu extends HTMLElement {
         }
         nav {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.25rem;
           background: rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(12px);
           padding: 4px;
           border-radius: 100px;
           border: 1px solid rgba(255, 255, 255, 0.1);
-          height: 44px; /* Unify height */
+          height: 44px;
           box-sizing: border-box;
         }
         .menu-item {
-          position: relative;
           color: white;
           text-decoration: none;
           font-size: 0.9rem;
-          font-weight: 600; /* Match auth button */
-          padding: 0 1.5rem; /* Match auth button */
+          font-weight: 600;
+          padding: 0 1.25rem;
           border-radius: 100px;
           transition: all 0.3s ease;
           cursor: pointer;
           display: flex;
           align-items: center;
-          gap: 6px;
           height: 100%;
+          white-space: nowrap;
         }
-        .menu-item:hover { background: rgba(255, 255, 255, 0.1); }
-        .dropdown {
-          position: absolute;
-          top: calc(100% + 1rem);
-          left: 0;
-          background: #0a0a0a;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 1rem;
-          padding: 1rem;
-          width: max-content;
-          opacity: 0;
-          visibility: hidden;
-          transform: translateY(10px);
-          transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        .menu-item:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
         }
-        .menu-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-        .grid-content { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; width: 500px; }
-        .list-item { padding: 0.75rem; border-radius: 0.5rem; text-decoration: none; color: white; transition: background 0.2s; }
-        .list-item:hover { background: rgba(255, 255, 255, 0.05); }
-        .list-item .title { font-weight: 600; margin-bottom: 0.25rem; display: block; }
-        .list-item .desc { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); line-height: 1.4; }
-        .arrow { width: 12px; height: 12px; transition: transform 0.3s; }
-        .menu-item:hover .arrow { transform: rotate(180deg); }
-        @media (max-width: 768px) { .hidden-mobile { display: none; } }
       </style>
       <nav>
-        <div class="menu-item">
-          Getting started
-          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          <div class="dropdown">
-            <div style="width: 300px; display: flex; flex-direction: column; gap: 0.5rem;">
-              <a href="#docs" class="list-item"><span class="title">Introduction</span><span class="desc">Modern web standards components.</span></a>
-              <a href="#install" class="list-item"><span class="title">Installation</span><span class="desc">Setup guide.</span></a>
-            </div>
-          </div>
-        </div>
-        <div class="menu-item hidden-mobile">
-          Components
-          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          <div class="dropdown"><div class="grid-content">
-            <a href="#" class="list-item"><span class="title">Hover Card</span><span class="desc">Preview content.</span></a>
-            <a href="#" class="list-item"><span class="title">Progress</span><span class="desc">Task indicator.</span></a>
-          </div></div>
-        </div>
-        <a href="#docs" class="menu-item">Docs</a>
+        <a href="#components" class="menu-item">componets</a>
+        <a href="#ui" class="menu-item">ui</a>
       </nav>
     `;
   }

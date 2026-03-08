@@ -9,9 +9,16 @@ A visually stunning, framework-less web application showcasing artistic emotions
 - **Web Components:** Encapsulated UI logic using native Custom Elements.
   - `background-paths`: Dynamic, animated SVG paths.
   - `animated-text`: Staggered letter animation for hero titles.
-  - `flow-button`: A modern, interactive button with smooth hover effects.
-  - `scroll-expand-media`: A high-fidelity scroll-driven media expansion component.
+  - `navigation-menu`: A simplified navigation bar with direct links.
+  - `auth-modal` & `auth-status`: Integrated authentication flow.
 - **Brand:** Pixel Bank.
+
+## Navigation Structure
+The navigation menu has been simplified for better usability:
+1. **components**: Direct link to component library/section.
+2. **ui**: Direct link to UI patterns/section.
+3. **Docs**: Documentation link.
+- Dropdowns and arrow icons have been removed for a cleaner, more direct navigation experience.
 
 ## Current State: Multi-Page Navigation
 The application has been separated into two distinct pages to support browser history and the back button.
