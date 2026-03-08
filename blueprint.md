@@ -15,7 +15,7 @@ A visually stunning, framework-less web application showcasing artistic emotions
 
 ## Navigation Structure
 The navigation menu has been simplified for better usability:
-1. **components**: Direct link to component library/section.
+1. **Components**: Direct link to component library/section.
 2. **Reference**: Direct link to Reference/section.
 - Dropdowns and arrow icons have been removed for a cleaner, more direct navigation experience.
 

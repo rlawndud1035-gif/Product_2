@@ -267,7 +267,7 @@ class NavigationMenu extends HTMLElement {
         }
       </style>
       <nav>
-        <a href="#components" class="menu-item">componets</a>
+        <a href="#components" class="menu-item">Components</a>
         <a href="#reference" class="menu-item">Reference</a>
       </nav>
     `;
