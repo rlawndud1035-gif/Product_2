@@ -1,4 +1,128 @@
-// Pixel Bank - Main Logic v1.3.0
+// Pixel Bank - Main Logic v1.4.0
+
+/**
+ * App Sidebar Component
+ */
+class AppSidebar extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          width: var(--sidebar-width, 260px);
+          background: #0a0a0a;
+          border-right: 1px solid rgba(255, 255, 255, 0.1);
+          height: 100vh;
+          position: sticky;
+          top: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 1.5rem;
+          box-sizing: border-box;
+          transition: transform 0.3s ease;
+        }
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-weight: 700;
+          font-size: 1.25rem;
+          margin-bottom: 2rem;
+          color: white;
+        }
+        .nav-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        .nav-item {
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          color: rgba(255, 255, 255, 0.6);
+          text-decoration: none;
+          font-size: 0.9rem;
+          transition: all 0.2s;
+        }
+        .nav-item:hover, .nav-item.active {
+          background: rgba(255, 255, 255, 0.05);
+          color: white;
+        }
+        @media (max-width: 768px) {
+          :host {
+            position: fixed;
+            z-index: 1000;
+            transform: translateX(-100%);
+          }
+          :host([open]) {
+            transform: translateX(0);
+          }
+        }
+      </style>
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Pixel Bank
+      </div>
+      <div class="nav-group">
+        <div style="font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 0.5rem 1rem;">Platform</div>
+        <a href="#" class="nav-item active">Dashboard</a>
+        <a href="#" class="nav-item">Analytics</a>
+        <a href="#" class="nav-item">Collections</a>
+        <div style="font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 1.5rem 1rem 0.5rem;">Assets</div>
+        <a href="#" class="nav-item">Media Vault</a>
+        <a href="#" class="nav-item">Settings</a>
+      </div>
+    `;
+  }
+}
+customElements.define('app-sidebar', AppSidebar);
+
+/**
+ * Sidebar Toggle Trigger
+ */
+class SidebarTrigger extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+  connectedCallback() {
+    this.render();
+  }
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        button {
+          background: transparent;
+          border: none;
+          color: rgba(255, 255, 255, 0.6);
+          padding: 8px;
+          cursor: pointer;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        button:hover { background: rgba(255, 255, 255, 0.05); color: white; }
+        svg { width: 20px; height: 20px; }
+      </style>
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    `;
+    this.shadowRoot.querySelector('button').addEventListener('click', () => {
+      const sidebar = document.querySelector('app-sidebar');
+      if (sidebar) sidebar.toggleAttribute('open');
+    });
+  }
+}
+customElements.define('sidebar-trigger', SidebarTrigger);
 
 /**
  * Auth Modal Component (Shadcn/UI style)
@@ -267,7 +391,7 @@ class NavigationMenu extends HTMLElement {
         }
       </style>
       <nav>
-        <a href="#components" class="menu-item">Components</a>
+        <a href="components.html" class="menu-item">Components</a>
         <a href="#reference" class="menu-item">Reference</a>
       </nav>
     `;

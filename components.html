@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components | Pixel Bank</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <div class="sidebar-provider">
+    <!-- App Sidebar Component -->
+    <app-sidebar></app-sidebar>
+
+    <div class="sidebar-inset">
+      <!-- Header Area -->
+      <header class="sidebar-header">
+        <sidebar-trigger></sidebar-trigger>
+        <div class="separator-v"></div>
+        <nav class="breadcrumb">
+          <a href="index.html" style="color: inherit; text-decoration: none;">Build Your Application</a>
+          <span style="color: rgba(255,255,255,0.2);">/</span>
+          <span class="breadcrumb-page">Data Fetching</span>
+        </nav>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="content-grid">
+        <div class="grid md-grid-cols-3" style="margin-top: 0; gap: 1rem;">
+          <div class="aspect-video rounded-xl bg-muted-50"></div>
+          <div class="aspect-video rounded-xl bg-muted-50"></div>
+          <div class="aspect-video rounded-xl bg-muted-50"></div>
+        </div>
+        <div class="placeholder-main rounded-xl bg-muted-50" style="min-height: 100vh;"></div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
