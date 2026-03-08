@@ -3,6 +3,11 @@
 /**
  * App Sidebar Component
  */
+// Pixel Bank - Main Logic v1.4.0
+
+/**
+ * App Sidebar Component
+ */
 class AppSidebar extends HTMLElement {
   constructor() {
     super();
@@ -32,10 +37,12 @@ class AppSidebar extends HTMLElement {
           width: var(--sidebar-width, 260px);
           background: rgba(255, 255, 255, 0.01);
           backdrop-filter: blur(20px);
-          border-right: 1px solid rgba(255, 255, 255, 0.05);
-          height: calc(100vh - 64px);
-          position: sticky;
-          top: 64px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 1.5rem;
+          height: calc(100vh - 124px);
+          position: fixed;
+          top: 104px;
+          left: var(--section-padding-h, 2rem);
           display: flex;
           flex-direction: column;
           padding: 1.5rem 0.5rem;
@@ -44,6 +51,7 @@ class AppSidebar extends HTMLElement {
           overflow-y: auto;
           scrollbar-width: thin;
           scrollbar-color: rgba(255,255,255,0.1) transparent;
+          z-index: 50;
         }
         :host::-webkit-scrollbar {
           width: 4px;
@@ -124,11 +132,10 @@ class AppSidebar extends HTMLElement {
         
         @media (max-width: 1024px) {
           :host {
-            position: fixed;
-            z-index: 1000;
             left: 0;
             top: 0;
             height: 100vh;
+            border-radius: 0;
             background: oklch(0.05 0.02 250);
             transform: translateX(-100%);
             border-right: 1px solid rgba(255,255,255,0.1);

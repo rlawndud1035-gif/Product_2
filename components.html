@@ -18,12 +18,20 @@
       margin-top: 0;
     }
     
+    .sidebar-inset {
+      margin-left: calc(var(--sidebar-width) + var(--grid-gap));
+      flex: 1;
+    }
+    
     @media (max-width: 1024px) {
       .components-layout {
         flex-direction: column;
       }
       .components-layout .grid {
         margin-top: 2rem;
+      }
+      .sidebar-inset {
+        margin-left: 0;
       }
     }
   </style>
