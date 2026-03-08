@@ -74,13 +74,15 @@ class AppSidebar extends HTMLElement {
         }
       </style>
       <div class="nav-group">
-        <div class="section-label">Platform</div>
-        <a href="#" class="nav-item active">Dashboard</a>
-        <a href="#" class="nav-item">Analytics</a>
-        <a href="#" class="nav-item">Collections</a>
+        <div class="section-label">Components</div>
+        <a href="#" class="nav-item active">Buttons</a>
+        <a href="#" class="nav-item">Cards</a>
+        <a href="#" class="nav-item">Modals</a>
+        <a href="#" class="nav-item">Navigation</a>
+        <a href="#" class="nav-item">Inputs</a>
         <div class="section-label">Assets</div>
-        <a href="#" class="nav-item">Media Vault</a>
-        <a href="#" class="nav-item">Settings</a>
+        <a href="#" class="nav-item">Icons</a>
+        <a href="#" class="nav-item">Images</a>
       </div>
     `;
   }
