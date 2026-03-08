@@ -1,6 +1,72 @@
-// Pixel Bank - Main Logic v1.2.1
+// Pixel Bank - Main Logic v1.2.2
+
+class AuthStatus extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    // Dummy login state using localStorage
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  toggleAuth() {
+    this.isLoggedIn = !this.isLoggedIn;
+    localStorage.setItem('isLoggedIn', this.isLoggedIn);
+    this.render();
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          position: fixed;
+          top: 2rem;
+          right: 2rem;
+          z-index: 1000;
+          font-family: var(--font-sans, system-ui, sans-serif);
+        }
+        button {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(12px);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 0.6rem 1.5rem;
+          border-radius: 100px;
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+          outline: none;
+        }
+        button:hover {
+          background: rgba(255, 255, 255, 0.15);
+          transform: translateY(-2px);
+          border-color: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        button:active {
+          transform: translateY(0);
+        }
+        .logout-btn {
+          color: oklch(0.7 0.15 20); /* Soft red for logout */
+        }
+      </style>
+      <button class="${this.isLoggedIn ? 'logout-btn' : ''}">
+        ${this.isLoggedIn ? 'Log out' : 'Sign in'}
+      </button>
+    `;
+
+    this.shadowRoot.querySelector('button').addEventListener('click', () => this.toggleAuth());
+  }
+}
+
+customElements.define('auth-status', AuthStatus);
 
 class NavigationMenu extends HTMLElement {
+...
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -20,7 +86,8 @@ class NavigationMenu extends HTMLElement {
           z-index: 1000;
           font-family: var(--font-sans, system-ui, sans-serif);
         }
-        nav {
+...
+
           display: flex;
           gap: 1rem;
           background: rgba(255, 255, 255, 0.05);
