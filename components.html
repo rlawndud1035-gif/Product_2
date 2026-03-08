@@ -8,49 +8,61 @@
   <script src="main.js" defer></script>
 </head>
 <body>
-  <div class="sidebar-provider">
-    <!-- App Sidebar Component -->
+  <!-- Global UI Components (Same as Index) -->
+  <auth-modal></auth-modal>
+  <auth-status></auth-status>
+  <navigation-menu></navigation-menu>
+
+  <div class="sidebar-provider" style="padding-top: 80px;"> <!-- Space for fixed nav -->
+    <!-- App Sidebar -->
     <app-sidebar></app-sidebar>
 
     <div class="sidebar-inset">
       <!-- Sticky Header Area -->
-      <header class="sidebar-header bg-background">
+      <header class="sidebar-header bg-background" style="margin: 0 2rem; border-radius: 1rem; border: 1px solid var(--border);">
         <sidebar-trigger></sidebar-trigger>
         <div class="separator-v"></div>
         <nav class="breadcrumb">
-          <a href="index.html" style="color: inherit; text-decoration: none;" class="hidden-mobile">Build Your Application</a>
-          <span style="color: rgba(255,255,255,0.2);" class="hidden-mobile">/</span>
+          <a href="index.html" style="color: inherit; text-decoration: none;">Build Your Application</a>
+          <span style="color: rgba(255,255,255,0.2);">/</span>
           <span class="breadcrumb-page">Data Fetching</span>
         </nav>
       </header>
 
-      <!-- Main Content Area: 24 Items -->
-      <main class="item-list">
-        <!-- Generated 24 items -->
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
-        <div class="aspect-video h-12 w-full rounded-lg bg-muted-50"></div>
+      <!-- Main Content Area: Matching Main Screen Grid & Margin -->
+      <main class="intro-section" style="padding-top: 4rem;">
+        <div class="expanded-content">
+          <h2>Components Library</h2>
+          <p>Explore our collection of 24 premium components designed for high-fidelity digital experiences.</p>
+          
+          <div class="grid">
+            <!-- 24 Placeholder Items using the same .card style as main screen -->
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 01</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 02</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 03</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 04</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 05</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 06</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 07</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 08</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 09</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 10</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 11</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 12</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 13</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 14</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 15</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 16</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 17</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 18</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 19</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 20</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 21</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 22</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 23</h3><p>High-performance UI module.</p></div>
+            <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem;"></div><h3>Component 24</h3><p>High-performance UI module.</p></div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
