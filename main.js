@@ -18,48 +18,65 @@ class AppSidebar extends HTMLElement {
       <style>
         :host {
           width: var(--sidebar-width, 260px);
-          background: #0a0a0a;
-          border-right: 1px solid rgba(255, 255, 255, 0.1);
-          height: 100vh;
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 1.5rem;
+          height: calc(100vh - 120px);
           position: sticky;
-          top: 0;
+          top: 100px;
           display: flex;
           flex-direction: column;
           padding: 1.5rem;
           box-sizing: border-box;
-          transition: transform 0.3s ease;
+          transition: all 0.3s ease;
+          margin-left: 2rem;
         }
         .logo {
           display: flex;
           align-items: center;
           gap: 12px;
           font-weight: 700;
-          font-size: 1.25rem;
+          font-size: 1.1rem;
           margin-bottom: 2rem;
           color: white;
         }
         .nav-group {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.25rem;
         }
         .nav-item {
           padding: 0.75rem 1rem;
-          border-radius: 8px;
-          color: rgba(255, 255, 255, 0.6);
+          border-radius: 12px;
+          color: rgba(255, 255, 255, 0.5);
           text-decoration: none;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
+          font-weight: 500;
           transition: all 0.2s;
         }
         .nav-item:hover, .nav-item.active {
           background: rgba(255, 255, 255, 0.05);
           color: white;
         }
-        @media (max-width: 768px) {
+        .section-label {
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: rgba(255,255,255,0.2);
+          padding: 1.25rem 1rem 0.5rem;
+          font-weight: 700;
+        }
+        @media (max-width: 1024px) {
           :host {
             position: fixed;
             z-index: 1000;
-            transform: translateX(-100%);
+            left: 1rem;
+            top: 80px;
+            height: auto;
+            transform: translateX(-120%);
+            margin-left: 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
           }
           :host([open]) {
             transform: translateX(0);
@@ -67,15 +84,15 @@ class AppSidebar extends HTMLElement {
         }
       </style>
       <div class="logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        Pixel Bank
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Navigation
       </div>
       <div class="nav-group">
-        <div style="font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 0.5rem 1rem;">Platform</div>
+        <div class="section-label">Platform</div>
         <a href="#" class="nav-item active">Dashboard</a>
         <a href="#" class="nav-item">Analytics</a>
         <a href="#" class="nav-item">Collections</a>
-        <div style="font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 1.5rem 1rem 0.5rem;">Assets</div>
+        <div class="section-label">Assets</div>
         <a href="#" class="nav-item">Media Vault</a>
         <a href="#" class="nav-item">Settings</a>
       </div>
