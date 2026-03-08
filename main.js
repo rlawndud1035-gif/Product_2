@@ -1,3 +1,4 @@
+// Pixel Bank - Main Logic v1.0.1
 class BackgroundPaths extends HTMLElement {
   constructor() {
     super();
