@@ -219,18 +219,37 @@ h1 {
   padding: 0 1.5rem;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background-color: var(--background);
+  z-index: 10;
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .aspect-video {
   aspect-ratio: 16 / 9;
 }
 
-.rounded-xl {
-  border-radius: 0.75rem;
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
-.bg-muted-50 {
-  background-color: var(--muted);
+.h-12 {
+  height: 3rem;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .breadcrumb {
