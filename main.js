@@ -35,58 +35,54 @@ class AppSidebar extends HTMLElement {
       <style>
         :host {
           width: var(--sidebar-width, 260px);
-          background: rgba(255, 255, 255, 0.01);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 1.5rem;
-          height: calc(100vh - 124px);
+          background: rgba(255, 255, 255, 0.015);
+          backdrop-filter: blur(24px);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 1.25rem;
+          height: calc(100vh - 128px);
           position: fixed;
           top: 104px;
-          left: var(--section-padding-h, 2rem);
+          left: 2rem;
           display: flex;
           flex-direction: column;
-          padding: 1.5rem 0.5rem;
+          padding: 1.25rem 0.75rem;
           box-sizing: border-box;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
           overflow-y: auto;
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255,255,255,0.1) transparent;
+          scrollbar-width: none;
           z-index: 50;
         }
         :host::-webkit-scrollbar {
-          width: 4px;
-        }
-        :host::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
+          display: none;
         }
         .nav-group {
           display: flex;
           flex-direction: column;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.25rem;
         }
         .section-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0.5rem 1rem;
+          padding: 0.5rem 0.75rem;
           cursor: pointer;
           user-select: none;
-          transition: opacity 0.2s;
+          transition: all 0.2s;
+          border-radius: 8px;
         }
-        .section-header:hover { opacity: 0.8; }
+        .section-header:hover { background: rgba(255, 255, 255, 0.02); }
         
         .section-label {
-          font-size: 11px;
+          font-size: 10px;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: rgba(255,255,255,0.3);
-          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: rgba(255,255,255,0.25);
+          font-weight: 700;
         }
         .toggle-icon {
-          width: 14px;
-          height: 14px;
-          color: rgba(255,255,255,0.2);
+          width: 12px;
+          height: 12px;
+          color: rgba(255,255,255,0.15);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .collapsed .toggle-icon { transform: rotate(-90deg); }
@@ -94,12 +90,12 @@ class AppSidebar extends HTMLElement {
         .items-container {
           display: flex;
           flex-direction: column;
-          gap: 0.1rem;
+          gap: 2px;
           overflow: hidden;
           transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
           max-height: 1000px;
           opacity: 1;
-          margin-top: 0.25rem;
+          margin-top: 0.5rem;
         }
         .collapsed .items-container {
           max-height: 0;
@@ -108,16 +104,26 @@ class AppSidebar extends HTMLElement {
         }
 
         .nav-item {
-          padding: 0.6rem 1rem;
+          padding: 0.5rem 0.75rem;
           border-radius: 8px;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.4);
           text-decoration: none;
-          font-size: 13.5px;
+          font-size: 13px;
           font-weight: 500;
           transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
           display: flex;
           align-items: center;
           gap: 10px;
+        }
+        .nav-item:hover {
+          background: rgba(255, 255, 255, 0.04);
+          color: rgba(255, 255, 255, 0.8);
+        }
+        .nav-item.active {
+          background: rgba(255, 255, 255, 0.06);
+          color: white;
+          font-weight: 600;
+        }
         }
         .nav-item:hover {
           background: rgba(255, 255, 255, 0.03);
