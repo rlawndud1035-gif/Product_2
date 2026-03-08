@@ -3,12 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixel Bank | Media View</title>
+  <title>About Pixel Bank | The Future of Art</title>
   <link rel="stylesheet" href="style.css">
   <script src="main.js" defer></script>
   <style>
     body {
-      overflow-y: auto; /* Allow scrolling on this page */
+      overflow-y: auto;
+    }
+    .intro-section {
+      padding: 8rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-highlight {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      margin-bottom: 8rem;
+    }
+    .feature-highlight:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .feature-text {
+      flex: 1;
+    }
+    .feature-text h3 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--foreground);
+    }
+    .feature-text p {
+      font-size: 1.1rem;
+      color: var(--muted-foreground);
+      line-height: 1.7;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 4rem;
+    }
+    .stat-item h4 {
+      font-size: 3rem;
+      color: oklch(0.7 0.2 250);
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .feature-highlight {
+        flex-direction: column !important;
+        gap: 2rem;
+      }
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -16,16 +65,53 @@
   <div id="media-view">
     <scroll-expand-media 
       title="Pixel Bank" 
-      date="Friday, March 8, 2026"
+      date="Global Art Platform"
     >
       <div class="expanded-content">
-        <h2>Experience the Future of Art</h2>
-        <p>Step into a world where digital pixels breathe life into timeless masterpieces. Pixel Bank is more than a platform; it's a sanctuary for the modern connoisseur.</p>
-        <div class="grid">
-          <div class="card"><h3>Curated Collections</h3><p>Exquisite digital assets hand-picked by global experts.</p></div>
-          <div class="card"><h3>Immersive Motion</h3><p>Every piece is a living, breathing story in motion.</p></div>
-          <div class="card"><h3>Unrivaled Depth</h3><p>Explore layers of creativity beyond the surface.</p></div>
-        </div>
+        <section class="intro-section">
+          <h2>Redefining Digital Ownership</h2>
+          <p>Pixel Bank is a revolutionary ecosystem where art meets technology. We provide a bridge between traditional aesthetics and the infinite possibilities of the digital realm.</p>
+          
+          <div class="grid">
+            <div class="card">
+              <h3>Secure Vault</h3>
+              <p>Your collection is protected by industry-leading encryption and decentralized storage protocols.</p>
+            </div>
+            <div class="card">
+              <h3>High Fidelity</h3>
+              <p>Experience art in 8K resolution with ultra-low latency streaming technology.</p>
+            </div>
+            <div class="card">
+              <h3>Dynamic Meta</h3>
+              <p>Art that evolves over time based on real-world data and user interaction.</p>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-item">
+              <h4>50K+</h4>
+              <p>Active Curators</p>
+            </div>
+            <div class="stat-item">
+              <h4>$2M</h4>
+              <p>Artist Royalties</p>
+            </div>
+            <div class="stat-item">
+              <h4>120+</h4>
+              <p>Global Partners</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="intro-section" style="background: rgba(255,255,255,0.02); border-radius: 2rem;">
+          <div class="feature-highlight">
+            <div class="feature-text">
+              <h3>Curated by Visionaries</h3>
+              <p>Every piece in Pixel Bank undergoes a rigorous selection process. Our board of international curators ensures only the most profound and technically masterful works reach our platform.</p>
+            </div>
+            <div style="flex: 1; height: 300px; background: linear-gradient(45deg, #111, #333); border-radius: 1rem;"></div>
+          </div>
+        </section>
       </div>
     </scroll-expand-media>
   </div>

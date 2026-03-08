@@ -258,6 +258,7 @@ class ScrollExpandMedia extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.progress = 0;
+    this.targetProgress = 0;
     this.fullyExpanded = false;
     this.touchStartY = 0;
     this.isMobile = window.innerWidth < 768;
@@ -266,32 +267,45 @@ class ScrollExpandMedia extends HTMLElement {
   connectedCallback() {
     this.render();
     this.initEvents();
+    this.animate();
   }
 
   updateProgress(delta) {
-    this.progress = Math.min(Math.max(this.progress + delta, 0), 1);
+    this.targetProgress = Math.min(Math.max(this.targetProgress + delta, 0), 1.1);
+  }
+
+  animate() {
+    // Smooth interpolation for more natural feel
+    this.progress += (this.targetProgress - this.progress) * 0.1;
+    
+    const effectiveProgress = Math.min(this.progress, 1);
     this.fullyExpanded = this.progress >= 1;
-    this.renderStyles();
+    this.renderStyles(effectiveProgress);
     
     // Toggle children visibility
     const content = this.shadowRoot.querySelector('.content-section');
-    if (this.progress > 0.75) {
+    if (effectiveProgress > 0.8) {
       content.style.opacity = '1';
+      content.style.transform = 'translateY(0)';
     } else {
       content.style.opacity = '0';
+      content.style.transform = 'translateY(50px)';
     }
+
+    requestAnimationFrame(() => this.animate());
   }
 
   initEvents() {
     const handleWheel = (e) => {
-      if (this.fullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+      // If we are at the top of the page and scrolling up while expanded, allow shrinking
+      if (this.fullyExpanded && e.deltaY < 0 && window.scrollY <= 10) {
         this.fullyExpanded = false;
-        e.preventDefault();
+        this.targetProgress = 0.99; // Transition back
       }
 
       if (!this.fullyExpanded) {
         e.preventDefault();
-        const delta = e.deltaY * 0.001;
+        const delta = e.deltaY * 0.0015;
         this.updateProgress(delta);
       }
     };
@@ -302,9 +316,10 @@ class ScrollExpandMedia extends HTMLElement {
 
     const handleTouchMove = (e) => {
       const deltaY = this.touchStartY - e.touches[0].clientY;
-      if (this.fullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+      
+      if (this.fullyExpanded && deltaY < -10 && window.scrollY <= 10) {
         this.fullyExpanded = false;
-        e.preventDefault();
+        this.targetProgress = 0.99;
       }
 
       if (!this.fullyExpanded) {
@@ -320,15 +335,14 @@ class ScrollExpandMedia extends HTMLElement {
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('resize', () => {
       this.isMobile = window.innerWidth < 768;
-      this.renderStyles();
     });
   }
 
-  renderStyles() {
-    const mediaWidth = 300 + this.progress * (this.isMobile ? 650 : 1250);
-    const mediaHeight = 400 + this.progress * (this.isMobile ? 200 : 400);
-    const textTranslateX = this.progress * (this.isMobile ? 180 : 50);
-    const bgOpacity = 1 - this.progress;
+  renderStyles(progress) {
+    const mediaWidth = 300 + progress * (this.isMobile ? 650 : 1250);
+    const mediaHeight = 400 + progress * (this.isMobile ? 200 : 400);
+    const textTranslateX = progress * (this.isMobile ? 180 : 50);
+    const bgOpacity = 1 - progress;
 
     const mediaContainer = this.shadowRoot.querySelector('.media-container');
     const firstWord = this.shadowRoot.querySelector('.first-word');
@@ -338,6 +352,7 @@ class ScrollExpandMedia extends HTMLElement {
     if (mediaContainer) {
       mediaContainer.style.width = `${mediaWidth}px`;
       mediaContainer.style.height = `${mediaHeight}px`;
+      mediaContainer.style.borderRadius = `${1.5 - progress * 1.5}rem`;
     }
     if (firstWord) firstWord.style.transform = `translateX(-${textTranslateX}vw)`;
     if (restTitle) restTitle.style.transform = `translateX(${textTranslateX}vw)`;
