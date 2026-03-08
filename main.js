@@ -272,25 +272,27 @@ class ScrollExpandMedia extends HTMLElement {
   }
 
   updateProgress(delta) {
-    this.targetProgress = Math.min(Math.max(this.targetProgress + delta, 0), 1.1);
+    this.targetProgress = Math.min(Math.max(this.targetProgress + delta, 0), 1.2);
   }
 
   animate() {
     // Smooth interpolation for more natural feel
-    this.progress += (this.targetProgress - this.progress) * 0.1;
+    this.progress += (this.targetProgress - this.progress) * 0.08;
     
     const effectiveProgress = Math.min(this.progress, 1);
     this.fullyExpanded = this.progress >= 1;
-    this.renderStyles(effectiveProgress);
+    this.renderStyles(this.progress); // Pass the full progress for over-scaling
     
     // Toggle children visibility
     const content = this.shadowRoot.querySelector('.content-section');
-    if (effectiveProgress > 0.8) {
+    if (this.progress > 0.9) {
       content.style.opacity = '1';
       content.style.transform = 'translateY(0)';
+      content.style.pointerEvents = 'auto';
     } else {
       content.style.opacity = '0';
-      content.style.transform = 'translateY(50px)';
+      content.style.transform = 'translateY(100px)';
+      content.style.pointerEvents = 'none';
     }
 
     requestAnimationFrame(() => this.animate());
@@ -298,10 +300,9 @@ class ScrollExpandMedia extends HTMLElement {
 
   initEvents() {
     const handleWheel = (e) => {
-      // If we are at the top of the page and scrolling up while expanded, allow shrinking
       if (this.fullyExpanded && e.deltaY < 0 && window.scrollY <= 10) {
         this.fullyExpanded = false;
-        this.targetProgress = 0.99; // Transition back
+        this.targetProgress = 0.99;
       }
 
       if (!this.fullyExpanded) {
@@ -340,12 +341,20 @@ class ScrollExpandMedia extends HTMLElement {
   }
 
   renderStyles(progress) {
-    const mediaWidth = 300 + progress * (this.isMobile ? 650 : 1250);
-    const mediaHeight = 400 + progress * (this.isMobile ? 200 : 400);
-    const textTranslateX = progress * (this.isMobile ? 180 : 50);
-    const bgOpacity = 1 - progress;
+    const clampedProgress = Math.min(progress, 1);
+    
+    // Expansion Phase
+    const mediaWidth = 300 + clampedProgress * (this.isMobile ? 650 : 1250);
+    const mediaHeight = 400 + clampedProgress * (this.isMobile ? 200 : 400);
+    const textTranslateX = clampedProgress * (this.isMobile ? 180 : 50);
+    const bgOpacity = 1 - clampedProgress;
+
+    // Zoom Phase (Over-scaling for "sucking into" effect)
+    const zoomFactor = progress > 0.8 ? 1 + (progress - 0.8) * 4 : 1;
+    const innerImageScale = 1 + progress * 1.5;
 
     const mediaContainer = this.shadowRoot.querySelector('.media-container');
+    const innerImage = this.shadowRoot.querySelector('.main-image');
     const firstWord = this.shadowRoot.querySelector('.first-word');
     const restTitle = this.shadowRoot.querySelector('.rest-title');
     const bg = this.shadowRoot.querySelector('.bg-image');
@@ -353,18 +362,23 @@ class ScrollExpandMedia extends HTMLElement {
     if (mediaContainer) {
       mediaContainer.style.width = `${mediaWidth}px`;
       mediaContainer.style.height = `${mediaHeight}px`;
-      mediaContainer.style.borderRadius = `${1.5 - progress * 1.5}rem`;
+      mediaContainer.style.borderRadius = `${1.5 - clampedProgress * 1.5}rem`;
+      mediaContainer.style.transform = `translate(-50%, -50%) scale(${zoomFactor})`;
     }
+    
+    if (innerImage) {
+      innerImage.style.transform = `scale(${innerImageScale})`;
+    }
+
     if (firstWord) firstWord.style.transform = `translateX(-${textTranslateX}vw)`;
     if (restTitle) restTitle.style.transform = `translateX(${textTranslateX}vw)`;
     if (bg) bg.style.opacity = bgOpacity;
   }
 
   render() {
-    const bgImage = this.getAttribute('bg-image') || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1920';
-    const mediaSrc = this.getAttribute('media-src') || 'https://assets.mixkit.co/videos/preview/mixkit-abstract-geometric-shapes-moving-in-3d-space-2678-large.mp4';
+    const bgImage = this.getAttribute('bg-image') || 'https://images.unsplash.com/photo-1546676577-586809b11a2f?q=100&w=2560&auto=format&fit=crop';
+    const mainImage = this.getAttribute('media-src') || 'https://images.unsplash.com/photo-1709065396771-72494e569cb0?q=100&w=2000&auto=format&fit=crop';
     const title = this.getAttribute('title') || 'Pixel Bank';
-    const date = this.getAttribute('date') || 'March 2026';
     
     const words = title.split(' ');
     const firstWord = words[0];
@@ -411,23 +425,24 @@ class ScrollExpandMedia extends HTMLElement {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          max-width: 95vw;
-          max-height: 85vh;
-          box-shadow: 0 0 50px rgba(0,0,0,0.5);
+          max-width: 100vw;
+          max-height: 100vh;
+          box-shadow: 0 0 50px rgba(0,0,0,0.8);
           border-radius: 1.5rem;
           overflow: hidden;
-          background: #111;
+          background: #000;
           transition: none;
         }
-        video {
+        .main-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transform-origin: center center;
         }
         .overlay {
           position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0.3);
+          background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
           pointer-events: none;
         }
         .title-container {
@@ -441,28 +456,31 @@ class ScrollExpandMedia extends HTMLElement {
           pointer-events: none;
         }
         h2 {
-          font-size: clamp(2.5rem, 8vw, 6rem);
-          font-weight: 800;
+          font-size: clamp(2.5rem, 10vw, 8rem);
+          font-weight: 900;
           color: white;
           margin: 0;
           transition: none;
+          text-transform: uppercase;
+          letter-spacing: -0.02em;
         }
         .content-section {
           width: 100%;
           padding: 4rem 2rem;
           opacity: 0;
-          transition: opacity 0.7s ease-in-out;
+          transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
           color: white;
-          z-index: 10;
+          z-index: 30;
           background: #000;
           min-height: 100vh;
+          pointer-events: none;
         }
       </style>
       <div class="container">
         <img src="${bgImage}" class="bg-image" />
         <div class="viewport">
           <div class="media-container">
-            <video src="${mediaSrc}" autoplay muted loop playsinline></video>
+            <img src="${mainImage}" class="main-image" />
             <div class="overlay"></div>
           </div>
           <div class="title-container">
@@ -475,7 +493,7 @@ class ScrollExpandMedia extends HTMLElement {
         </div>
       </div>
     `;
-    this.renderStyles();
+    this.renderStyles(0);
   }
 }
 
