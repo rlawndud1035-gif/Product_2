@@ -7,30 +7,43 @@ class AppSidebar extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this.collapsedSections = new Set();
   }
 
   connectedCallback() {
     this.render();
   }
 
+  toggleSection(section) {
+    if (this.collapsedSections.has(section)) {
+      this.collapsedSections.delete(section);
+    } else {
+      this.collapsedSections.add(section);
+    }
+    this.render();
+  }
+
   render() {
+    const isCollapsed = (s) => this.collapsedSections.has(s);
+    
     this.shadowRoot.innerHTML = `
       <style>
         :host {
           width: var(--sidebar-width, 260px);
-          background: rgba(255, 255, 255, 0.02);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 1.5rem;
-          height: calc(100vh - 140px);
+          background: rgba(255, 255, 255, 0.01);
+          backdrop-filter: blur(20px);
+          border-right: 1px solid rgba(255, 255, 255, 0.05);
+          height: calc(100vh - 64px);
           position: sticky;
-          top: 104px;
+          top: 64px;
           display: flex;
           flex-direction: column;
-          padding: 1rem;
+          padding: 1.5rem 0.5rem;
           box-sizing: border-box;
           transition: all 0.3s ease;
           overflow-y: auto;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.1) transparent;
         }
         :host::-webkit-scrollbar {
           width: 4px;
@@ -42,74 +55,128 @@ class AppSidebar extends HTMLElement {
         .nav-group {
           display: flex;
           flex-direction: column;
-          gap: 0.15rem;
+          margin-bottom: 1.5rem;
         }
+        .section-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          user-select: none;
+          transition: opacity 0.2s;
+        }
+        .section-header:hover { opacity: 0.8; }
+        
+        .section-label {
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: rgba(255,255,255,0.3);
+          font-weight: 800;
+        }
+        .toggle-icon {
+          width: 14px;
+          height: 14px;
+          color: rgba(255,255,255,0.2);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .collapsed .toggle-icon { transform: rotate(-90deg); }
+        
+        .items-container {
+          display: flex;
+          flex-direction: column;
+          gap: 0.1rem;
+          overflow: hidden;
+          transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+          max-height: 1000px;
+          opacity: 1;
+          margin-top: 0.25rem;
+        }
+        .collapsed .items-container {
+          max-height: 0;
+          opacity: 0;
+          pointer-events: none;
+        }
+
         .nav-item {
           padding: 0.6rem 1rem;
-          border-radius: 10px;
+          border-radius: 8px;
           color: rgba(255, 255, 255, 0.5);
           text-decoration: none;
-          font-size: 14px;
+          font-size: 13.5px;
           font-weight: 500;
-          transition: all 0.2s;
+          transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+          display: flex;
+          align-items: center;
+          gap: 10px;
         }
-        .nav-item:hover, .nav-item.active {
+        .nav-item:hover {
+          background: rgba(255, 255, 255, 0.03);
+          color: rgba(255, 255, 255, 0.9);
+          transform: translateX(4px);
+        }
+        .nav-item.active {
           background: rgba(255, 255, 255, 0.05);
           color: white;
+          font-weight: 600;
         }
-        .section-label {
-          font-size: 12px;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: rgba(255,255,255,0.2);
-          padding: 1.5rem 1rem 0.5rem;
-          font-weight: 700;
-        }
-        .section-label:first-child {
-          padding-top: 0.5rem;
-        }
+        
         @media (max-width: 1024px) {
           :host {
             position: fixed;
             z-index: 1000;
-            left: 1rem;
-            top: 80px;
-            height: auto;
-            max-height: 80vh;
-            transform: translateX(-120%);
-            margin-left: 0;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            left: 0;
+            top: 0;
+            height: 100vh;
+            background: oklch(0.05 0.02 250);
+            transform: translateX(-100%);
+            border-right: 1px solid rgba(255,255,255,0.1);
           }
           :host([open]) {
             transform: translateX(0);
           }
         }
       </style>
-      <div class="nav-group">
-        <div class="section-label">Components</div>
-        <a href="#" class="nav-item active">Buttons</a>
-        <a href="#" class="nav-item">Cards</a>
-        <a href="#" class="nav-item">Modals</a>
-        <a href="#" class="nav-item">Navigation</a>
-        <a href="#" class="nav-item">Inputs</a>
-        <a href="#" class="nav-item">Badges</a>
-        <a href="#" class="nav-item">Alerts</a>
-        <a href="#" class="nav-item">Tooltips</a>
-        <a href="#" class="nav-item">Tabs</a>
-        <a href="#" class="nav-item">Accordions</a>
-        <a href="#" class="nav-item">Dropdowns</a>
-        <a href="#" class="nav-item">Switches</a>
-        <a href="#" class="nav-item">Sliders</a>
-        <a href="#" class="nav-item">Progress</a>
-        <a href="#" class="nav-item">Skeletons</a>
-        <a href="#" class="nav-item">Spinners</a>
-        <a href="#" class="nav-item">Tables</a>
-        <a href="#" class="nav-item">Pagination</a>
-        <div class="section-label">Assets</div>
-        <a href="#" class="nav-item">Icons</a>
-        <a href="#" class="nav-item">Images</a>
-        <a href="#" class="nav-item">Videos</a>
-        <a href="#" class="nav-item">Fonts</a>
+      
+      <div class="nav-group ${isCollapsed('components') ? 'collapsed' : ''}" data-section="components">
+        <div class="section-header" onclick="this.getRootNode().host.toggleSection('components')">
+          <span class="section-label">Components</span>
+          <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="items-container">
+          <a href="#" class="nav-item active">Buttons</a>
+          <a href="#" class="nav-item">Cards</a>
+          <a href="#" class="nav-item">Modals</a>
+          <a href="#" class="nav-item">Navigation</a>
+          <a href="#" class="nav-item">Inputs</a>
+          <a href="#" class="nav-item">Badges</a>
+          <a href="#" class="nav-item">Alerts</a>
+          <a href="#" class="nav-item">Tooltips</a>
+          <a href="#" class="nav-item">Tabs</a>
+          <a href="#" class="nav-item">Accordions</a>
+          <a href="#" class="nav-item">Dropdowns</a>
+          <a href="#" class="nav-item">Switches</a>
+          <a href="#" class="nav-item">Sliders</a>
+          <a href="#" class="nav-item">Progress</a>
+          <a href="#" class="nav-item">Skeletons</a>
+          <a href="#" class="nav-item">Spinners</a>
+          <a href="#" class="nav-item">Tables</a>
+          <a href="#" class="nav-item">Pagination</a>
+        </div>
+      </div>
+
+      <div class="nav-group ${isCollapsed('assets') ? 'collapsed' : ''}" data-section="assets">
+        <div class="section-header" onclick="this.getRootNode().host.toggleSection('assets')">
+          <span class="section-label">Assets</span>
+          <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="items-container">
+          <a href="#" class="nav-item">Icons</a>
+          <a href="#" class="nav-item">Images</a>
+          <a href="#" class="nav-item">Videos</a>
+          <a href="#" class="nav-item">Fonts</a>
+        </div>
       </div>
     `;
   }
