@@ -234,7 +234,7 @@ class NavigationMenu extends HTMLElement {
           left: 2rem;
           z-index: 1000;
           font-family: var(--font-sans, system-ui, sans-serif);
-          transition: opacity 0.3s ease;
+          transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         nav {
           display: flex;
@@ -244,7 +244,7 @@ class NavigationMenu extends HTMLElement {
           padding: 4px;
           border-radius: 100px;
           border: 1px solid rgba(255, 255, 255, 0.1);
-          height: 44px; /* Base height */
+          height: 44px; /* Unify height */
           box-sizing: border-box;
         }
         .menu-item {
@@ -252,14 +252,14 @@ class NavigationMenu extends HTMLElement {
           color: white;
           text-decoration: none;
           font-size: 0.9rem;
-          font-weight: 500;
-          padding: 0 1.2rem;
+          font-weight: 600; /* Match auth button */
+          padding: 0 1.5rem; /* Match auth button */
           border-radius: 100px;
           transition: all 0.3s ease;
           cursor: pointer;
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 6px;
           height: 100%;
         }
         .menu-item:hover { background: rgba(255, 255, 255, 0.1); }
@@ -315,16 +315,26 @@ class NavigationMenu extends HTMLElement {
 customElements.define('navigation-menu', NavigationMenu);
 
 /**
- * Scroll Opacity Controller
+ * Scroll Visibility Controller (Instant reappearance on scroll-up)
  */
+let lastScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
-  // Fade range: 0px to 200px scroll
-  const opacity = Math.max(0.2, 1 - (scrollY / 200));
   const nav = document.querySelector('navigation-menu');
   const auth = document.querySelector('auth-status');
-  if (nav) nav.style.opacity = opacity;
-  if (auth) auth.style.opacity = opacity;
+  
+  if (scrollY < lastScrollY) {
+    // Scrolling UP: Reappear immediately
+    if (nav) nav.style.opacity = '1';
+    if (auth) auth.style.opacity = '1';
+  } else if (scrollY > 50) {
+    // Scrolling DOWN: Fade out beyond 50px
+    const opacity = Math.max(0.2, 1 - (scrollY / 300));
+    if (nav) nav.style.opacity = opacity;
+    if (auth) auth.style.opacity = opacity;
+  }
+  
+  lastScrollY = scrollY;
 });
 
 // Existing Background and Text Components
