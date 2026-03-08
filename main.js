@@ -501,22 +501,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
 
-      // Update overlay clip-path center
+      // Update overlay clip-path center with a slightly slower, more elegant curve
       overlay.style.clipPath = `circle(0% at ${x}px ${y}px)`;
+      overlay.style.transition = 'clip-path 1.2s cubic-bezier(0.7, 0, 0.3, 1)';
       
-      // Request frame to ensure the initial position is set
       requestAnimationFrame(() => {
         overlay.classList.add('active');
         overlay.style.clipPath = `circle(150% at ${x}px ${y}px)`;
         
-        // Scale down hero content slightly for depth
-        hero.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+        // Depth effect: scale down and blur hero slightly
+        hero.style.transition = 'opacity 1s ease-in-out, transform 1s cubic-bezier(0.7, 0, 0.3, 1), filter 1s ease-in-out';
         hero.style.opacity = '0';
-        hero.style.transform = 'scale(0.95)';
+        hero.style.transform = 'scale(0.9) translateY(-20px)';
+        hero.style.filter = 'blur(10px)';
 
         setTimeout(() => {
           window.location.href = 'media.html';
-        }, 800);
+        }, 1100);
       });
     });
   }
