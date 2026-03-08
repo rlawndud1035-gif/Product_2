@@ -6,6 +6,20 @@
   <title>Components | Pixel Bank</title>
   <link rel="stylesheet" href="style.css">
   <script src="main.js" defer></script>
+  <style>
+    /* Specific styles for components page layout */
+    .components-layout {
+      display: flex;
+      gap: var(--grid-gap);
+      padding: 100px var(--section-padding-h) var(--section-padding-v);
+    }
+    
+    @media (max-width: 1024px) {
+      .components-layout {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body style="overflow-y: auto;">
   <!-- Global UI Components -->
@@ -13,17 +27,17 @@
   <auth-status></auth-status>
   <navigation-menu></navigation-menu>
 
-  <!-- Layout Container: Aligned with Main Grid (Max-width 1400px for sidebar space) -->
-  <div class="components-layout" style="max-width: 1400px; margin: 0 auto; display: flex; gap: 2rem; padding: 100px 2rem 4rem;">
+  <!-- Layout Container: Aligned with Main Grid -->
+  <div class="components-layout container">
     
-    <!-- Sidebar (Styled via main.js with border and radius) -->
+    <!-- Sidebar (Custom Element) -->
     <app-sidebar></app-sidebar>
 
     <!-- Main Content Area -->
-    <div class="sidebar-inset" style="flex: 1; display: flex; flex-direction: column; gap: 2rem;">
+    <div class="sidebar-inset">
       
       <!-- Grid Content: Matching Main Screen Style -->
-      <main class="grid" style="margin-top: 0; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <main class="grid">
         <!-- 24 Items -->
         <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem; opacity: 0.5;"></div><h3>Component 01</h3><p>System interface module.</p></div>
         <div class="card"><div class="aspect-video rounded-lg bg-muted-50" style="margin-bottom: 1.5rem; opacity: 0.5;"></div><h3>Component 02</h3><p>System interface module.</p></div>
