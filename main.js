@@ -257,15 +257,3 @@ class FlowButton extends HTMLElement {
 customElements.define('background-paths', BackgroundPaths);
 customElements.define('animated-text', AnimatedText);
 customElements.define('flow-button', FlowButton);
-
-// Smooth Scroll Logic
-document.addEventListener('DOMContentLoaded', () => {
-  const startBtn = document.getElementById('start-btn');
-  const introSection = document.getElementById('intro-section');
-
-  if (startBtn && introSection) {
-    startBtn.addEventListener('click', () => {
-      introSection.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-});
