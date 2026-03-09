@@ -3,163 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Components | Pixel Bank</title>
+  <title>Markets | Pixel Bank</title>
   <link rel="stylesheet" href="style.css">
   <script src="main.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Specific styles for components page layout */
-    body {
-      overflow: hidden !important;
-    }
-
-    .components-layout {
-      display: flex;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-    }
-    
+    body { overflow: hidden !important; background: #050505; }
+    .components-layout { display: flex; height: 100vh; width: 100%; overflow: hidden; }
     .sidebar-inset {
-      flex: 1;
-      height: 100vh;
-      overflow-y: auto;
+      flex: 1; height: 100vh; overflow-y: auto;
       margin-left: calc(var(--sidebar-width) + 4rem);
-      padding: 104px var(--section-padding-h) var(--section-padding-v);
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+      padding: 104px 4rem 4rem;
     }
-
-    .sidebar-inset::-webkit-scrollbar {
-      width: 6px;
-    }
-    .sidebar-inset::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-    }
+    .market-header { margin-bottom: 3rem; }
+    .market-header h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #444); -webkit-background-clip: text; color: transparent; }
+    .price-tag { font-size: 2.5rem; font-weight: 800; display: flex; align-items: baseline; gap: 1rem; margin: 1rem 0; }
+    .change-badge { font-size: 1rem; padding: 4px 12px; border-radius: 100px; background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+    .change-badge.negative { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
     
-    /* Dynamic Content Styles */
-    .content-header {
-      margin-bottom: 3rem;
-    }
-    .content-header h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(to right, #fff, #666);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .content-header p {
-      color: var(--muted-foreground);
-      font-size: 1.1rem;
-      max-width: 600px;
-    }
-
-    /* M3 Guidelines Styling */
-    .overview-display {
-      margin-bottom: 4rem;
-    }
-    .m3-guidelines h3 {
-      font-size: 1.75rem;
-      margin-bottom: 1.5rem;
-      color: white;
-    }
-    .m3-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-    .m3-item {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 1.5rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .m3-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 100px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .elevated { background: #333; color: white; border: 1px solid #444; }
-    .filled { background: white; color: black; }
-    .tonal { background: rgba(255,255,255,0.1); color: white; }
-    .outlined { border: 1px solid rgba(255,255,255,0.2); color: white; }
-    .text { color: rgba(255,255,255,0.6); }
-
-    .m3-usage {
-      margin-top: 3rem;
+    .chart-container {
       background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 2rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      height: 450px;
+      position: relative;
+    }
+    .info-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+    .description-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       padding: 2rem;
       border-radius: 1.5rem;
     }
-    .m3-usage h4 { margin-top: 0; color: white; }
-    .m3-usage ul { padding-left: 1.25rem; color: rgba(255,255,255,0.6); }
-    .m3-usage li { margin-bottom: 0.75rem; }
-
-    .preview-container {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 1.5rem;
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-    .preview-image {
-      width: 100%;
-      height: 400px;
-      object-fit: crop;
-      opacity: 0.8;
-      transition: opacity 0.5s;
-    }
-    
-    .code-block {
-      background: #0d0d0d;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      position: relative;
-      margin-top: 1.5rem;
-    }
-    .code-block pre {
-      margin: 0;
-      color: oklch(0.8 0.02 250);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      overflow-x: auto;
-    }
-    .code-label {
-      position: absolute;
-      top: 0.75rem;
-      right: 1rem;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.1em;
-    }
-
-    @media (max-width: 1024px) {
-      body {
-        overflow-y: auto !important;
-      }
-      .components-layout {
-        flex-direction: column;
-        height: auto;
-      }
-      .sidebar-inset {
-        margin-left: 0;
-        height: auto;
-        padding-top: 2rem;
-      }
-    }
+    .description-card h3 { margin-top: 0; color: rgba(255,255,255,0.4); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .description-card p { font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
   </style>
 </head>
-<body style="overflow: hidden;">
-  <!-- Global UI Components -->
+<body>
   <auth-modal></auth-modal>
   <auth-status></auth-status>
   <navigation-menu></navigation-menu>
@@ -168,22 +50,29 @@
     <app-sidebar></app-sidebar>
 
     <div class="sidebar-inset" id="main-content">
-      <div id="content-display">
-        <!-- Dynamic content will be injected here -->
-        <div class="content-header">
-          <h1 id="comp-title">Select a Component</h1>
-          <p id="comp-desc">Explore our UI library by selecting an item from the sidebar.</p>
-        </div>
-        <div id="comp-view" style="display: none;">
-          <!-- New Overview Display -->
-          <div id="comp-overview" class="overview-display"></div>
-
-          <div class="preview-container">
-            <img id="comp-img" src="" alt="Preview" class="preview-image">
+      <div id="market-display">
+        <div class="market-header">
+          <div style="color: rgba(255,255,255,0.3); font-weight: 700; margin-bottom: 0.5rem;" id="etf-theme">Theme</div>
+          <h1 id="etf-name">Select an ETF</h1>
+          <div class="price-tag">
+            <span id="etf-price">$0.00</span>
+            <span id="etf-change" class="change-badge">+0.00%</span>
           </div>
-          <div class="code-block">
-            <span class="code-label">Source Code</span>
-            <pre><code id="comp-code"></code></pre>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="marketChart"></canvas>
+        </div>
+
+        <div class="info-grid">
+          <div class="description-card">
+            <h3>Fund Strategy</h3>
+            <p id="etf-desc">Detailed strategy and performance overview will appear here.</p>
+          </div>
+          <div class="description-card">
+            <h3>Market Sentiment</h3>
+            <p style="color: #22c55e; font-weight: 700;">BULLISH</p>
+            <div style="height: 4px; background: #22c55e; border-radius: 2px; margin-top: 1rem; width: 75%;"></div>
           </div>
         </div>
       </div>
@@ -191,49 +80,68 @@
   </div>
 
   <script>
-    window.addEventListener('component-selected', (e) => {
-      const data = COMPONENT_DATA[e.detail.name];
+    let chartInstance = null;
+
+    function updateChart(data) {
+      const ctx = document.getElementById('marketChart').getContext('2d');
+      const isPositive = !data.change.startsWith('-');
+      const color = isPositive ? '#22c55e' : '#ef4444';
+
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+          datasets: [{
+            label: 'Price',
+            data: data.chartData,
+            borderColor: color,
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            backgroundColor: (context) => {
+              const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 400);
+              gradient.addColorStop(0, color + '33');
+              gradient.addColorStop(1, color + '00');
+              return gradient;
+            },
+            pointRadius: 0,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.2)' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.2)' } }
+          }
+        }
+      });
+    }
+
+    window.addEventListener('etf-selected', (e) => {
+      const data = ETF_DATA[e.detail.ticker];
       if (!data) return;
 
-      const title = document.getElementById('comp-title');
-      const desc = document.getElementById('comp-desc');
-      const overview = document.getElementById('comp-overview');
-      const img = document.getElementById('comp-img');
-      const code = document.getElementById('comp-code');
-      const view = document.getElementById('comp-view');
-
-      // Simple fade effect
-      view.style.opacity = '0';
+      document.getElementById('etf-theme').textContent = data.theme;
+      document.getElementById('etf-name').textContent = data.name;
+      document.getElementById('etf-price').textContent = '$' + data.price;
       
-      setTimeout(() => {
-        title.textContent = data.title;
-        desc.textContent = data.description;
-        
-        // Inject overview HTML if it exists
-        if (data.overview) {
-          overview.innerHTML = data.overview;
-          overview.style.display = 'block';
-        } else {
-          overview.innerHTML = '';
-          overview.style.display = 'none';
-        }
+      const changeEl = document.getElementById('etf-change');
+      changeEl.textContent = data.change;
+      changeEl.className = 'change-badge ' + (data.change.startsWith('-') ? 'negative' : '');
 
-        img.src = data.image;
-        code.textContent = data.code;
-        view.style.display = 'block';
-        view.style.opacity = '1';
-        
-        // Scroll to top
-        document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
-      }, 200);
+      document.getElementById('etf-desc').textContent = data.description;
+      
+      updateChart(data);
     });
 
-    // Initial load for first item
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
-        window.dispatchEvent(new CustomEvent('component-selected', {
-          detail: { name: 'Buttons' }
-        }));
+        window.dispatchEvent(new CustomEvent('etf-selected', { detail: { ticker: 'QQQ' } }));
       }, 500);
     });
   </script>
