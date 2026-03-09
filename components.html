@@ -8,10 +8,15 @@
   <script src="main.js" defer></script>
   <style>
     /* Specific styles for components page layout */
+    body {
+      overflow: hidden !important;
+    }
+
     .components-layout {
       display: flex;
-      gap: var(--grid-gap);
-      padding: 104px var(--section-padding-h) var(--section-padding-v);
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
     }
     
     .components-layout .grid {
@@ -19,24 +24,42 @@
     }
     
     .sidebar-inset {
-      margin-left: calc(var(--sidebar-width) + var(--grid-gap));
       flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      margin-left: calc(var(--sidebar-width) + 4rem); /* sidebar left(2rem) + width + gap */
+      padding: 104px var(--section-padding-h) var(--section-padding-v);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    }
+
+    .sidebar-inset::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar-inset::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
     }
     
     @media (max-width: 1024px) {
+      body {
+        overflow-y: auto !important;
+      }
       .components-layout {
         flex-direction: column;
-      }
-      .components-layout .grid {
-        margin-top: 2rem;
+        height: auto;
+        overflow: visible;
       }
       .sidebar-inset {
         margin-left: 0;
+        height: auto;
+        overflow: visible;
+        padding-top: 2rem;
       }
     }
   </style>
 </head>
-<body style="overflow-y: auto;">
+<body style="overflow: hidden;">
   <!-- Global UI Components -->
   <auth-modal></auth-modal>
   <auth-status></auth-status>

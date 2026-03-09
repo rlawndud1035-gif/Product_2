@@ -37,6 +37,10 @@ The application uses separate pages to support browser history and a smooth user
   - Section Labels: 12px (Uppercase, 700 weight).
   - Navigation Items: 15px (500-600 weight).
 - **Navigation Feedback:** Sidebar items include hover effects (background change, slight translation) and active states.
+- **Independent Scrolling (Components Page):** 
+  - The `body` scroll is disabled to prevent double scrollbars.
+  - Left Sidebar (`app-sidebar`) and Right Content Area (`sidebar-inset`) scroll independently.
+  - Custom, subtle scrollbar styling applied to the content area for a premium feel.
 
 ### Transition Logic:
 - When "Get Started" is clicked, the hero container fades out and scales up slightly over 600ms.
