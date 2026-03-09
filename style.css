@@ -212,6 +212,91 @@ h1 {
   --sidebar-width: 260px;
   --muted: oklch(0.3 0.02 250 / 0.5);
   --border: rgba(255, 255, 255, 0.1);
+  
+  /* Material Design 3 Button Colors (Dark Theme) */
+  --m3-primary: oklch(0.8 0.12 250);
+  --m3-on-primary: oklch(0.2 0.05 250);
+  --m3-secondary-container: oklch(0.3 0.05 250);
+  --m3-on-secondary-container: oklch(0.9 0.05 250);
+  --m3-surface: oklch(0.2 0.02 250);
+  --m3-outline: oklch(0.5 0.02 250);
+}
+
+/* Material Design 3 Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  outline: none;
+  user-select: none;
+  white-space: nowrap;
+  gap: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.btn:active { transform: scale(0.95); }
+
+/* Elevated Button */
+.btn-elevated {
+  background: var(--m3-surface);
+  color: var(--m3-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+}
+.btn-elevated:hover {
+  background: oklch(0.25 0.02 250);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Filled Button */
+.btn-filled {
+  background: var(--m3-primary);
+  color: var(--m3-on-primary);
+}
+.btn-filled:hover {
+  background: oklch(0.85 0.12 250);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Filled Tonal Button */
+.btn-tonal {
+  background: var(--m3-secondary-container);
+  color: var(--m3-on-secondary-container);
+}
+.btn-tonal:hover {
+  background: oklch(0.35 0.05 250);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Outlined Button */
+.btn-outlined {
+  background: transparent;
+  border: 1px solid var(--m3-outline);
+  color: var(--m3-primary);
+}
+.btn-outlined:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--m3-primary);
+}
+
+/* Text Button */
+.btn-text {
+  background: transparent;
+  color: var(--m3-primary);
+  padding: 0 12px;
+}
+.btn-text:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .sidebar-inset {

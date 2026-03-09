@@ -4,11 +4,51 @@
 const COMPONENT_DATA = {
   'Buttons': {
     title: 'Buttons',
-    description: 'Interactive button components with various states and styles.',
+    description: 'Buttons help people take action, such as sending an email, sharing a document, or liking a comment.',
     image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800',
-    code: `<button class="btn btn-primary">Primary Action</button>
-<button class="btn btn-secondary">Secondary Action</button>
-<button class="btn btn-ghost">Ghost Button</button>`
+    overview: `
+      <div class="m3-guidelines">
+        <h3>Material Design 3 Button Guidelines</h3>
+        <p>Common buttons allow users to take actions, and make choices, with a single tap. There are five types of common buttons:</p>
+        
+        <div class="m3-grid">
+          <div class="m3-item">
+            <div class="m3-badge elevated">Elevated</div>
+            <p><strong>Use for:</strong> High-emphasis actions. Their shadow provides separation from the background.</p>
+          </div>
+          <div class="m3-item">
+            <div class="m3-badge filled">Filled</div>
+            <p><strong>Use for:</strong> Finalizing a flow. They have the most visual impact.</p>
+          </div>
+          <div class="m3-item">
+            <div class="m3-badge tonal">Filled Tonal</div>
+            <p><strong>Use for:</strong> Medium-emphasis actions. An alternative to filled buttons.</p>
+          </div>
+          <div class="m3-item">
+            <div class="m3-badge outlined">Outlined</div>
+            <p><strong>Use for:</strong> Medium-emphasis actions. They contain actions that are important but not primary.</p>
+          </div>
+          <div class="m3-item">
+            <div class="m3-badge text">Text</div>
+            <p><strong>Use for:</strong> Low-emphasis actions. Often used in cards and dialogs.</p>
+          </div>
+        </div>
+
+        <div class="m3-usage">
+          <h4>Usage & Hierarchy</h4>
+          <ul>
+            <li><strong>Priority:</strong> Use high-emphasis buttons for the most important actions.</li>
+            <li><strong>Placement:</strong> Place buttons where users expect them, typically at the bottom or end of a flow.</li>
+            <li><strong>Consistency:</strong> Maintain consistent button styles throughout the application for a predictable UX.</li>
+          </ul>
+        </div>
+      </div>
+    `,
+    code: `<button class="btn btn-elevated">Elevated</button>
+<button class="btn btn-filled">Filled</button>
+<button class="btn btn-tonal">Filled Tonal</button>
+<button class="btn btn-outlined">Outlined</button>
+<button class="btn btn-text">Text</button>`
   },
   'Cards': {
     title: 'Cards',

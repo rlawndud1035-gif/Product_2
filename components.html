@@ -55,6 +55,52 @@
       max-width: 600px;
     }
 
+    /* M3 Guidelines Styling */
+    .overview-display {
+      margin-bottom: 4rem;
+    }
+    .m3-guidelines h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+    .m3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .m3-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .m3-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .elevated { background: #333; color: white; border: 1px solid #444; }
+    .filled { background: white; color: black; }
+    .tonal { background: rgba(255,255,255,0.1); color: white; }
+    .outlined { border: 1px solid rgba(255,255,255,0.2); color: white; }
+    .text { color: rgba(255,255,255,0.6); }
+
+    .m3-usage {
+      margin-top: 3rem;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 2rem;
+      border-radius: 1.5rem;
+    }
+    .m3-usage h4 { margin-top: 0; color: white; }
+    .m3-usage ul { padding-left: 1.25rem; color: rgba(255,255,255,0.6); }
+    .m3-usage li { margin-bottom: 0.75rem; }
+
     .preview-container {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
@@ -129,6 +175,9 @@
           <p id="comp-desc">Explore our UI library by selecting an item from the sidebar.</p>
         </div>
         <div id="comp-view" style="display: none;">
+          <!-- New Overview Display -->
+          <div id="comp-overview" class="overview-display"></div>
+
           <div class="preview-container">
             <img id="comp-img" src="" alt="Preview" class="preview-image">
           </div>
@@ -148,6 +197,7 @@
 
       const title = document.getElementById('comp-title');
       const desc = document.getElementById('comp-desc');
+      const overview = document.getElementById('comp-overview');
       const img = document.getElementById('comp-img');
       const code = document.getElementById('comp-code');
       const view = document.getElementById('comp-view');
@@ -158,6 +208,16 @@
       setTimeout(() => {
         title.textContent = data.title;
         desc.textContent = data.description;
+        
+        // Inject overview HTML if it exists
+        if (data.overview) {
+          overview.innerHTML = data.overview;
+          overview.style.display = 'block';
+        } else {
+          overview.innerHTML = '';
+          overview.style.display = 'none';
+        }
+
         img.src = data.image;
         code.textContent = data.code;
         view.style.display = 'block';

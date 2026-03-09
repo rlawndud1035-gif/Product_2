@@ -48,4 +48,11 @@ The application uses separate pages to support browser history and a smooth user
 - This creates a seamless feel while maintaining separate browser history entries.
 
 ### Automatic Workflow:
-- All changes are automatically pushed to the GitHub repository to trigger the deployment pipeline.
+- All code modifications and fixes are automatically committed and pushed to the GitHub repository to trigger the deployment pipeline, ensuring the live website is always up-to-date with the latest changes.
+
+## Material Design 3 Button Guidelines
+The "Buttons" section in the component library is being enhanced to follow Material Design 3 (M3) standards, providing a comprehensive guide on button usage and design:
+- **Button Types:** Detailed explanations for Elevated, Filled, Filled Tonal, Outlined, and Text buttons.
+- **Usage Principles:** Guidance on when to use each button type based on emphasis and priority.
+- **Visual Design:** M3-compliant styling including elevation, color roles, and interactive states.
+- **Interactive Overview:** A dedicated section explaining the UX/UI rationale behind button placement and selection.
