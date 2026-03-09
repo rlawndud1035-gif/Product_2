@@ -73,7 +73,7 @@ class AppSidebar extends HTMLElement {
         .section-header:hover { background: rgba(255, 255, 255, 0.02); }
         
         .section-label {
-          font-size: 10px;
+          font-size: 12px;
           text-transform: uppercase;
           letter-spacing: 0.12em;
           color: rgba(255,255,255,0.25);
@@ -104,11 +104,11 @@ class AppSidebar extends HTMLElement {
         }
 
         .nav-item {
-          padding: 0.5rem 0.75rem;
+          padding: 0.625rem 0.875rem;
           border-radius: 8px;
           color: rgba(255, 255, 255, 0.4);
           text-decoration: none;
-          font-size: 13px;
+          font-size: 15px;
           font-weight: 500;
           transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
           display: flex;

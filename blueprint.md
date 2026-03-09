@@ -1,6 +1,6 @@
 # Project Overview: Pixel Bank - World of Art
 
-A visually stunning, framework-less web application showcasing artistic emotions through modern web technologies.
+A visually stunning, framework-less web application showcasing artistic emotions through modern web technologies. This project is configured for automatic deployment: all updates are automatically committed and pushed to GitHub.
 
 ## Features & Design
 - **Modern Aesthetics:** Utilizing OKLCH color space for vibrant, perceptually uniform colors.
@@ -11,6 +11,7 @@ A visually stunning, framework-less web application showcasing artistic emotions
   - `animated-text`: Staggered letter animation for hero titles.
   - `navigation-menu`: A simplified navigation bar with direct links.
   - `auth-modal` & `auth-status`: Integrated authentication flow.
+  - `app-sidebar`: A vertical sidebar with collapsible sections and navigation items.
 - **Brand:** Pixel Bank.
 
 ## Navigation Structure
@@ -19,24 +20,28 @@ The navigation menu has been simplified for better usability:
 2. **Reference**: Direct link to Reference/section.
 - Dropdowns and arrow icons have been removed for a cleaner, more direct navigation experience.
 
-## Current State: Multi-Page Navigation
-The application has been separated into two distinct pages to support browser history and the back button.
+## Page Structure
+The application uses separate pages to support browser history and a smooth user experience.
 
-### Structure:
+### Pages:
 1. **`index.html` (Hero Page):**
    - Displays the main hero section with animated background and text.
    - Contains a "Get Started" button that initiates a smooth fade-out transition before navigating.
-2. **`media.html` (Media Expansion Page):**
-   - Displays the `scroll-expand-media` component.
-   - Allows users to scroll and expand the media view.
-   - Accessible via the "Get Started" button on the hero page.
-   - Supports the browser's back button to return to the hero page.
+2. **`components.html` (Components Library):**
+   - Displays a comprehensive component library with a vertical sidebar.
+   - Utilizes the `app-sidebar` custom element for navigation between categories.
+   - Uses a card-based grid layout for component previews.
+
+## Current State: UI Refinements
+- **Sidebar Font Sizes:** Increased for better readability.
+  - Section Labels: 12px (Uppercase, 700 weight).
+  - Navigation Items: 15px (500-600 weight).
+- **Navigation Feedback:** Sidebar items include hover effects (background change, slight translation) and active states.
 
 ### Transition Logic:
 - When "Get Started" is clicked, the hero container fades out and scales up slightly over 600ms.
-- After the animation, `window.location.href` is used to navigate to `media.html`.
+- After the animation, `window.location.href` is used to navigate to `components.html`.
 - This creates a seamless feel while maintaining separate browser history entries.
 
-### Next Steps:
-- Add a "Back" button within the `media.html` UI for explicit navigation.
-- Implement more interactive cards or sections in the expanded view.
+### Automatic Workflow:
+- All changes are automatically pushed to the GitHub repository to trigger the deployment pipeline.
