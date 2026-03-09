@@ -1,9 +1,35 @@
-// Pixel Bank - Main Logic v1.4.0
+// Pixel Bank - Main Logic v1.5.0
 
-/**
- * App Sidebar Component
- */
-// Pixel Bank - Main Logic v1.4.0
+// Component Data Registry
+const COMPONENT_DATA = {
+  'Buttons': {
+    title: 'Buttons',
+    description: 'Interactive button components with various states and styles.',
+    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800',
+    code: `<button class="btn btn-primary">Primary Action</button>
+<button class="btn btn-secondary">Secondary Action</button>
+<button class="btn btn-ghost">Ghost Button</button>`
+  },
+  'Cards': {
+    title: 'Cards',
+    description: 'Flexible content containers for displaying information in a grid.',
+    image: 'https://images.unsplash.com/photo-1614850523296-e8c041de239b?auto=format&fit=crop&q=80&w=800',
+    code: `<div class="card">
+  <div class="card-header">Title</div>
+  <div class="card-body">Content goes here...</div>
+</div>`
+  },
+  'Modals': {
+    title: 'Modals',
+    description: 'Overlay dialogs for focused user interaction.',
+    image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=800',
+    code: `<dialog class="modal">
+  <h2>Alert</h2>
+  <p>This is a modal dialog.</p>
+</dialog>`
+  }
+  // ... more components can be added here
+};
 
 /**
  * App Sidebar Component
@@ -26,6 +52,18 @@ class AppSidebar extends HTMLElement {
       this.collapsedSections.add(section);
     }
     this.render();
+  }
+
+  selectItem(itemText, element) {
+    // Update active state in UI
+    const items = this.shadowRoot.querySelectorAll('.nav-item');
+    items.forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+
+    // Dispatch selection event
+    window.dispatchEvent(new CustomEvent('component-selected', {
+      detail: { name: itemText }
+    }));
   }
 
   render() {
@@ -114,24 +152,15 @@ class AppSidebar extends HTMLElement {
           display: flex;
           align-items: center;
           gap: 10px;
+          cursor: pointer;
         }
         .nav-item:hover {
           background: rgba(255, 255, 255, 0.04);
           color: rgba(255, 255, 255, 0.8);
-        }
-        .nav-item.active {
-          background: rgba(255, 255, 255, 0.06);
-          color: white;
-          font-weight: 600;
-        }
-        }
-        .nav-item:hover {
-          background: rgba(255, 255, 255, 0.03);
-          color: rgba(255, 255, 255, 0.9);
           transform: translateX(4px);
         }
         .nav-item.active {
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.06);
           color: white;
           font-weight: 600;
         }
@@ -158,24 +187,11 @@ class AppSidebar extends HTMLElement {
           <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <div class="items-container">
-          <a href="#" class="nav-item active">Buttons</a>
-          <a href="#" class="nav-item">Cards</a>
-          <a href="#" class="nav-item">Modals</a>
-          <a href="#" class="nav-item">Navigation</a>
-          <a href="#" class="nav-item">Inputs</a>
-          <a href="#" class="nav-item">Badges</a>
-          <a href="#" class="nav-item">Alerts</a>
-          <a href="#" class="nav-item">Tooltips</a>
-          <a href="#" class="nav-item">Tabs</a>
-          <a href="#" class="nav-item">Accordions</a>
-          <a href="#" class="nav-item">Dropdowns</a>
-          <a href="#" class="nav-item">Switches</a>
-          <a href="#" class="nav-item">Sliders</a>
-          <a href="#" class="nav-item">Progress</a>
-          <a href="#" class="nav-item">Skeletons</a>
-          <a href="#" class="nav-item">Spinners</a>
-          <a href="#" class="nav-item">Tables</a>
-          <a href="#" class="nav-item">Pagination</a>
+          <div class="nav-item active" onclick="this.getRootNode().host.selectItem('Buttons', this)">Buttons</div>
+          <div class="nav-item" onclick="this.getRootNode().host.selectItem('Cards', this)">Cards</div>
+          <div class="nav-item" onclick="this.getRootNode().host.selectItem('Modals', this)">Modals</div>
+          <div class="nav-item" onclick="this.getRootNode().host.selectItem('Navigation', this)">Navigation</div>
+          <div class="nav-item" onclick="this.getRootNode().host.selectItem('Inputs', this)">Inputs</div>
         </div>
       </div>
 
@@ -185,10 +201,8 @@ class AppSidebar extends HTMLElement {
           <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <div class="items-container">
-          <a href="#" class="nav-item">Icons</a>
-          <a href="#" class="nav-item">Images</a>
-          <a href="#" class="nav-item">Videos</a>
-          <a href="#" class="nav-item">Fonts</a>
+          <div class="nav-item" onclick="this.getRootNode().host.selectItem('Icons', this)">Icons</div>
+          <div class="nav-item" onclick="this.getRootNode().host.selectItem('Images', this)">Images</div>
         </div>
       </div>
     `;
