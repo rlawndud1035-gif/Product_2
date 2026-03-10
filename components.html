@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Markets | Pixel Bank</title>
   <link rel="stylesheet" href="style.css">
-  <script src="main.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="/main.js"></script>
+  <script type="module" src="/src/chart-entry.jsx"></script>
   <style>
     body { overflow: hidden !important; background: #050505; }
     .components-layout { display: flex; height: 100vh; width: 100%; overflow: hidden; }
@@ -61,7 +61,7 @@
         </div>
 
         <div class="chart-container">
-          <canvas id="marketChart"></canvas>
+          <div id="react-chart-root" class="w-full h-full"></div>
         </div>
 
         <div class="info-grid">
@@ -80,50 +80,8 @@
   </div>
 
   <script>
-    let chartInstance = null;
-
-    function updateChart(data) {
-      const ctx = document.getElementById('marketChart').getContext('2d');
-      const isPositive = !data.change.startsWith('-');
-      const color = isPositive ? '#22c55e' : '#ef4444';
-
-      if (chartInstance) chartInstance.destroy();
-
-      chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-          datasets: [{
-            label: 'Price',
-            data: data.chartData,
-            borderColor: color,
-            borderWidth: 3,
-            tension: 0.4,
-            fill: true,
-            backgroundColor: (context) => {
-              const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 400);
-              gradient.addColorStop(0, color + '33');
-              gradient.addColorStop(1, color + '00');
-              return gradient;
-            },
-            pointRadius: 0,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.2)' } },
-            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.2)' } }
-          }
-        }
-      });
-    }
-
     window.addEventListener('etf-selected', (e) => {
-      const data = ETF_DATA[e.detail.ticker];
+      const data = window.ETF_DATA ? window.ETF_DATA[e.detail.ticker] : undefined;
       if (!data) return;
 
       document.getElementById('etf-theme').textContent = data.theme;
@@ -135,8 +93,6 @@
       changeEl.className = 'change-badge ' + (data.change.startsWith('-') ? 'negative' : '');
 
       document.getElementById('etf-desc').textContent = data.description;
-      
-      updateChart(data);
     });
 
     window.addEventListener('DOMContentLoaded', () => {

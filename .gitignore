@@ -1,2 +1,4 @@
 firebase-debug.log
 .gemini/
+node_modules/
+dist/
