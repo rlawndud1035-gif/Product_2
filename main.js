@@ -7,6 +7,9 @@
  * @property {string} price
  * @property {string} change
  * @property {string} description
+ * @property {string} strategy
+ * @property {string} tips
+ * @property {string} holdings
  * @property {number[]} chartData
  */
 
@@ -15,55 +18,133 @@ const ETF_DATA = {
   'QQQ': {
     name: 'Invesco QQQ Trust',
     ticker: 'QQQ',
-    theme: 'Big Tech & AI',
+    theme: 'AI & Growth',
     price: '442.15',
     change: '+1.24%',
-    description: 'Tracks the Nasdaq-100 Index, including the largest non-financial companies like Apple, Microsoft, and Nvidia.',
+    description: 'The benchmark for large-cap growth, tracking the Nasdaq-100 Index.',
+    strategy: 'Focuses on the 100 largest non-financial companies listed on Nasdaq. It is a pure growth play heavily weighted in technology.',
+    tips: 'Ideal for long-term growth. Be mindful of tech-sector concentration and interest rate sensitivity.',
+    holdings: 'NVIDIA (9.1%), Apple (7.8%), Microsoft (5.7%), Amazon (4.3%), Tesla (4.0%)',
     chartData: [320, 340, 335, 360, 380, 375, 410, 425, 420, 442]
   },
   'SOXX': {
     name: 'iShares Semiconductor ETF',
     ticker: 'SOXX',
-    theme: 'Big Tech & AI',
+    theme: 'AI & Growth',
     price: '224.80',
     change: '+2.15%',
-    description: 'Focuses on US-listed companies in the semiconductor industry, the backbone of AI and modern computing.',
+    description: 'Focuses on US-listed companies in the semiconductor industry.',
+    strategy: 'Provides exposure to the backbone of AI and modern computing. Tracks companies that design, manufacture, and distribute semiconductors.',
+    tips: 'High volatility but high potential. Semiconductors are cyclical; watch for global supply chain trends.',
+    holdings: 'NVIDIA (10.2%), Broadcom (8.5%), AMD (6.4%), TSM (5.8%), Qualcomm (4.2%)',
     chartData: [150, 165, 160, 185, 210, 205, 230, 245, 220, 224]
+  },
+  'XLK': {
+    name: 'Technology Select Sector',
+    ticker: 'XLK',
+    theme: 'AI & Growth',
+    price: '210.45',
+    change: '+1.85%',
+    description: 'Pure-play technology sector fund from the S&P 500.',
+    strategy: 'Includes companies from technology hardware, storage, and peripherals; software; and communications equipment.',
+    tips: 'Unlike QQQ, XLK excludes Amazon and Meta. Use this for pure tech exposure without consumer discretionary overlap.',
+    holdings: 'Microsoft (22.5%), Apple (21.8%), NVIDIA (5.2%), Broadcom (4.8%), Adobe (2.4%)',
+    chartData: [160, 170, 175, 180, 190, 185, 200, 205, 208, 210]
+  },
+  'SMH': {
+    name: 'VanEck Semiconductor ETF',
+    ticker: 'SMH',
+    theme: 'AI & Growth',
+    price: '235.12',
+    change: '+2.45%',
+    description: 'Highly concentrated semiconductor ETF focusing on top winners.',
+    strategy: 'Tracks the 25 largest US-listed semiconductor companies. More concentrated than SOXX.',
+    tips: 'Best for investors who want to bet heavily on the leaders like NVIDIA and TSM.',
+    holdings: 'NVIDIA (20.5%), TSM (13.2%), Broadcom (7.8%), ASML (5.1%), AMD (4.9%)',
+    chartData: [140, 155, 165, 180, 200, 215, 225, 230, 232, 235]
+  },
+  'VOO': {
+    name: 'Vanguard S&P 500 ETF',
+    ticker: 'VOO',
+    theme: 'Core & S&P 500',
+    price: '512.30',
+    change: '+0.45%',
+    description: 'The gold standard for US market exposure with ultra-low fees.',
+    strategy: 'Tracks the S&P 500 Index. Offers a balance between growth and value across all major US industries.',
+    tips: 'The ultimate "set-and-forget" investment. Ultra-low 0.03% expense ratio maximizes long-term compounding.',
+    holdings: 'Microsoft (7.1%), Apple (6.2%), NVIDIA (5.0%), Amazon (3.8%), Meta (2.5%)',
+    chartData: [450, 460, 455, 470, 485, 480, 500, 505, 510, 512]
   },
   'SCHD': {
     name: 'Schwab US Dividend Equity',
     ticker: 'SCHD',
-    theme: 'Dividends & Value',
+    theme: 'Dividends & Income',
     price: '78.42',
     change: '-0.15%',
-    description: 'Tracks an index focused on the quality and sustainability of dividends from high-yield US stocks.',
+    description: 'Focuses on the quality and sustainability of dividends.',
+    strategy: 'Tracks an index of high-dividend yielding stocks with strong fundamental metrics and a history of dividend growth.',
+    tips: 'Strong "mean reversion" play. Excellent for investors seeking growing passive income and lower volatility.',
+    holdings: 'Broadcom (4.5%), Home Depot (4.2%), AbbVie (4.1%), Chevron (4.0%), PepsiCo (3.9%)',
     chartData: [72, 74, 73, 75, 77, 76, 78, 79, 78, 78.4]
   },
   'VYM': {
     name: 'Vanguard High Div Yield',
     ticker: 'VYM',
-    theme: 'Dividends & Value',
+    theme: 'Dividends & Income',
     price: '118.90',
     change: '+0.45%',
-    description: 'Provides exposure to US stocks that are dedicated to paying higher-than-average dividends.',
+    description: 'Exposure to US stocks paying higher-than-average dividends.',
+    strategy: 'Focuses on current yield across various sectors, excluding REITs. More diversified and defensive than SCHD.',
+    tips: 'Defensive choice for immediate cash flow. Performance often lags growth stocks during tech rallies.',
+    holdings: 'JPMorgan (3.5%), ExxonMobil (3.2%), J&J (2.8%), P&G (2.5%), Walmart (2.1%)',
     chartData: [105, 108, 107, 110, 115, 114, 117, 119, 118, 118.9]
+  },
+  'VNQ': {
+    name: 'Vanguard Real Estate ETF',
+    ticker: 'VNQ',
+    theme: 'Dividends & Income',
+    price: '84.60',
+    change: '+0.75%',
+    description: 'Broad exposure to the US real estate market through REITs.',
+    strategy: 'Invests in real estate investment trusts (REITs) that purchase office buildings, hotels, and data centers.',
+    tips: 'Highly sensitive to interest rates. REITs typically perform well when rates are stable or falling.',
+    holdings: 'Prologis (7.8%), American Tower (6.5%), Equinix (5.2%), Welltower (4.8%), Simon Property (3.5%)',
+    chartData: [78, 80, 79, 81, 83, 82, 84, 85, 84, 84.6]
+  },
+  'XLV': {
+    name: 'Health Care Select Sector',
+    ticker: 'XLV',
+    theme: 'Defensive Sectors',
+    price: '145.20',
+    change: '+0.32%',
+    description: 'Stability through top-tier pharmaceutical and healthcare companies.',
+    strategy: 'Tracks the healthcare sector of the S&P 500, including pharma, biotech, and managed care.',
+    tips: 'Often viewed as "recession-proof". Growth is currently driven by innovation in weight-loss drugs and biotech.',
+    holdings: 'Eli Lilly (10.5%), UnitedHealth (8.4%), J&J (7.2%), AbbVie (5.8%), Merck (4.5%)',
+    chartData: [130, 135, 138, 140, 142, 140, 143, 144, 145, 145.2]
   },
   'ICLN': {
     name: 'iShares Clean Energy ETF',
     ticker: 'ICLN',
-    theme: 'Green Energy',
+    theme: 'Defensive Sectors',
     price: '14.25',
     change: '-1.10%',
-    description: 'Exposure to companies that produce energy from solar, wind, and other renewable sources.',
+    description: 'Companies producing energy from renewable sources.',
+    strategy: 'Global exposure to solar, wind, and other renewable technologies. High concentration in energy equipment.',
+    tips: 'Policy-driven sector. Watch for government subsidies and infrastructure spending for the "Smart Grid".',
+    holdings: 'First Solar (8.2%), Enphase (7.5%), Iberdrola (6.4%), Vestas (5.2%), Orsted (4.1%)',
     chartData: [18, 17, 16, 15, 14, 14.5, 13.5, 14, 14.2, 14.25]
   },
   'LIT': {
     name: 'Global X Lithium & Battery',
     ticker: 'LIT',
-    theme: 'Green Energy',
+    theme: 'Defensive Sectors',
     price: '42.60',
     change: '+0.85%',
-    description: 'Invests in the full lithium cycle, from mining and refining the metal to battery production.',
+    description: 'Invests in the full lithium cycle and battery production.',
+    strategy: 'Tracks the performance of the global lithium mining and battery production industry, including EV manufacturers.',
+    tips: 'A direct bet on the long-term electrification of transport. Commodity prices for lithium heavily impact returns.',
+    holdings: 'Albemarle (9.5%), Panasonic (8.4%), BYD (7.2%), Samsung SDI (6.8%), Ganfeng Lithium (5.5%)',
     chartData: [55, 52, 48, 45, 40, 41, 39, 41, 42, 42.6]
   }
 };
@@ -172,7 +253,7 @@ class AppSidebar extends HTMLElement {
             border-radius: 8px;
             color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             transition: all 0.2s;
             display: flex;
@@ -184,34 +265,48 @@ class AppSidebar extends HTMLElement {
           .ticker-badge { font-size: 10px; opacity: 0.5; }
         </style>
         
-        <div class="nav-group ${isCollapsed('tech') ? 'collapsed' : ''}">
-          <div class="section-header" onclick="this.getRootNode().host.toggleSection('tech')">
-            <span class="section-label">AI & Big Tech</span>
+        <div class="nav-group ${isCollapsed('growth') ? 'collapsed' : ''}">
+          <div class="section-header" onclick="this.getRootNode().host.toggleSection('growth')">
+            <span class="section-label">AI & Growth</span>
             <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <div class="items-container">
             <div class="nav-item ${isActive('QQQ') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('QQQ', this)">Nasdaq 100 <span class="ticker-badge">QQQ</span></div>
-            <div class="nav-item ${isActive('SOXX') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SOXX', this)">Semiconductor <span class="ticker-badge">SOXX</span></div>
+            <div class="nav-item ${isActive('SOXX') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SOXX', this)">Semi (iShares) <span class="ticker-badge">SOXX</span></div>
+            <div class="nav-item ${isActive('XLK') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('XLK', this)">Tech Select <span class="ticker-badge">XLK</span></div>
+            <div class="nav-item ${isActive('SMH') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SMH', this)">Semi (VanEck) <span class="ticker-badge">SMH</span></div>
+          </div>
+        </div>
+
+        <div class="nav-group ${isCollapsed('core') ? 'collapsed' : ''}">
+          <div class="section-header" onclick="this.getRootNode().host.toggleSection('core')">
+            <span class="section-label">Core & Index</span>
+            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="items-container">
+            <div class="nav-item ${isActive('VOO') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VOO', this)">S&P 500 <span class="ticker-badge">VOO</span></div>
           </div>
         </div>
 
         <div class="nav-group ${isCollapsed('dividends') ? 'collapsed' : ''}">
           <div class="section-header" onclick="this.getRootNode().host.toggleSection('dividends')">
-            <span class="section-label">Dividends & Value</span>
+            <span class="section-label">Dividends & Income</span>
             <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <div class="items-container">
             <div class="nav-item ${isActive('SCHD') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SCHD', this)">US Dividend <span class="ticker-badge">SCHD</span></div>
             <div class="nav-item ${isActive('VYM') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VYM', this)">High Yield <span class="ticker-badge">VYM</span></div>
+            <div class="nav-item ${isActive('VNQ') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VNQ', this)">Real Estate <span class="ticker-badge">VNQ</span></div>
           </div>
         </div>
 
-        <div class="nav-group ${isCollapsed('green') ? 'collapsed' : ''}">
-          <div class="section-header" onclick="this.getRootNode().host.toggleSection('green')">
-            <span class="section-label">Green Energy</span>
+        <div class="nav-group ${isCollapsed('defensive') ? 'collapsed' : ''}">
+          <div class="section-header" onclick="this.getRootNode().host.toggleSection('defensive')">
+            <span class="section-label">Sectors & Trends</span>
             <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <div class="items-container">
+            <div class="nav-item ${isActive('XLV') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('XLV', this)">Health Care <span class="ticker-badge">XLV</span></div>
             <div class="nav-item ${isActive('ICLN') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('ICLN', this)">Clean Energy <span class="ticker-badge">ICLN</span></div>
             <div class="nav-item ${isActive('LIT') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('LIT', this)">Lithium <span class="ticker-badge">LIT</span></div>
           </div>

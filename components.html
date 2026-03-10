@@ -15,9 +15,9 @@
       margin-left: calc(var(--sidebar-width) + 4rem);
       padding: 104px 4rem 4rem;
     }
-    .market-header { margin-bottom: 3rem; }
+    .market-header { margin-bottom: 2.5rem; }
     .market-header h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #444); -webkit-background-clip: text; color: transparent; }
-    .price-tag { font-size: 2.5rem; font-weight: 800; display: flex; align-items: baseline; gap: 1rem; margin: 1rem 0; }
+    .price-tag { font-size: 2.5rem; font-weight: 800; display: flex; align-items: baseline; gap: 1rem; margin: 0.5rem 0; }
     .change-badge { font-size: 1rem; padding: 4px 12px; border-radius: 100px; background: rgba(34, 197, 94, 0.1); color: #22c55e; }
     .change-badge.negative { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
     
@@ -32,15 +32,21 @@
       display: flex;
       flex-direction: column;
     }
-    .info-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
     .description-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 2rem;
+      padding: 1.75rem;
       border-radius: 1.5rem;
+      transition: all 0.3s;
     }
-    .description-card h3 { margin-top: 0; color: rgba(255,255,255,0.4); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; }
-    .description-card p { font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
+    .description-card:hover { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
+    .description-card h3 { margin-top: 0; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
+    .description-card p { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
+    .tip-text { color: oklch(0.8 0.12 250); font-weight: 500; }
+    .holdings-list { color: #fff; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+    
+    .full-width-card { grid-column: span 2; }
   </style>
 </head>
 <body>
@@ -68,13 +74,25 @@
 
         <div class="info-grid">
           <div class="description-card">
-            <h3>Fund Strategy</h3>
-            <p id="etf-desc">Detailed strategy and performance overview will appear here.</p>
+            <h3>Investment Strategy</h3>
+            <p id="etf-strategy">Strategy details will appear here.</p>
+          </div>
+          <div class="description-card">
+            <h3>Pro Investment Tips</h3>
+            <p id="etf-tips" class="tip-text">Pro tips for this ETF.</p>
+          </div>
+          <div class="description-card full-width-card">
+            <h3>Top Holdings & Exposure</h3>
+            <p id="etf-holdings" class="holdings-list">Apple, Microsoft, NVIDIA, etc.</p>
+          </div>
+          <div class="description-card">
+            <h3>About the Fund</h3>
+            <p id="etf-desc">Description.</p>
           </div>
           <div class="description-card">
             <h3>Market Sentiment</h3>
-            <p style="color: #22c55e; font-weight: 700;">BULLISH</p>
-            <div style="height: 4px; background: #22c55e; border-radius: 2px; margin-top: 1rem; width: 75%;"></div>
+            <p id="market-sentiment" style="color: #22c55e; font-weight: 700;">BULLISH</p>
+            <div id="sentiment-bar" style="height: 4px; background: #22c55e; border-radius: 2px; margin-top: 1rem; width: 75%;"></div>
           </div>
         </div>
       </div>
@@ -97,6 +115,19 @@
       changeEl.className = 'change-badge ' + (data.change.startsWith('-') ? 'negative' : '');
 
       document.getElementById('etf-desc').textContent = data.description;
+      document.getElementById('etf-strategy').textContent = data.strategy || 'N/A';
+      document.getElementById('etf-tips').textContent = data.tips || 'N/A';
+      document.getElementById('etf-holdings').textContent = data.holdings || 'N/A';
+
+      // Simple sentiment logic based on change
+      const isPositive = !data.change.startsWith('-');
+      const sentimentEl = document.getElementById('market-sentiment');
+      const barEl = document.getElementById('sentiment-bar');
+      
+      sentimentEl.textContent = isPositive ? 'BULLISH' : 'BEARISH';
+      sentimentEl.style.color = isPositive ? '#22c55e' : '#ef4444';
+      barEl.style.backgroundColor = isPositive ? '#22c55e' : '#ef4444';
+      barEl.style.width = (isPositive ? 60 + Math.random() * 30 : 30 + Math.random() * 30) + '%';
     }
 
     // Lightweight bridge to update non-React elements when a ticker is selected
