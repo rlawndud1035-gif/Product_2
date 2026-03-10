@@ -46,7 +46,6 @@ export default function ChartApp() {
 
     window.addEventListener('etf-selected', handleEtfSelected);
 
-    // Improved initial load detection
     const initChart = () => {
       let activeTicker = 'QQQ';
       const sidebar = document.querySelector('app-sidebar');
@@ -61,7 +60,6 @@ export default function ChartApp() {
       }
     };
 
-    // Try multiple times to catch the sidebar mounting
     const timer1 = setTimeout(initChart, 500);
     const timer2 = setTimeout(initChart, 1500);
 
@@ -81,7 +79,7 @@ export default function ChartApp() {
       animations: { enabled: true, easing: 'easeinout', speed: 800 }
     },
     title: {
-      text: `${ticker} Real-time Chart`,
+      text: `${ticker} Real-time Performance`,
       align: 'left',
       style: { color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 600 }
     },
@@ -130,7 +128,7 @@ export default function ChartApp() {
         />
       ) : (
         <div className="flex items-center justify-center h-full text-white/50 animate-pulse">
-          Initializing market data...
+          Connecting to market data...
         </div>
       )}
     </div>
