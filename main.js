@@ -90,7 +90,9 @@ class AppSidebar extends HTMLElement {
     element.classList.add('active');
 
     window.dispatchEvent(new CustomEvent('etf-selected', {
-      detail: { ticker: ticker }
+      detail: { ticker: ticker },
+      bubbles: true,
+      composed: true
     }));
   }
 
