@@ -79,7 +79,7 @@ export default function ChartApp() {
       animations: { enabled: true, easing: 'easeinout', speed: 800 }
     },
     title: {
-      text: `${ticker} Real-time Performance`,
+      text: `${ticker} Real-time Chart`,
       align: 'left',
       style: { color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 600 }
     },
@@ -128,7 +128,7 @@ export default function ChartApp() {
         />
       ) : (
         <div className="flex items-center justify-center h-full text-white/50 animate-pulse">
-          Connecting to market data...
+          Initializing market data...
         </div>
       )}
     </div>

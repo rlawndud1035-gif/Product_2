@@ -29,6 +29,8 @@
       margin-bottom: 2rem;
       height: 450px;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
     .info-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
     .description-card {
@@ -61,7 +63,7 @@
         </div>
 
         <div class="chart-container">
-          <div id="react-chart-root" class="w-full h-full"></div>
+          <div id="react-chart-root" style="width: 100%; height: 100%; min-height: 400px;"></div>
         </div>
 
         <div class="info-grid">
@@ -80,8 +82,9 @@
   </div>
 
   <script>
+    // Lightweight bridge to update non-React elements when a ticker is selected
     window.addEventListener('etf-selected', (e) => {
-      const data = window.ETF_DATA ? window.ETF_DATA[e.detail.ticker] : undefined;
+      const data = window.ETF_DATA ? window.ETF_DATA[e.detail.ticker] : null;
       if (!data) return;
 
       document.getElementById('etf-theme').textContent = data.theme;
@@ -95,6 +98,7 @@
       document.getElementById('etf-desc').textContent = data.description;
     });
 
+    // Auto-select QQQ on load
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('etf-selected', { detail: { ticker: 'QQQ' } }));
