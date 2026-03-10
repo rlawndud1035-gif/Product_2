@@ -31,3 +31,10 @@ A sophisticated, framework-less financial dashboard showcasing market themes and
 
 ### Automatic Workflow:
 - All financial data updates and feature additions are automatically committed and pushed to GitHub to trigger the deployment pipeline.
+
+## Monetization & AdSense Integration Plan
+1. **Script Integration**: Add the AdSense auto-ads script to the global `<head>`.
+2. **Account Verification**: Include the `<meta name="google-adsense-account" content="ca-pub-6454047865688551">` tag in all HTML pages for ownership verification.
+3. **Compliance Pages**: Implement `about.html`, `privacy.html`, and `contact.html` to meet AdSense publisher requirements.
+4. **Professional Footer**: Add a site-wide footer with navigation to legal and informational pages.
+5. **Content Quality**: Maintain high-density financial analysis to provide value to users and advertisers.
