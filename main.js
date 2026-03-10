@@ -10,146 +10,237 @@
  * @property {string} strategy
  * @property {string} tips
  * @property {string} holdings
+ * @property {string} detailedAnalysis
+ * @property {string} pros
+ * @property {string} cons
+ * @property {string} riskMetrics
+ * @property {string} outlook2026
+ * @property {string} dividendYield
+ * @property {string} expenseRatio
  * @property {number[]} chartData
  */
 
 /** @type {Object.<string, ETFInfo>} */
 const ETF_DATA = {
-  'QQQ': {
-    name: 'Invesco QQQ Trust',
-    ticker: 'QQQ',
-    theme: 'AI & Growth',
-    price: '442.15',
-    change: '+1.24%',
-    description: 'The benchmark for large-cap growth, tracking the Nasdaq-100 Index.',
-    strategy: 'Focuses on the 100 largest non-financial companies listed on Nasdaq. It is a pure growth play heavily weighted in technology.',
-    tips: 'Ideal for long-term growth. Be mindful of tech-sector concentration and interest rate sensitivity.',
-    holdings: 'NVIDIA (9.1%), Apple (7.8%), Microsoft (5.7%), Amazon (4.3%), Tesla (4.0%)',
-    chartData: [320, 340, 335, 360, 380, 375, 410, 425, 420, 442]
-  },
-  'SOXX': {
-    name: 'iShares Semiconductor ETF',
-    ticker: 'SOXX',
-    theme: 'AI & Growth',
-    price: '224.80',
-    change: '+2.15%',
-    description: 'Focuses on US-listed companies in the semiconductor industry.',
-    strategy: 'Provides exposure to the backbone of AI and modern computing. Tracks companies that design, manufacture, and distribute semiconductors.',
-    tips: 'High volatility but high potential. Semiconductors are cyclical; watch for global supply chain trends.',
-    holdings: 'NVIDIA (10.2%), Broadcom (8.5%), AMD (6.4%), TSM (5.8%), Qualcomm (4.2%)',
-    chartData: [150, 165, 160, 185, 210, 205, 230, 245, 220, 224]
-  },
-  'XLK': {
-    name: 'Technology Select Sector',
-    ticker: 'XLK',
-    theme: 'AI & Growth',
-    price: '210.45',
-    change: '+1.85%',
-    description: 'Pure-play technology sector fund from the S&P 500.',
-    strategy: 'Includes companies from technology hardware, storage, and peripherals; software; and communications equipment.',
-    tips: 'Unlike QQQ, XLK excludes Amazon and Meta. Use this for pure tech exposure without consumer discretionary overlap.',
-    holdings: 'Microsoft (22.5%), Apple (21.8%), NVIDIA (5.2%), Broadcom (4.8%), Adobe (2.4%)',
-    chartData: [160, 170, 175, 180, 190, 185, 200, 205, 208, 210]
-  },
-  'SMH': {
-    name: 'VanEck Semiconductor ETF',
-    ticker: 'SMH',
-    theme: 'AI & Growth',
-    price: '235.12',
-    change: '+2.45%',
-    description: 'Highly concentrated semiconductor ETF focusing on top winners.',
-    strategy: 'Tracks the 25 largest US-listed semiconductor companies. More concentrated than SOXX.',
-    tips: 'Best for investors who want to bet heavily on the leaders like NVIDIA and TSM.',
-    holdings: 'NVIDIA (20.5%), TSM (13.2%), Broadcom (7.8%), ASML (5.1%), AMD (4.9%)',
-    chartData: [140, 155, 165, 180, 200, 215, 225, 230, 232, 235]
+  // --- Core Index ---
+  'SPY': {
+    name: 'SPDR S&P 500 ETF Trust',
+    ticker: 'SPY',
+    theme: 'Core Index',
+    price: '585.20',
+    change: '+0.35%',
+    description: 'The world\'s most popular ETF, tracking the S&P 500 index of large-cap US companies.',
+    strategy: 'Diversified exposure to 500 leading US companies across 11 sectors. It is the gold standard for broad market representation.',
+    tips: 'Perfect for long-term core holdings. Use as a benchmark for your portfolio performance. High liquidity makes it ideal for options trading.',
+    holdings: 'Apple (7.1%), Microsoft (6.8%), NVIDIA (6.2%), Amazon (3.9%), Meta (2.4%)',
+    detailedAnalysis: 'As of 2026, SPY is benefiting from a "Soft Landing" economic scenario. Corporate earnings across the S&P 500 are expected to grow by 12% this year, driven by tech efficiencies and a stabilizing consumer sector.',
+    pros: 'Unmatched liquidity; ultimate diversification; low expense ratio (0.09%); historical 10% average annual return.',
+    cons: 'High exposure to mega-cap tech (30%+); lower yield than dividend-focused funds; vulnerable to broad market drawdowns.',
+    riskMetrics: 'Beta: 1.00 | Std Dev: 15.2% | P/E Ratio: 22.5x',
+    outlook2026: 'Bullish. Price targets for year-end 2026 range from $620 to $650 as corporate buybacks hit record levels.',
+    dividendYield: '1.25%',
+    expenseRatio: '0.09%',
+    chartData: [520, 535, 530, 550, 565, 560, 575, 580, 582, 585]
   },
   'VOO': {
     name: 'Vanguard S&P 500 ETF',
     ticker: 'VOO',
-    theme: 'Core & S&P 500',
+    theme: 'Core Index',
     price: '512.30',
     change: '+0.45%',
-    description: 'The gold standard for US market exposure with ultra-low fees.',
-    strategy: 'Tracks the S&P 500 Index. Offers a balance between growth and value across all major US industries.',
-    tips: 'The ultimate "set-and-forget" investment. Ultra-low 0.03% expense ratio maximizes long-term compounding.',
+    description: 'Vanguard\'s ultra-low-cost version of the S&P 500 index fund.',
+    strategy: 'Identical to SPY but optimized for long-term buy-and-hold investors with a significantly lower expense ratio.',
+    tips: 'The absolute "set-and-forget" investment. For every $10,000 invested, you pay only $3 per year in fees.',
     holdings: 'Microsoft (7.1%), Apple (6.2%), NVIDIA (5.0%), Amazon (3.8%), Meta (2.5%)',
+    detailedAnalysis: 'VOO remains the "Anchor" for 2026 portfolios. Its slightly lower tracking error and minimal fee drag make it marginally superior to SPY for long-term wealth accumulation without the need for active trading.',
+    pros: 'Ultra-low 0.03% fee; Vanguard\'s trusted management; broad market exposure.',
+    cons: 'Lacks the extreme liquidity of SPY for day trading; heavy concentration in top 10 names.',
+    riskMetrics: 'Beta: 1.00 | Std Dev: 15.1% | Sharpe Ratio: 0.85',
+    outlook2026: 'Bullish. Core position recommendation for all balanced portfolios.',
+    dividendYield: '1.30%',
+    expenseRatio: '0.03%',
     chartData: [450, 460, 455, 470, 485, 480, 500, 505, 510, 512]
   },
+  'DIA': {
+    name: 'SPDR Dow Jones Ind. Avg',
+    ticker: 'DIA',
+    theme: 'Core Index',
+    price: '425.80',
+    change: '+0.22%',
+    description: 'Tracks the 30 "blue-chip" companies of the Dow Jones Industrial Average.',
+    strategy: 'Price-weighted index focusing on established industrial, financial, and consumer giants. Represents the "Old Guard" of American industry.',
+    tips: 'Ideal for investors seeking stability and exposure to established dividend-paying leaders rather than high-growth volatility.',
+    holdings: 'UnitedHealth (9.2%), Goldman Sachs (7.5%), Microsoft (6.4%), Home Depot (5.8%), Salesforce (5.1%)',
+    detailedAnalysis: 'In 2026, DIA is the "Stability Play." While it lags in aggressive tech rallies, it provides a massive safety net during volatility due to its focus on cash-flow heavy industrial leaders.',
+    pros: 'Lower volatility than Nasdaq; exposure to value sectors; monthly dividends.',
+    cons: 'Price-weighted (flawed methodology); only 30 stocks (lack of breadth); underperforms in tech-led bull markets.',
+    riskMetrics: 'Beta: 0.91 | Std Dev: 12.5% | P/E Ratio: 18.2x',
+    outlook2026: 'Neutral/Steady. Expected to provide consistent 7-9% total returns with low drawdown risk.',
+    dividendYield: '1.85%',
+    expenseRatio: '0.16%',
+    chartData: [390, 400, 395, 410, 415, 412, 420, 423, 424, 425]
+  },
+
+  // --- AI & Innovation ---
+  'QQQ': {
+    name: 'Invesco QQQ Trust',
+    ticker: 'QQQ',
+    theme: 'AI & Innovation',
+    price: '442.15',
+    change: '+1.24%',
+    description: 'The flagship Nasdaq-100 ETF, focusing on the future of technology.',
+    strategy: 'Focuses on the 100 largest non-financial companies listed on Nasdaq. Heavily weighted in AI software, cloud computing, and biotech.',
+    tips: 'The primary vehicle for AI exposure. Be mindful of tech-sector concentration and interest rate sensitivity.',
+    holdings: 'NVIDIA (9.1%), Apple (7.8%), Microsoft (5.7%), Amazon (4.3%), Tesla (4.0%)',
+    detailedAnalysis: '2026 is the year of "AI Monetization." QQQ components are now showing actual bottom-line growth from AI subscriptions and services, justifying high P/E multiples.',
+    pros: 'High historical growth; essential for tech-bull markets; exposure to future innovators.',
+    cons: 'High volatility; expensive valuations (P/E 30x+); sensitive to Fed policy.',
+    riskMetrics: 'Beta: 1.15 | Std Dev: 21.2% | P/E Ratio: 32.4x',
+    outlook2026: 'Bullish. AI inference expansion is driving a new 5-year growth cycle.',
+    dividendYield: '0.50%',
+    expenseRatio: '0.20%',
+    chartData: [320, 340, 335, 360, 380, 375, 410, 425, 420, 442]
+  },
+  'SMH': {
+    name: 'VanEck Semiconductor ETF',
+    ticker: 'SMH',
+    theme: 'AI & Innovation',
+    price: '235.12',
+    change: '+2.45%',
+    description: 'Concentrated bet on the 25 largest semiconductor companies.',
+    strategy: 'Direct exposure to the "picks and shovels" of the digital age. Tracks companies that design and manufacture the world\'s most advanced chips.',
+    tips: 'Extremely volatile. Best used as a tactical growth satellite rather than a core position.',
+    holdings: 'NVIDIA (20.5%), TSM (13.2%), Broadcom (7.8%), ASML (5.1%), AMD (4.9%)',
+    detailedAnalysis: 'With 2nm chip production scaling in 2026, SMH is the engine of the global economy. Every device from AI servers to EV cars requires more silicon, creating a permanent demand floor.',
+    pros: 'Maximum profit from the AI boom; exposure to high-margin monopolies (ASML/TSM).',
+    cons: 'Extreme concentration (20% NVDA); high drawdown risk; cyclical demand swings.',
+    riskMetrics: 'Beta: 1.45 | Std Dev: 32.5% | Alpha: 4.2',
+    outlook2026: 'Aggressive Growth. Strong buy on dips as AI infrastructure spending shows no signs of slowing.',
+    dividendYield: '0.60%',
+    expenseRatio: '0.35%',
+    chartData: [140, 155, 165, 180, 200, 215, 225, 230, 232, 235]
+  },
+  'ARKK': {
+    name: 'ARK Innovation ETF',
+    ticker: 'ARKK',
+    theme: 'AI & Innovation',
+    price: '54.30',
+    change: '-1.15%',
+    description: 'Cathie Wood\'s flagship fund for disruptive innovation.',
+    strategy: 'Actively managed fund targeting genomics, robotics, autonomous vehicles, and blockchain.',
+    tips: 'High risk, speculative position. Ideal for investors with a 5-10 year time horizon who can withstand 50% drawdowns.',
+    holdings: 'Tesla (12.5%), Roku (8.2%), Coinbase (7.5%), Palantir (6.8%), CRISPR (5.2%)',
+    detailedAnalysis: 'In 2026, ARKK is recovering as rates stabilize. Its heavy focus on "Genomics" and "Autonomous Tech" is finally seeing commercial breakthroughs in robotaxis and CRISPR therapies.',
+    pros: 'Potential for multi-bagger returns; unique exposure to private-market style growth.',
+    cons: 'Extremely high volatility; sensitive to high interest rates; inconsistent historical performance.',
+    riskMetrics: 'Beta: 1.62 | Std Dev: 45.0% | Active Management: Yes',
+    outlook2026: 'Speculative Buy. A "Moonshot" bet on the next decade of disruption.',
+    dividendYield: '0.00%',
+    expenseRatio: '0.75%',
+    chartData: [45, 48, 42, 55, 60, 58, 52, 56, 55, 54.3]
+  },
+
+  // --- Dividend & Income ---
   'SCHD': {
     name: 'Schwab US Dividend Equity',
     ticker: 'SCHD',
-    theme: 'Dividends & Income',
+    theme: 'Dividend & Income',
     price: '78.42',
     change: '-0.15%',
-    description: 'Focuses on the quality and sustainability of dividends.',
-    strategy: 'Tracks an index of high-dividend yielding stocks with strong fundamental metrics and a history of dividend growth.',
-    tips: 'Strong "mean reversion" play. Excellent for investors seeking growing passive income and lower volatility.',
+    description: 'The preferred fund for quality-focused dividend growth.',
+    strategy: 'Filters for companies with sustainable dividends, strong cash flows, and high Return on Equity (ROE).',
+    tips: 'Best for long-term compounders. Reinvest the 3.8% yield to maximize wealth building.',
     holdings: 'Broadcom (4.5%), Home Depot (4.2%), AbbVie (4.1%), Chevron (4.0%), PepsiCo (3.9%)',
+    detailedAnalysis: 'SCHD is the "Quality Fortress." In a late-cycle 2026 economy, its holdings have the strongest balance sheets to survive a slowdown while continuing to hike dividends.',
+    pros: 'High yield; strong dividend growth (10% CAGR); extremely resilient in downturns.',
+    cons: 'Lags significantly in tech-led bull markets; zero exposure to high-growth non-dividend names.',
+    riskMetrics: 'Beta: 0.85 | Std Dev: 12.2% | P/E Ratio: 15.5x',
+    outlook2026: 'Bullish (Defensive). A top choice for 2026 as investors rotate from "Growth at any price" to "Quality Value".',
+    dividendYield: '3.82%',
+    expenseRatio: '0.06%',
     chartData: [72, 74, 73, 75, 77, 76, 78, 79, 78, 78.4]
   },
-  'VYM': {
-    name: 'Vanguard High Div Yield',
-    ticker: 'VYM',
-    theme: 'Dividends & Income',
-    price: '118.90',
-    change: '+0.45%',
-    description: 'Exposure to US stocks paying higher-than-average dividends.',
-    strategy: 'Focuses on current yield across various sectors, excluding REITs. More diversified and defensive than SCHD.',
-    tips: 'Defensive choice for immediate cash flow. Performance often lags growth stocks during tech rallies.',
-    holdings: 'JPMorgan (3.5%), ExxonMobil (3.2%), J&J (2.8%), P&G (2.5%), Walmart (2.1%)',
-    chartData: [105, 108, 107, 110, 115, 114, 117, 119, 118, 118.9]
+  'VIG': {
+    name: 'Vanguard Div. Appreciation',
+    ticker: 'VIG',
+    theme: 'Dividend & Income',
+    price: '192.45',
+    change: '+0.12%',
+    description: 'Focuses on companies with a history of increasing dividends for 10+ years.',
+    strategy: 'Targeting "Dividend Achievers." This fund isn\'t about the highest yield, but the most consistent growth.',
+    tips: 'Ideal for younger investors who want a blend of growth and dividends. It captures the "Quality" factor.',
+    holdings: 'Microsoft (6.5%), Apple (5.8%), UnitedHealth (4.2%), JPMorgan (3.8%), Visa (3.5%)',
+    detailedAnalysis: 'VIG is the "Growth with a Yield" play. By holding tech giants like MSFT and AAPL that also grow dividends, it provides a smoother ride than pure tech funds with better upside than deep-value funds.',
+    pros: 'High-quality holdings; lower volatility than SPY; excellent risk-adjusted returns.',
+    cons: 'Low current yield (~1.8%); underperforms in extreme high-inflation environments.',
+    riskMetrics: 'Beta: 0.88 | Std Dev: 13.5% | Sharpe Ratio: 0.92',
+    outlook2026: 'Steady Growth. Core long-term holding for low-stress wealth building.',
+    dividendYield: '1.85%',
+    expenseRatio: '0.06%',
+    chartData: [175, 180, 178, 185, 190, 188, 192, 193, 192, 192.45]
   },
   'VNQ': {
     name: 'Vanguard Real Estate ETF',
     ticker: 'VNQ',
-    theme: 'Dividends & Income',
+    theme: 'Dividend & Income',
     price: '84.60',
     change: '+0.75%',
-    description: 'Broad exposure to the US real estate market through REITs.',
-    strategy: 'Invests in real estate investment trusts (REITs) that purchase office buildings, hotels, and data centers.',
-    tips: 'Highly sensitive to interest rates. REITs typically perform well when rates are stable or falling.',
+    description: 'Exposure to US real estate through REITs (Data Centers, Office, Residential).',
+    strategy: 'Invests in REITs that own and manage income-producing real estate. Benefits from rental income and property appreciation.',
+    tips: 'Watch interest rates. VNQ typically rallies when the Fed stops hiking or begins cutting rates. Data center REITs are the secret growth engine here.',
     holdings: 'Prologis (7.8%), American Tower (6.5%), Equinix (5.2%), Welltower (4.8%), Simon Property (3.5%)',
+    detailedAnalysis: 'In 2026, VNQ is bifurcated. Office properties are struggling, but "Digital Infrastructure" (Data Centers) and "Industrial Logsitics" are booming due to AI and E-commerce demand.',
+    pros: 'High yield (~4%); inflation hedge; diversification away from stocks/bonds.',
+    cons: 'Highly sensitive to interest rates; tax-inefficient (dividends taxed as income).',
+    riskMetrics: 'Beta: 0.95 | Std Dev: 18.2% | Yield: 4.1%',
+    outlook2026: 'Bullish (Recovery). Expected to outperform as interest rates stabilize at 2026 target levels.',
+    dividendYield: '3.95%',
+    expenseRatio: '0.12%',
     chartData: [78, 80, 79, 81, 83, 82, 84, 85, 84, 84.6]
+  },
+
+  // --- Specialized Sectors ---
+  'IWM': {
+    name: 'iShares Russell 2000 ETF',
+    ticker: 'IWM',
+    theme: 'Specialized Sectors',
+    price: '215.10',
+    change: '+1.05%',
+    description: 'Exposure to 2,000 small-cap US companies.',
+    strategy: 'Focuses on the "underdogs" of the market. Small-cap stocks offer higher growth potential but much higher business risk.',
+    tips: 'The "Catch-up" trade. If the economy stays strong and mega-cap tech stays flat, small-caps often rally aggressively.',
+    holdings: 'Super Micro (1.5%), MicroStrategy (1.2%), Light & Wonder (0.8%), Simpson (0.7%), Onto (0.6%)',
+    detailedAnalysis: '2026 is seeing a "Broadening" of the bull market. After years of mega-cap dominance, small-caps are finally seeing valuation expansion as domestic manufacturing returns to the US.',
+    pros: 'Highest upside potential in a roaring economy; diversification from "Big Tech".',
+    cons: 'High volatility; many small companies are unprofitable; sensitive to credit conditions.',
+    riskMetrics: 'Beta: 1.25 | Std Dev: 24.5% | Small-Cap Premium: Yes',
+    outlook2026: 'Strong Growth. Projected to outperform large-caps in 2026 as interest rates ease for smaller borrowers.',
+    dividendYield: '1.15%',
+    expenseRatio: '0.19%',
+    chartData: [190, 205, 200, 210, 220, 215, 218, 220, 216, 215.1]
   },
   'XLV': {
     name: 'Health Care Select Sector',
     ticker: 'XLV',
-    theme: 'Defensive Sectors',
+    theme: 'Specialized Sectors',
     price: '145.20',
     change: '+0.32%',
-    description: 'Stability through top-tier pharmaceutical and healthcare companies.',
-    strategy: 'Tracks the healthcare sector of the S&P 500, including pharma, biotech, and managed care.',
-    tips: 'Often viewed as "recession-proof". Growth is currently driven by innovation in weight-loss drugs and biotech.',
+    description: 'Pharmaceuticals, Biotech, and Managed Care giants.',
+    strategy: 'Tracks the S&P 500 Healthcare sector. A blend of stable drug companies and high-growth biotech.',
+    tips: 'The "Recession-Proof" sector. People need medicine regardless of the economy. GLP-1 (weight-loss) drugs are the massive growth tailwind for 2026.',
     holdings: 'Eli Lilly (10.5%), UnitedHealth (8.4%), J&J (7.2%), AbbVie (5.8%), Merck (4.5%)',
+    detailedAnalysis: 'Healthcare is in a "Golden Age" of drug discovery. AI is cutting drug development times by 50%, leading to a massive pipeline of profitable new treatments reaching market in 2026.',
+    pros: 'Defensive stability; exposure to revolutionary medical tech; lower volatility than the S&P 500.',
+    cons: 'Political/Regulatory pricing risk; slow to move in fast tech rallies.',
+    riskMetrics: 'Beta: 0.65 | Std Dev: 13.2% | Sector Rank: 1',
+    outlook2026: 'Bullish (Value). One of the best risk-adjusted sectors for the current market cycle.',
+    dividendYield: '1.72%',
+    expenseRatio: '0.08%',
     chartData: [130, 135, 138, 140, 142, 140, 143, 144, 145, 145.2]
-  },
-  'ICLN': {
-    name: 'iShares Clean Energy ETF',
-    ticker: 'ICLN',
-    theme: 'Defensive Sectors',
-    price: '14.25',
-    change: '-1.10%',
-    description: 'Companies producing energy from renewable sources.',
-    strategy: 'Global exposure to solar, wind, and other renewable technologies. High concentration in energy equipment.',
-    tips: 'Policy-driven sector. Watch for government subsidies and infrastructure spending for the "Smart Grid".',
-    holdings: 'First Solar (8.2%), Enphase (7.5%), Iberdrola (6.4%), Vestas (5.2%), Orsted (4.1%)',
-    chartData: [18, 17, 16, 15, 14, 14.5, 13.5, 14, 14.2, 14.25]
-  },
-  'LIT': {
-    name: 'Global X Lithium & Battery',
-    ticker: 'LIT',
-    theme: 'Defensive Sectors',
-    price: '42.60',
-    change: '+0.85%',
-    description: 'Invests in the full lithium cycle and battery production.',
-    strategy: 'Tracks the performance of the global lithium mining and battery production industry, including EV manufacturers.',
-    tips: 'A direct bet on the long-term electrification of transport. Commodity prices for lithium heavily impact returns.',
-    holdings: 'Albemarle (9.5%), Panasonic (8.4%), BYD (7.2%), Samsung SDI (6.8%), Ganfeng Lithium (5.5%)',
-    chartData: [55, 52, 48, 45, 40, 41, 39, 41, 42, 42.6]
   }
 };
 
-// Make ETF_DATA globally accessible with type casting to avoid TS errors
+// Make ETF_DATA globally accessible
 /** @type {any} */(window).ETF_DATA = ETF_DATA;
 
 /**
@@ -159,9 +250,7 @@ class AppSidebar extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    /** @type {Set<string>} */
     this.collapsedSections = new Set();
-    /** @type {string|null} */
     this.activeTicker = 'QQQ';
   }
 
@@ -265,50 +354,50 @@ class AppSidebar extends HTMLElement {
           .ticker-badge { font-size: 10px; opacity: 0.5; }
         </style>
         
+        <div class="nav-group ${isCollapsed('core') ? 'collapsed' : ''}">
+          <div class="section-header" onclick="this.getRootNode().host.toggleSection('core')">
+            <span class="section-label">Core Index</span>
+            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="items-container">
+            <div class="nav-item ${isActive('SPY') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SPY', this)">S&P 500 (SPY) <span class="ticker-badge">SPY</span></div>
+            <div class="nav-item ${isActive('VOO') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VOO', this)">S&P 500 (VOO) <span class="ticker-badge">VOO</span></div>
+            <div class="nav-item ${isActive('DIA') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('DIA', this)">Dow Jones <span class="ticker-badge">DIA</span></div>
+          </div>
+        </div>
+
         <div class="nav-group ${isCollapsed('growth') ? 'collapsed' : ''}">
           <div class="section-header" onclick="this.getRootNode().host.toggleSection('growth')">
-            <span class="section-label">AI & Growth</span>
+            <span class="section-label">AI & Innovation</span>
             <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <div class="items-container">
             <div class="nav-item ${isActive('QQQ') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('QQQ', this)">Nasdaq 100 <span class="ticker-badge">QQQ</span></div>
-            <div class="nav-item ${isActive('SOXX') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SOXX', this)">Semi (iShares) <span class="ticker-badge">SOXX</span></div>
-            <div class="nav-item ${isActive('XLK') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('XLK', this)">Tech Select <span class="ticker-badge">XLK</span></div>
-            <div class="nav-item ${isActive('SMH') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SMH', this)">Semi (VanEck) <span class="ticker-badge">SMH</span></div>
-          </div>
-        </div>
-
-        <div class="nav-group ${isCollapsed('core') ? 'collapsed' : ''}">
-          <div class="section-header" onclick="this.getRootNode().host.toggleSection('core')">
-            <span class="section-label">Core & Index</span>
-            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-          <div class="items-container">
-            <div class="nav-item ${isActive('VOO') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VOO', this)">S&P 500 <span class="ticker-badge">VOO</span></div>
+            <div class="nav-item ${isActive('SMH') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SMH', this)">Semiconductors <span class="ticker-badge">SMH</span></div>
+            <div class="nav-item ${isActive('ARKK') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('ARKK', this)">ARK Innovation <span class="ticker-badge">ARKK</span></div>
           </div>
         </div>
 
         <div class="nav-group ${isCollapsed('dividends') ? 'collapsed' : ''}">
           <div class="section-header" onclick="this.getRootNode().host.toggleSection('dividends')">
-            <span class="section-label">Dividends & Income</span>
+            <span class="section-label">Dividend & Income</span>
             <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <div class="items-container">
             <div class="nav-item ${isActive('SCHD') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SCHD', this)">US Dividend <span class="ticker-badge">SCHD</span></div>
-            <div class="nav-item ${isActive('VYM') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VYM', this)">High Yield <span class="ticker-badge">VYM</span></div>
+            <div class="nav-item ${isActive('VIG') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VIG', this)">Div Appreciation <span class="ticker-badge">VIG</span></div>
             <div class="nav-item ${isActive('VNQ') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VNQ', this)">Real Estate <span class="ticker-badge">VNQ</span></div>
           </div>
         </div>
 
-        <div class="nav-group ${isCollapsed('defensive') ? 'collapsed' : ''}">
-          <div class="section-header" onclick="this.getRootNode().host.toggleSection('defensive')">
-            <span class="section-label">Sectors & Trends</span>
+        <div class="nav-group ${isCollapsed('specialized') ? 'collapsed' : ''}">
+          <div class="section-header" onclick="this.getRootNode().host.toggleSection('specialized')">
+            <span class="section-label">Specialized Sectors</span>
             <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <div class="items-container">
+            <div class="nav-item ${isActive('IWM') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('IWM', this)">Small-Cap <span class="ticker-badge">IWM</span></div>
             <div class="nav-item ${isActive('XLV') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('XLV', this)">Health Care <span class="ticker-badge">XLV</span></div>
-            <div class="nav-item ${isActive('ICLN') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('ICLN', this)">Clean Energy <span class="ticker-badge">ICLN</span></div>
-            <div class="nav-item ${isActive('LIT') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('LIT', this)">Lithium <span class="ticker-badge">LIT</span></div>
           </div>
         </div>
       `;

@@ -14,10 +14,18 @@
       flex: 1; height: 100vh; overflow-y: auto;
       margin-left: calc(var(--sidebar-width) + 4rem);
       padding: 104px 4rem 4rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
     }
-    .market-header { margin-bottom: 2.5rem; }
-    .market-header h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #444); -webkit-background-clip: text; color: transparent; }
-    .price-tag { font-size: 2.5rem; font-weight: 800; display: flex; align-items: baseline; gap: 1rem; margin: 0.5rem 0; }
+    .market-header { margin-bottom: 2rem; }
+    .market-header h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #444); -webkit-background-clip: text; color: transparent; letter-spacing: -0.02em; }
+    
+    .stats-bar { display: flex; gap: 2rem; margin: 1.5rem 0; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .stat-box { display: flex; flex-direction: column; gap: 0.25rem; }
+    .stat-label { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,0.3); font-weight: 700; letter-spacing: 0.1em; }
+    .stat-value { font-size: 1.25rem; font-weight: 700; color: #fff; }
+
+    .price-tag { font-size: 3rem; font-weight: 800; display: flex; align-items: baseline; gap: 1rem; margin: 0.5rem 0; }
     .change-badge { font-size: 1rem; padding: 4px 12px; border-radius: 100px; background: rgba(34, 197, 94, 0.1); color: #22c55e; }
     .change-badge.negative { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
     
@@ -29,24 +37,50 @@
       margin-bottom: 2rem;
       height: 450px;
       position: relative;
-      display: flex;
-      flex-direction: column;
     }
+
+    /* Tabs Interface */
+    .tabs-nav { display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .tab-btn {
+      padding: 1rem 0; background: none; border: none; color: rgba(255,255,255,0.4);
+      font-size: 0.9rem; font-weight: 700; cursor: pointer; position: relative;
+      transition: all 0.3s;
+    }
+    .tab-btn:hover { color: #fff; }
+    .tab-btn.active { color: #fff; }
+    .tab-btn.active::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px;
+      background: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
     .description-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 1.75rem;
+      padding: 2rem;
       border-radius: 1.5rem;
       transition: all 0.3s;
     }
     .description-card:hover { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
-    .description-card h3 { margin-top: 0; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
-    .description-card p { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
-    .tip-text { color: oklch(0.8 0.12 250); font-weight: 500; }
-    .holdings-list { color: #fff; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+    .description-card h3 { margin-top: 0; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.25rem; }
+    .description-card p { font-size: 1.05rem; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0; }
     
-    .full-width-card { grid-column: span 2; }
+    .list-item { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
+    .list-bullet { width: 6px; height: 6px; border-radius: 50%; background: #fff; margin-top: 0.6rem; flex-shrink: 0; opacity: 0.5; }
+    
+    .holdings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .holding-tag { background: rgba(255,255,255,0.05); padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: #fff; border: 1px solid rgba(255,255,255,0.05); }
+
+    .pro-con-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .pros-card { border-left: 4px solid #22c55e; }
+    .cons-card { border-left: 4px solid #ef4444; }
+    
+    .metric-value { font-family: 'JetBrains Mono', monospace; color: #fff; font-size: 1.1rem; }
+    .outlook-box { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%); padding: 2rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1); }
   </style>
 </head>
 <body>
@@ -62,9 +96,25 @@
         <div class="market-header">
           <div style="color: rgba(255,255,255,0.3); font-weight: 700; margin-bottom: 0.5rem;" id="etf-theme">Theme</div>
           <h1 id="etf-name">Select an ETF</h1>
+          
           <div class="price-tag">
             <span id="etf-price">$0.00</span>
             <span id="etf-change" class="change-badge">+0.00%</span>
+          </div>
+
+          <div class="stats-bar">
+            <div class="stat-box">
+              <span class="stat-label">Dividend Yield</span>
+              <span class="stat-value" id="stat-yield">0.00%</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Expense Ratio</span>
+              <span class="stat-value" id="stat-expense">0.00%</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Sentiment</span>
+              <span class="stat-value" id="stat-sentiment" style="color: #22c55e;">BULLISH</span>
+            </div>
           </div>
         </div>
 
@@ -72,29 +122,62 @@
           <div id="react-chart-root" style="width: 100%; height: 100%; min-height: 400px;"></div>
         </div>
 
-        <div class="info-grid">
-          <div class="description-card">
-            <h3>Investment Strategy</h3>
-            <p id="etf-strategy">Strategy details will appear here.</p>
-          </div>
-          <div class="description-card">
-            <h3>Pro Investment Tips</h3>
-            <p id="etf-tips" class="tip-text">Pro tips for this ETF.</p>
-          </div>
-          <div class="description-card full-width-card">
-            <h3>Top Holdings & Exposure</h3>
-            <p id="etf-holdings" class="holdings-list">Apple, Microsoft, NVIDIA, etc.</p>
-          </div>
-          <div class="description-card">
-            <h3>About the Fund</h3>
-            <p id="etf-desc">Description.</p>
-          </div>
-          <div class="description-card">
-            <h3>Market Sentiment</h3>
-            <p id="market-sentiment" style="color: #22c55e; font-weight: 700;">BULLISH</p>
-            <div id="sentiment-bar" style="height: 4px; background: #22c55e; border-radius: 2px; margin-top: 1rem; width: 75%;"></div>
+        <nav class="tabs-nav">
+          <button class="tab-btn active" onclick="switchTab(event, 'tab-overview')">Overview</button>
+          <button class="tab-btn" onclick="switchTab(event, 'tab-analysis')">Deep Analysis</button>
+          <button class="tab-btn" onclick="switchTab(event, 'tab-risk')">Risk & Outlook</button>
+        </nav>
+
+        <!-- Tab: Overview -->
+        <div id="tab-overview" class="tab-content active">
+          <div class="info-grid">
+            <div class="description-card">
+              <h3>Investment Strategy</h3>
+              <p id="etf-strategy">Strategy details will appear here.</p>
+            </div>
+            <div class="description-card">
+              <h3>Pro Tips</h3>
+              <p id="etf-tips" style="color: oklch(0.8 0.12 250);">Pro tips for this ETF.</p>
+            </div>
+            <div class="description-card" style="grid-column: span 2;">
+              <h3>Top Holdings & Exposure</h3>
+              <div id="etf-holdings" class="holdings-grid"></div>
+            </div>
           </div>
         </div>
+
+        <!-- Tab: Deep Analysis -->
+        <div id="tab-analysis" class="tab-content">
+          <div class="description-card" style="margin-bottom: 1.5rem;">
+            <h3>Strategic Analysis 2026</h3>
+            <p id="etf-analysis" style="font-size: 1.1rem; line-height: 1.8;"></p>
+          </div>
+          <div class="pro-con-grid">
+            <div class="description-card pros-card">
+              <h3 style="color: #22c55e;">Key Strengths</h3>
+              <div id="etf-pros"></div>
+            </div>
+            <div class="description-card cons-card">
+              <h3 style="color: #ef4444;">Key Risks</h3>
+              <div id="etf-cons"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Risk & Outlook -->
+        <div id="tab-risk" class="tab-content">
+          <div class="info-grid">
+            <div class="description-card">
+              <h3>Technical Risk Metrics</h3>
+              <div id="etf-metrics" class="metric-value"></div>
+            </div>
+            <div class="outlook-box">
+              <h3>2026 Market Outlook</h3>
+              <p id="etf-outlook" style="font-size: 1.25rem; font-weight: 600; color: #fff; margin-top: 1rem;"></p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -102,10 +185,19 @@
   <script>
     let currentTicker = 'QQQ';
 
+    function switchTab(event, tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      event.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
     function updateDisplay(ticker) {
       const data = window.ETF_DATA ? window.ETF_DATA[ticker] : null;
       if (!data) return;
 
+      // Header Info
       document.getElementById('etf-theme').textContent = data.theme;
       document.getElementById('etf-name').textContent = data.name;
       document.getElementById('etf-price').textContent = '$' + data.price;
@@ -114,34 +206,45 @@
       changeEl.textContent = data.change;
       changeEl.className = 'change-badge ' + (data.change.startsWith('-') ? 'negative' : '');
 
-      document.getElementById('etf-desc').textContent = data.description;
-      document.getElementById('etf-strategy').textContent = data.strategy || 'N/A';
-      document.getElementById('etf-tips').textContent = data.tips || 'N/A';
-      document.getElementById('etf-holdings').textContent = data.holdings || 'N/A';
-
-      // Simple sentiment logic based on change
-      const isPositive = !data.change.startsWith('-');
-      const sentimentEl = document.getElementById('market-sentiment');
-      const barEl = document.getElementById('sentiment-bar');
+      // Stats Bar
+      document.getElementById('stat-yield').textContent = data.dividendYield || 'N/A';
+      document.getElementById('stat-expense').textContent = data.expenseRatio || 'N/A';
       
+      const isPositive = !data.change.startsWith('-');
+      const sentimentEl = document.getElementById('stat-sentiment');
       sentimentEl.textContent = isPositive ? 'BULLISH' : 'BEARISH';
       sentimentEl.style.color = isPositive ? '#22c55e' : '#ef4444';
-      barEl.style.backgroundColor = isPositive ? '#22c55e' : '#ef4444';
-      barEl.style.width = (isPositive ? 60 + Math.random() * 30 : 30 + Math.random() * 30) + '%';
+
+      // Overview Tab
+      document.getElementById('etf-strategy').textContent = data.strategy;
+      document.getElementById('etf-tips').textContent = data.tips;
+      
+      const holdingsContainer = document.getElementById('etf-holdings');
+      holdingsContainer.innerHTML = (data.holdings || '').split(',').map(h => `<div class="holding-tag">${h.trim()}</div>`).join('');
+
+      // Analysis Tab
+      document.getElementById('etf-analysis').textContent = data.detailedAnalysis;
+      
+      const prosContainer = document.getElementById('etf-pros');
+      prosContainer.innerHTML = (data.pros || '').split(';').map(p => `<div class="list-item"><div class="list-bullet"></div><p>${p.trim()}</p></div>`).join('');
+      
+      const consContainer = document.getElementById('etf-cons');
+      consContainer.innerHTML = (data.cons || '').split(';').map(c => `<div class="list-item"><div class="list-bullet" style="background: #ef4444;"></div><p>${c.trim()}</p></div>`).join('');
+
+      // Risk Tab
+      document.getElementById('etf-metrics').innerHTML = (data.riskMetrics || '').split('|').map(m => `<div>${m.trim()}</div>`).join('');
+      document.getElementById('etf-outlook').textContent = data.outlook2026;
     }
 
-    // Lightweight bridge to update non-React elements when a ticker is selected
     window.addEventListener('etf-selected', (e) => {
       currentTicker = e.detail.ticker;
       updateDisplay(currentTicker);
     });
 
-    // Listen for real-time price updates
     window.addEventListener('prices-updated', () => {
       updateDisplay(currentTicker);
     });
 
-    // Auto-select QQQ on load
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('etf-selected', { detail: { ticker: 'QQQ' } }));
