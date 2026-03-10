@@ -4,9 +4,9 @@
   "description": "Product_2 Project for Cloudflare Pages",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve .",
+    "dev": "vite --port ${PORT:-5173} --host 0.0.0.0",
+    "start": "vite --port ${PORT:-5173} --host 0.0.0.0",
     "build": "vite build",
-    "dev": "vite",
     "preview": "vite preview"
   },
   "keywords": [],

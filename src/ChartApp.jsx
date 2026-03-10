@@ -4,8 +4,8 @@ import './tailwind.css';
 
 const generateDummyData = (basePrice) => {
   const data = [];
-  let currentPrice = parseFloat(basePrice);
-  let time = new Date().getTime() - (100 * 5 * 60 * 1000); // 100 periods back, 5 mins each
+  let currentPrice = parseFloat(basePrice) || 100;
+  let time = new Date().getTime() - (100 * 5 * 60 * 1000);
 
   for (let i = 0; i < 100; i++) {
     const change = (Math.random() - 0.5) * currentPrice * 0.02;
@@ -32,30 +32,43 @@ const generateDummyData = (basePrice) => {
 
 export default function ChartApp() {
   const [series, setSeries] = useState([{ data: [] }]);
+  const [ticker, setTicker] = useState('QQQ');
 
   useEffect(() => {
     const handleEtfSelected = (e) => {
-      const ticker = e.detail?.ticker;
-      if (window.ETF_DATA && window.ETF_DATA[ticker]) {
-        const data = window.ETF_DATA[ticker];
-        const dummyData = generateDummyData(data.price);
-        setSeries([{ data: dummyData }]);
+      const newTicker = e.detail?.ticker;
+      if (newTicker && window.ETF_DATA && window.ETF_DATA[newTicker]) {
+        setTicker(newTicker);
+        const data = window.ETF_DATA[newTicker];
+        setSeries([{ data: generateDummyData(data.price) }]);
       }
     };
 
     window.addEventListener('etf-selected', handleEtfSelected);
 
-    // Initial load setup if already dispatched
-    setTimeout(() => {
-      const activeTickerElem = document.querySelector('.nav-item.active .ticker-badge');
-      const firstTicker = activeTickerElem ? activeTickerElem.textContent : 'QQQ';
-      if (window.ETF_DATA && window.ETF_DATA[firstTicker] && series[0].data.length === 0) {
-        setSeries([{ data: generateDummyData(window.ETF_DATA[firstTicker].price) }]);
+    // Improved initial load detection
+    const initChart = () => {
+      let activeTicker = 'QQQ';
+      const sidebar = document.querySelector('app-sidebar');
+      if (sidebar && sidebar.shadowRoot) {
+        const activeItem = sidebar.shadowRoot.querySelector('.nav-item.active .ticker-badge');
+        if (activeItem) activeTicker = activeItem.textContent;
       }
-    }, 800);
+
+      if (window.ETF_DATA && window.ETF_DATA[activeTicker]) {
+        setTicker(activeTicker);
+        setSeries([{ data: generateDummyData(window.ETF_DATA[activeTicker].price) }]);
+      }
+    };
+
+    // Try multiple times to catch the sidebar mounting
+    const timer1 = setTimeout(initChart, 500);
+    const timer2 = setTimeout(initChart, 1500);
 
     return () => {
       window.removeEventListener('etf-selected', handleEtfSelected);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
     };
   }, []);
 
@@ -65,7 +78,12 @@ export default function ChartApp() {
       height: '100%',
       background: 'transparent',
       toolbar: { show: false },
-      animations: { enabled: false }
+      animations: { enabled: true, easing: 'easeinout', speed: 800 }
+    },
+    title: {
+      text: `${ticker} Real-time Chart`,
+      align: 'left',
+      style: { color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 600 }
     },
     theme: { mode: 'dark' },
     plotOptions: {
@@ -74,29 +92,35 @@ export default function ChartApp() {
           upward: '#22c55e', 
           downward: '#ef4444' 
         },
-        wick: {
-          useFillColor: true
-        }
+        wick: { useFillColor: true }
       }
     },
     grid: {
       borderColor: 'rgba(255,255,255,0.05)',
       strokeDashArray: 4,
+      padding: { left: 10, right: 10 }
     },
     xaxis: {
       type: 'datetime',
-      labels: { style: { colors: 'rgba(255,255,255,0.4)' } },
+      labels: { style: { colors: 'rgba(255,255,255,0.4)', fontSize: '10px' } },
       axisBorder: { show: false },
       axisTicks: { show: false }
     },
     yaxis: {
       tooltip: { enabled: true },
-      labels: { style: { colors: 'rgba(255,255,255,0.4)' } }
+      labels: { 
+        style: { colors: 'rgba(255,255,255,0.4)', fontSize: '10px' },
+        formatter: (val) => `$${val.toFixed(2)}`
+      }
+    },
+    tooltip: {
+      theme: 'dark',
+      x: { format: 'dd MMM HH:mm' }
     }
   };
 
   return (
-    <div className="w-full h-full">
+    <div style={{ width: '100%', height: '100%', minHeight: '400px' }}>
       {series[0].data.length > 0 ? (
         <ReactApexChart 
           options={options} 
@@ -105,8 +129,8 @@ export default function ChartApp() {
           height="100%" 
         />
       ) : (
-        <div className="flex items-center justify-center h-full text-white/50">
-          Loading chart data...
+        <div className="flex items-center justify-center h-full text-white/50 animate-pulse">
+          Initializing market data...
         </div>
       )}
     </div>

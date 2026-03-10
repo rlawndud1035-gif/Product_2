@@ -58,6 +58,9 @@ const ETF_DATA = {
   }
 };
 
+// Make ETF_DATA globally accessible
+window.ETF_DATA = ETF_DATA;
+
 /**
  * App Sidebar Component - ETF Edition
  */
@@ -199,9 +202,6 @@ class AppSidebar extends HTMLElement {
   }
 }
 customElements.define('app-sidebar', AppSidebar);
-
-// Rest of existing UI components (SidebarTrigger, AuthModal, AuthStatus, NavigationMenu) remain identical but are updated to v2.0 logic
-// ... (I will keep them for the file write to ensure complete functionality)
 
 class SidebarTrigger extends HTMLElement {
   constructor() { super(); this.attachShadow({ mode: 'open' }); }
