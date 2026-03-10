@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import './tailwind.css';
 
+/**
+ * @param {string|number} basePrice 
+ */
 const generateDummyData = (basePrice) => {
   const data = [];
-  let currentPrice = parseFloat(basePrice) || 100;
+  let currentPrice = parseFloat(String(basePrice)) || 100;
   let time = new Date().getTime() - (100 * 5 * 60 * 1000);
 
   for (let i = 0; i < 100; i++) {
@@ -13,7 +16,7 @@ const generateDummyData = (basePrice) => {
     const close = currentPrice + change;
     const high = Math.max(open, close) + Math.random() * currentPrice * 0.01;
     const low = Math.min(open, close) - Math.random() * currentPrice * 0.01;
-    
+
     data.push({
       x: time,
       y: [
@@ -23,7 +26,7 @@ const generateDummyData = (basePrice) => {
         parseFloat(close.toFixed(2))
       ]
     });
-    
+
     currentPrice = close;
     time += 5 * 60 * 1000;
   }
@@ -31,32 +34,55 @@ const generateDummyData = (basePrice) => {
 };
 
 export default function ChartApp() {
-  const [series, setSeries] = useState([{ data: [] }]);
+  const [series, setSeries] = useState([{ data: /** @type {any[]} */ ([]) }]);
   const [ticker, setTicker] = useState('QQQ');
 
   useEffect(() => {
+    /** @param {any} e */
     const handleEtfSelected = (e) => {
       const newTicker = e.detail?.ticker;
-      if (newTicker && window.ETF_DATA && window.ETF_DATA[newTicker]) {
+      const globalData = /** @type {any} */(window).ETF_DATA;
+      if (newTicker && globalData && globalData[newTicker]) {
         setTicker(newTicker);
-        const data = window.ETF_DATA[newTicker];
+        const data = globalData[newTicker];
         setSeries([{ data: generateDummyData(data.price) }]);
       }
     };
 
+    /** @param {any} e */
+    const handlePricesUpdated = (e) => {
+      const globalData = e.detail?.data || /** @type {any} */(window).ETF_DATA;
+      if (globalData && globalData[ticker]) {
+        // We update the last point or just refresh the whole chart with a slight movement
+        // For a more "real" feel, we can append a point, but let's just refresh for now
+        // to show the current price in the series.
+        const currentData = [...series[0].data];
+        if (currentData.length > 0) {
+          const lastPoint = currentData[currentData.length - 1];
+          const newPrice = parseFloat(globalData[ticker].price);
+          lastPoint.y[3] = newPrice; // update close
+          if (newPrice > lastPoint.y[1]) lastPoint.y[1] = newPrice; // update high
+          if (newPrice < lastPoint.y[2]) lastPoint.y[2] = newPrice; // update low
+          setSeries([{ data: currentData }]);
+        }
+      }
+    };
+
     window.addEventListener('etf-selected', handleEtfSelected);
+    window.addEventListener('prices-updated', handlePricesUpdated);
 
     const initChart = () => {
       let activeTicker = 'QQQ';
       const sidebar = document.querySelector('app-sidebar');
       if (sidebar && sidebar.shadowRoot) {
         const activeItem = sidebar.shadowRoot.querySelector('.nav-item.active .ticker-badge');
-        if (activeItem) activeTicker = activeItem.textContent;
+        if (activeItem) activeTicker = activeItem.textContent || 'QQQ';
       }
 
-      if (window.ETF_DATA && window.ETF_DATA[activeTicker]) {
+      const globalData = /** @type {any} */(window).ETF_DATA;
+      if (globalData && globalData[activeTicker]) {
         setTicker(activeTicker);
-        setSeries([{ data: generateDummyData(window.ETF_DATA[activeTicker].price) }]);
+        setSeries([{ data: generateDummyData(globalData[activeTicker].price) }]);
       }
     };
 
@@ -65,11 +91,13 @@ export default function ChartApp() {
 
     return () => {
       window.removeEventListener('etf-selected', handleEtfSelected);
+      window.removeEventListener('prices-updated', handlePricesUpdated);
       clearTimeout(timer1);
       clearTimeout(timer2);
     };
-  }, []);
+  }, [ticker, series]);
 
+  /** @type {any} */
   const options = {
     chart: {
       type: 'candlestick',

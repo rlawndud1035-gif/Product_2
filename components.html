@@ -82,9 +82,10 @@
   </div>
 
   <script>
-    // Lightweight bridge to update non-React elements when a ticker is selected
-    window.addEventListener('etf-selected', (e) => {
-      const data = window.ETF_DATA ? window.ETF_DATA[e.detail.ticker] : null;
+    let currentTicker = 'QQQ';
+
+    function updateDisplay(ticker) {
+      const data = window.ETF_DATA ? window.ETF_DATA[ticker] : null;
       if (!data) return;
 
       document.getElementById('etf-theme').textContent = data.theme;
@@ -96,6 +97,17 @@
       changeEl.className = 'change-badge ' + (data.change.startsWith('-') ? 'negative' : '');
 
       document.getElementById('etf-desc').textContent = data.description;
+    }
+
+    // Lightweight bridge to update non-React elements when a ticker is selected
+    window.addEventListener('etf-selected', (e) => {
+      currentTicker = e.detail.ticker;
+      updateDisplay(currentTicker);
+    });
+
+    // Listen for real-time price updates
+    window.addEventListener('prices-updated', () => {
+      updateDisplay(currentTicker);
     });
 
     // Auto-select QQQ on load
