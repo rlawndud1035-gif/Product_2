@@ -7,6 +7,7 @@ A sophisticated, framework-less financial dashboard showcasing market themes and
 - **Enhanced ETF Terminal:** A deep-dive experience for ETFs with detailed insights.
 - **Interactive Charts:** Real-time candlestick visualization using React-ApexCharts.
 - **Real-time Price Engine:** Prices update every 10 seconds with simulated market volatility.
+- **Monetization Readiness:** Optimized for Google AdSense with dedicated compliance pages (Privacy, About, Contact) and professional layout to ensure high-quality traffic valuation.
 - **Rich Data Fields**: Each ETF now includes:
   - **Investment Strategy**: How the fund manages assets.
   - **Pro Investment Tips**: Expert advice for trading and long-term holding.

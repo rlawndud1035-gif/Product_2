@@ -499,6 +499,83 @@ class AnimatedText extends HTMLElement {
 customElements.define('background-paths', BackgroundPaths);
 customElements.define('animated-text', AnimatedText);
 
+class SiteFooter extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); }
+  connectedCallback() { this.render(); }
+  render() {
+    if (this.shadowRoot) {
+      this.shadowRoot.innerHTML = `
+        <style>
+          :host {
+            display: block;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+          }
+          .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+          }
+          .brand h2 { margin: 0 0 1rem; color: white; }
+          .brand p { color: rgba(255,255,255,0.4); font-size: 0.9rem; line-height: 1.6; }
+          .links h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-bottom: 1.5rem; }
+          .links ul { list-style: none; padding: 0; margin: 0; }
+          .links li { margin-bottom: 0.75rem; }
+          .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+          .links a:hover { color: white; }
+          .copyright {
+            max-width: 1200px;
+            margin: 4rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+          }
+        </style>
+        <div class="footer-grid">
+          <div class="brand">
+            <h2>Pixel Bank</h2>
+            <p>The premier financial ecosystem for the modern era. Advanced analytics, real-time data, and institutional-grade tools at your fingertips.</p>
+          </div>
+          <div class="links">
+            <h3>Terminal</h3>
+            <ul>
+              <li><a href="components.html">Market Data</a></li>
+              <li><a href="components.html">ETF Trends</a></li>
+              <li><a href="#">Analysis</a></li>
+            </ul>
+          </div>
+          <div class="links">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+          <div class="links">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="privacy.html">Privacy Policy</a></li>
+              <li><a href="privacy.html">Terms of Service</a></li>
+              <li><a href="privacy.html">Cookie Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          &copy; 2026 Pixel Bank. All rights reserved. Financial Ecosystem Terminal v2.0.0
+        </div>
+      `;
+    }
+  }
+}
+customElements.define('site-footer', SiteFooter);
+
 // --- Real-time Stock Update Logic ---
 
 /**
