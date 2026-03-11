@@ -32,6 +32,29 @@ A sophisticated, framework-less financial dashboard showcasing market themes and
 ### Automatic Workflow:
 - All financial data updates and feature additions are automatically committed and pushed to GitHub to trigger the deployment pipeline.
 
+## Current Task: System Diagnosis & Optimization
+**Status**: Investigating reported issues and implementing critical fixes.
+
+### Identified Issues:
+1. **Mobile Responsiveness Failure**: The terminal layout overlaps on small screens due to fixed margins for the sidebar.
+2. **Chart Data Discrepancy**: Real-time charts generate random dummy data that doesn't align with the actual displayed price of the ETF.
+3. **Data Volatility**: Market prices reset to hardcoded values on every page refresh or navigation, breaking the "real-time" immersion.
+4. **Performance Inefficiency**: The React chart component re-attaches event listeners too frequently, potentially causing flickering or memory leaks.
+
+### Implementation Plan:
+1. **Responsive Terminal Layout**:
+   - Implement a mobile-first approach for the sidebar.
+   - Use media queries to hide/toggle the sidebar on small screens or transform it into a bottom navigation/drawer.
+   - Adjust `.sidebar-inset` margin-left dynamically.
+2. **Synchronized Chart Data**:
+   - Modify `generateDummyData` in `ChartApp.jsx` to ensure the final candlestick close matches the current `ETF_DATA` price.
+   - Integrate `data.chartData` if possible for more realistic baseline data.
+3. **Persistent Price Engine**:
+   - Update `main.js` to store and retrieve `ETF_DATA` from `localStorage`.
+   - Ensure prices continue from where they left off after navigation.
+4. **Listener Optimization**:
+   - Refactor `ChartApp.jsx` to use stable event listener references or properly managed `useEffect` dependencies.
+
 ## Monetization & AdSense Integration Plan
 1. **Script Integration**: Add the AdSense auto-ads script to the global `<head>`.
 2. **Account Verification**: Include the `<meta name="google-adsense-account" content="ca-pub-6454047865688551">` tag in all HTML pages for ownership verification.

@@ -14,10 +14,18 @@
     .components-layout { display: flex; height: 100vh; width: 100%; overflow: hidden; }
     .sidebar-inset {
       flex: 1; height: 100vh; overflow-y: auto;
-      margin-left: calc(var(--sidebar-width) + 4rem);
-      padding: 104px 4rem 4rem;
+      margin-left: 0;
+      padding: 104px 1.5rem 4rem;
       scrollbar-width: thin;
       scrollbar-color: rgba(255,255,255,0.1) transparent;
+      transition: margin-left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    @media (min-width: 1024px) {
+      .sidebar-inset {
+        margin-left: var(--sidebar-width, 260px);
+        padding: 104px 4rem 4rem;
+      }
     }
     .market-header { margin-bottom: 2rem; }
     .market-header h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #444); -webkit-background-clip: text; color: transparent; letter-spacing: -0.02em; }

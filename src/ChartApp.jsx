@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import './tailwind.css';
 
 /**
- * @param {string|number} basePrice 
+ * Generates 100 candlesticks ending at targetPrice
+ * @param {number} targetPrice 
  */
-const generateDummyData = (basePrice) => {
+const generateSyncedData = (targetPrice) => {
   const data = [];
-  let currentPrice = parseFloat(String(basePrice)) || 100;
-  let time = new Date().getTime() - (100 * 5 * 60 * 1000);
+  let currentPrice = targetPrice;
+  let time = new Date().getTime();
 
   for (let i = 0; i < 100; i++) {
-    const change = (Math.random() - 0.5) * currentPrice * 0.02;
-    const open = currentPrice;
-    const close = currentPrice + change;
-    const high = Math.max(open, close) + Math.random() * currentPrice * 0.01;
-    const low = Math.min(open, close) - Math.random() * currentPrice * 0.01;
+    const change = (Math.random() - 0.5) * currentPrice * 0.015;
+    const close = currentPrice;
+    const open = currentPrice - change;
+    const high = Math.max(open, close) + Math.random() * currentPrice * 0.005;
+    const low = Math.min(open, close) - Math.random() * currentPrice * 0.005;
 
-    data.push({
+    data.unshift({
       x: time,
       y: [
         parseFloat(open.toFixed(2)),
@@ -27,8 +28,8 @@ const generateDummyData = (basePrice) => {
       ]
     });
 
-    currentPrice = close;
-    time += 5 * 60 * 1000;
+    currentPrice = open;
+    time -= 5 * 60 * 1000;
   }
   return data;
 };
@@ -36,66 +37,60 @@ const generateDummyData = (basePrice) => {
 export default function ChartApp() {
   const [series, setSeries] = useState([{ data: /** @type {any[]} */ ([]) }]);
   const [ticker, setTicker] = useState('QQQ');
+  const seriesRef = useRef(series);
+  const tickerRef = useRef(ticker);
+
+  // Sync refs with state
+  useEffect(() => {
+    seriesRef.current = series;
+    tickerRef.current = ticker;
+  }, [series, ticker]);
+
+  const handleEtfSelected = useCallback((e) => {
+    const newTicker = e.detail?.ticker;
+    const globalData = /** @type {any} */(window).ETF_DATA;
+    if (newTicker && globalData && globalData[newTicker]) {
+      setTicker(newTicker);
+      const data = globalData[newTicker];
+      setSeries([{ data: generateSyncedData(parseFloat(data.price)) }]);
+    }
+  }, []);
+
+  const handlePricesUpdated = useCallback((e) => {
+    const globalData = e.detail?.data || /** @type {any} */(window).ETF_DATA;
+    const currentTicker = tickerRef.current;
+    const currentSeries = seriesRef.current;
+
+    if (globalData && globalData[currentTicker] && currentSeries[0].data.length > 0) {
+      const newData = [...currentSeries[0].data];
+      const lastPoint = { ...newData[newData.length - 1] };
+      const newPrice = parseFloat(globalData[currentTicker].price);
+
+      lastPoint.y = [...lastPoint.y];
+      lastPoint.y[3] = newPrice; // update close
+      if (newPrice > lastPoint.y[1]) lastPoint.y[1] = newPrice; // update high
+      if (newPrice < lastPoint.y[2]) lastPoint.y[2] = newPrice; // update low
+
+      newData[newData.length - 1] = lastPoint;
+      setSeries([{ data: newData }]);
+    }
+  }, []);
 
   useEffect(() => {
-    /** @param {any} e */
-    const handleEtfSelected = (e) => {
-      const newTicker = e.detail?.ticker;
-      const globalData = /** @type {any} */(window).ETF_DATA;
-      if (newTicker && globalData && globalData[newTicker]) {
-        setTicker(newTicker);
-        const data = globalData[newTicker];
-        setSeries([{ data: generateDummyData(data.price) }]);
-      }
-    };
-
-    /** @param {any} e */
-    const handlePricesUpdated = (e) => {
-      const globalData = e.detail?.data || /** @type {any} */(window).ETF_DATA;
-      if (globalData && globalData[ticker]) {
-        // We update the last point or just refresh the whole chart with a slight movement
-        // For a more "real" feel, we can append a point, but let's just refresh for now
-        // to show the current price in the series.
-        const currentData = [...series[0].data];
-        if (currentData.length > 0) {
-          const lastPoint = currentData[currentData.length - 1];
-          const newPrice = parseFloat(globalData[ticker].price);
-          lastPoint.y[3] = newPrice; // update close
-          if (newPrice > lastPoint.y[1]) lastPoint.y[1] = newPrice; // update high
-          if (newPrice < lastPoint.y[2]) lastPoint.y[2] = newPrice; // update low
-          setSeries([{ data: currentData }]);
-        }
-      }
-    };
-
     window.addEventListener('etf-selected', handleEtfSelected);
     window.addEventListener('prices-updated', handlePricesUpdated);
 
-    const initChart = () => {
-      let activeTicker = 'QQQ';
-      const sidebar = document.querySelector('app-sidebar');
-      if (sidebar && sidebar.shadowRoot) {
-        const activeItem = sidebar.shadowRoot.querySelector('.nav-item.active .ticker-badge');
-        if (activeItem) activeTicker = activeItem.textContent || 'QQQ';
-      }
-
-      const globalData = /** @type {any} */(window).ETF_DATA;
-      if (globalData && globalData[activeTicker]) {
-        setTicker(activeTicker);
-        setSeries([{ data: generateDummyData(globalData[activeTicker].price) }]);
-      }
-    };
-
-    const timer1 = setTimeout(initChart, 500);
-    const timer2 = setTimeout(initChart, 1500);
+    // Initial load
+    const globalData = /** @type {any} */(window).ETF_DATA;
+    if (globalData && globalData[tickerRef.current] && seriesRef.current[0].data.length === 0) {
+      setSeries([{ data: generateSyncedData(parseFloat(globalData[tickerRef.current].price)) }]);
+    }
 
     return () => {
       window.removeEventListener('etf-selected', handleEtfSelected);
       window.removeEventListener('prices-updated', handlePricesUpdated);
-      clearTimeout(timer1);
-      clearTimeout(timer2);
     };
-  }, [ticker, series]);
+  }, [handleEtfSelected, handlePricesUpdated]);
 
   /** @type {any} */
   const options = {
@@ -104,12 +99,12 @@ export default function ChartApp() {
       height: '100%',
       background: 'transparent',
       toolbar: { show: false },
-      animations: { enabled: true, easing: 'easeinout', speed: 800 }
+      animations: { enabled: false } // Disable animations for real-time updates to prevent flickering
     },
     title: {
-      text: `${ticker} Real-time Chart`,
+      text: `${ticker} Terminal Data (Real-time)`,
       align: 'left',
-      style: { color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 600 }
+      style: { color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }
     },
     theme: { mode: 'dark' },
     plotOptions: {
@@ -128,20 +123,20 @@ export default function ChartApp() {
     },
     xaxis: {
       type: 'datetime',
-      labels: { style: { colors: 'rgba(255,255,255,0.4)', fontSize: '10px' } },
+      labels: { style: { colors: 'rgba(255,255,255,0.3)', fontSize: '10px' } },
       axisBorder: { show: false },
       axisTicks: { show: false }
     },
     yaxis: {
       tooltip: { enabled: true },
       labels: { 
-        style: { colors: 'rgba(255,255,255,0.4)', fontSize: '10px' },
+        style: { colors: 'rgba(255,255,255,0.3)', fontSize: '10px' },
         formatter: (val) => `$${val.toFixed(2)}`
       }
     },
     tooltip: {
       theme: 'dark',
-      x: { format: 'dd MMM HH:mm' }
+      x: { format: 'HH:mm:ss' }
     }
   };
 
@@ -156,7 +151,10 @@ export default function ChartApp() {
         />
       ) : (
         <div className="flex items-center justify-center h-full text-white/50 animate-pulse">
-          Initializing market data...
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-white/10 border-t-white/50 rounded-full animate-spin"></div>
+            <span>Synchronizing Market Terminal...</span>
+          </div>
         </div>
       )}
     </div>

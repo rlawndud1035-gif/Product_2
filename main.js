@@ -21,8 +21,7 @@
  */
 
 /** @type {Object.<string, ETFInfo>} */
-const ETF_DATA = {
-  // --- Core Index ---
+const INITIAL_ETF_DATA = {
   'SPY': {
     name: 'SPDR S&P 500 ETF Trust',
     ticker: 'SPY',
@@ -80,8 +79,6 @@ const ETF_DATA = {
     expenseRatio: '0.16%',
     chartData: [390, 400, 395, 410, 415, 412, 420, 423, 424, 425]
   },
-
-  // --- AI & Innovation ---
   'QQQ': {
     name: 'Invesco QQQ Trust',
     ticker: 'QQQ',
@@ -139,8 +136,6 @@ const ETF_DATA = {
     expenseRatio: '0.75%',
     chartData: [45, 48, 42, 55, 60, 58, 52, 56, 55, 54.3]
   },
-
-  // --- Dividend & Income ---
   'SCHD': {
     name: 'Schwab US Dividend Equity',
     ticker: 'SCHD',
@@ -198,8 +193,6 @@ const ETF_DATA = {
     expenseRatio: '0.12%',
     chartData: [78, 80, 79, 81, 83, 82, 84, 85, 84, 84.6]
   },
-
-  // --- Specialized Sectors ---
   'IWM': {
     name: 'iShares Russell 2000 ETF',
     ticker: 'IWM',
@@ -240,6 +233,24 @@ const ETF_DATA = {
   }
 };
 
+// Persistent State Loader
+function loadETFData() {
+  const saved = localStorage.getItem('PIXEL_BANK_ETF_DATA');
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch (e) {
+      console.error('Failed to parse ETF data', e);
+    }
+  }
+  return INITIAL_ETF_DATA;
+}
+
+const ETF_DATA = loadETFData();
+function saveETFData() {
+  localStorage.setItem('PIXEL_BANK_ETF_DATA', JSON.stringify(ETF_DATA));
+}
+
 // Make ETF_DATA globally accessible
 /** @type {any} */(window).ETF_DATA = ETF_DATA;
 
@@ -252,6 +263,16 @@ class AppSidebar extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.collapsedSections = new Set();
     this.activeTicker = 'QQQ';
+    this.isOpen = true;
+  }
+
+  static get observedAttributes() { return ['open']; }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    if (name === 'open') {
+      this.isOpen = this.hasAttribute('open');
+      this.render();
+    }
   }
 
   connectedCallback() {
@@ -260,7 +281,18 @@ class AppSidebar extends HTMLElement {
       // @ts-ignore
       this.activeTicker = e.detail.ticker;
       this.render();
+      // On mobile, close sidebar after selection
+      if (window.innerWidth < 1024) {
+        this.removeAttribute('open');
+      }
     });
+    
+    // Initial responsive state
+    if (window.innerWidth < 1024) {
+      this.removeAttribute('open');
+    } else {
+      this.setAttribute('open', '');
+    }
   }
 
   toggleSection(section) {
@@ -283,28 +315,29 @@ class AppSidebar extends HTMLElement {
   render() {
     const isCollapsed = (s) => this.collapsedSections.has(s);
     const isActive = (t) => this.activeTicker === t;
+    const isOpen = this.isOpen;
     
     if (this.shadowRoot) {
       this.shadowRoot.innerHTML = `
         <style>
           :host {
             width: var(--sidebar-width, 260px);
-            background: rgba(255, 255, 255, 0.015);
+            background: rgba(10, 10, 10, 0.9);
             backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.25rem;
-            height: calc(100vh - 128px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            height: 100vh;
             position: fixed;
-            top: 104px;
-            left: 2rem;
+            top: 0;
+            left: 0;
             display: flex;
             flex-direction: column;
-            padding: 1.25rem 0.75rem;
+            padding: 6rem 0.75rem 1.25rem;
             box-sizing: border-box;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             overflow-y: auto;
             scrollbar-width: none;
-            z-index: 50;
+            z-index: 5000;
+            transform: translateX(${isOpen ? '0' : '-100%'});
           }
           :host::-webkit-scrollbar { display: none; }
           .nav-group { display: flex; flex-direction: column; margin-bottom: 1.25rem; }
@@ -352,6 +385,15 @@ class AppSidebar extends HTMLElement {
           .nav-item:hover { background: rgba(255, 255, 255, 0.04); color: white; transform: translateX(4px); }
           .nav-item.active { background: rgba(255, 255, 255, 0.08); color: white; }
           .ticker-badge { font-size: 10px; opacity: 0.5; }
+          
+          @media (min-width: 1024px) {
+            :host {
+              padding-top: 8rem;
+              background: transparent;
+              border-right: none;
+              transform: translateX(0) !important;
+            }
+          }
         </style>
         
         <div class="nav-group ${isCollapsed('core') ? 'collapsed' : ''}">
@@ -361,8 +403,8 @@ class AppSidebar extends HTMLElement {
           </div>
           <div class="items-container">
             <div class="nav-item ${isActive('SPY') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('SPY', this)">S&P 500 (SPY) <span class="ticker-badge">SPY</span></div>
-            <div class="nav-item ${isActive('VOO') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VOO', this)">S&P 500 (VOO) <span class="ticker-badge">VOO</span></div>
-            <div class="nav-item ${isActive('DIA') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('DIA', this)">Dow Jones <span class="ticker-badge">DIA</span></div>
+            <div class="nav-item ${isActive('VOO') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('VOO', this)">Vanguard 500 (VOO) <span class="ticker-badge">VOO</span></div>
+            <div class="nav-item ${isActive('DIA') ? 'active' : ''}" onclick="this.getRootNode().host.selectItem('DIA', this)">Dow Jones (DIA) <span class="ticker-badge">DIA</span></div>
           </div>
         </div>
 
@@ -411,12 +453,15 @@ class SidebarTrigger extends HTMLElement {
   connectedCallback() { this.render(); }
   render() {
     if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = `<style>button { background: transparent; border: none; color: rgba(255, 255, 255, 0.6); padding: 8px; cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; } button:hover { background: rgba(255, 255, 255, 0.05); color: white; } svg { width: 20px; height: 20px; }</style><button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>`;
+      this.shadowRoot.innerHTML = `<style>button { background: transparent; border: none; color: rgba(255, 255, 255, 0.6); padding: 8px; cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; } button:hover { background: rgba(255, 255, 255, 0.05); color: white; } svg { width: 24px; height: 24px; }</style><button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>`;
       const btn = this.shadowRoot.querySelector('button');
       if (btn) {
         btn.addEventListener('click', () => { 
           const s = document.querySelector('app-sidebar'); 
-          if (s) s.toggleAttribute('open'); 
+          if (s) {
+            if (s.hasAttribute('open')) s.removeAttribute('open');
+            else s.setAttribute('open', '');
+          }
         });
       }
     }
@@ -468,7 +513,7 @@ class NavigationMenu extends HTMLElement {
   connectedCallback() { this.render(); }
   render() {
     if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = `<style>:host { position: fixed; top: 2rem; left: 2rem; z-index: 1000; } nav { display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); padding: 4px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); height: 44px; } .logo { display: flex; align-items: center; gap: 8px; padding: 0 1rem; text-decoration: none; color: white; font-weight: 800; border-right: 1px solid rgba(255,255,255,0.1); } .menu-item { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; font-weight: 600; padding: 0 1rem; cursor: pointer; }</style><nav><a href="index.html" class="logo">Pixel Bank</a><div style="display:flex"><a href="components.html" class="menu-item">Markets</a><a href="#" class="menu-item">Trade</a></div></nav>`;
+      this.shadowRoot.innerHTML = `<style>:host { position: fixed; top: 2rem; left: 2rem; z-index: 1000; } nav { display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); padding: 4px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); height: 44px; } .logo { display: flex; align-items: center; gap: 8px; padding: 0 1rem; text-decoration: none; color: white; font-weight: 800; border-right: 1px solid rgba(255,255,255,0.1); } .menu-item { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; font-weight: 600; padding: 0 1rem; cursor: pointer; } @media (max-width: 640px) { .menu-item { display: none; } }</style><nav><a href="index.html" class="logo">Pixel Bank</a><div style="display:flex"><sidebar-trigger></sidebar-trigger><a href="components.html" class="menu-item">Markets</a><a href="#" class="menu-item">Trade</a></div></nav>`;
     }
   }
 }
@@ -520,6 +565,7 @@ class SiteFooter extends HTMLElement {
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 4rem;
           }
+          @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
           .brand h2 { margin: 0 0 1rem; color: white; }
           .brand p { color: rgba(255,255,255,0.4); font-size: 0.9rem; line-height: 1.6; }
           .links h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-bottom: 1.5rem; }
@@ -588,7 +634,6 @@ function updateStockPrices() {
     // Random movement between -0.1% and +0.1%
     const changePercent = (Math.random() - 0.48) * 0.002; 
     const newPrice = currentPrice * (1 + changePercent);
-    const priceDiff = newPrice - currentPrice;
     
     data.price = newPrice.toFixed(2);
     
@@ -598,15 +643,16 @@ function updateStockPrices() {
     data.change = (newChange >= 0 ? '+' : '') + newChange.toFixed(2) + '%';
     
     // Update chart data (shift and add new point)
+    if (!data.chartData) data.chartData = [];
     data.chartData.shift();
     data.chartData.push(newPrice);
   });
 
+  // Save to persistence
+  saveETFData();
+
   // Notify listeners that prices have updated
   window.dispatchEvent(new CustomEvent('prices-updated', { detail: { data: ETF_DATA } }));
-  
-  // Also trigger etf-selected for the currently active ticker to refresh UI if needed
-  // We can track the active ticker globally or just let the components listen to 'prices-updated'
 }
 
 // Start the real-time update cycle every 10 seconds
